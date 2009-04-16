@@ -1,0 +1,106 @@
+# ========================================================================
+#  $Id: env_vars,v 1.1.1.1 2007/06/14 14:32:38 joe Exp $
+#  $Log: env_vars,v $
+#  Revision 1.1.1.1  2007/06/14 14:32:38  joe
+#  Initial revision
+#
+#
+# ========================================================================
+
+# The idea of working on a machine without vim scares the willies out of me,
+# but we've got to plan for that possibility
+if [ -x "`which vim`" ]
+then
+   EDITOR=vim
+else
+   EDITOR=vi
+fi
+export EDITOR
+
+# This defaults to a sane value anyway, but it seems like a good idea to set
+# it clearly so env | grep will turn it up.
+CSCOPE_EDITOR=${EDITOR}
+export CSCOPE_EDITOR
+
+# Where is our mailbox? Used for things like biff and mutt in the absence of
+# more reliable information.
+MAIL=/var/mail/${USER}
+export MAIL
+
+# BASH-only(?) When cd'ing around, search these directories for subdirectory
+# matches.
+# ------------------------------------------------------------------------
+# 2008.04.21
+#  There seems to be problems with some shell pipes when CDPATH is set.
+#  This construct specifically fails:  (cd foo && tar cf - .) | file -
+#  Produces "data" instead of "POSIX tar archive".
+#
+# CDPATH=.:/home/jmacdona:/folk-ott/jmacdona:/folk-ott
+# export CDPATH
+# ------------------------------------------------------------------------
+
+# Check out everything from CVS read-only by default.
+CVSREAD=1
+export CVSREAD
+
+# I'm actually using quilt a fair bit these days
+QUILT_DIFF_OPTS='-pNd -U 5'
+export QUILT_DIFF_OPTS
+QUILT_PATCHES=quilt_patches
+export QUILT_PATCHES
+QUILT_PC=quilt_pc
+export QUILT_PC
+
+# Where should we look for scripts and binaries?
+PATH=~/bin:${PATH}
+export PATH
+
+# What options do you want to have applied to all grep commands?
+GREP_OPTIONS='--color '
+export GREP_OPTIONS
+
+# LSCOLORS are used by the colorls package on BSD machines.  Serves a
+# similar purpose to the DIRCOLORS stuff with GNU ls.
+# The CLICOLOR functionality depends on a terminal type with color
+# capabilities.
+CLICOLOR=1
+export CLICOLOR
+# A modification of the default colours, less reverse video, looks a lot
+# like the default DIRCOLORS on an RHEL4 machine.
+#LSCOLORS=ExGxFxdxCxDxDxhbadExEx
+# Seems pretty good for light grey text on dark grey background.
+LSCOLORS=dxfxcxdxbxegedabagacad
+# Pretty much the same. Directories are green rather than yellow, little
+# bit easier to use with lighter backgrounds.
+#LSCOLORS=cxgxaxfxhxfhfdbabhacad
+export LSCOLORS
+
+# And for BASH we need to use LS_COLORS.  This set is mainly useful for dark
+# text on a light background.
+#LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:'
+#export LS_COLORS
+
+# Let's also set the values for PS1 foreground and background values here:
+#     black     0
+#     red       1
+#     green     2
+#     yellow    3
+#     blue      4
+#     magenta   5
+#     cyan      6
+#     white     7
+#export PROMPT_FGC=0
+#export PROMPT_BGC=7
+
+# Set this to to avoid having consecutive duplicate commands and other not so
+# useful information appended to the history list. This will cut down on
+# hitting the up arrow endlessly to get to the command before the one you just
+# entered twenty times. It will also avoid filling a large percentage of your
+# history list with useless commands.
+export HISTIGNORE="&:ls:ls *:mutt:[bf]g:exit"
+# Using this, consecutive duplicate commands, invocations of ls, executions of
+# the mutt  mail client without any additional parameters, plus calls to the
+# bg, fg and exit  built-ins will not be appended to the history list.
+# (BASH-only)
+
+# vim: tw=78 ts=3 sw=3 et nowrap ft=sh

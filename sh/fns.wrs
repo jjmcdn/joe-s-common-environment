@@ -1,0 +1,640 @@
+# ========================================================================
+#  $Id: fns.wrs,v 1.9 2009/01/26 12:32:25 joe Exp $
+#  $Log: fns.wrs,v $
+#  Revision 1.9  2009/01/26 12:32:25  joe
+#  Many updates.
+#
+#  aliases:
+#     - mailman list archives are a PITA to work with, so this new alias does
+#       some simple preprocessing to turn them into something closer to
+#       proper mbox format.  This allows you to download something like this:
+#
+#       http://mail.python.org/pipermail/mailman-users/2024-April.txt.gz
+#
+#       run:
+#
+#       mmpp 2024-April.txt.gz
+#
+#       and then load the resulting file in mutt (or any other enlightened
+#       mail reader).
+#
+#  fns.sh:
+#     - updating csfind to be a little more verbose on the search, no
+#       functional change but it does at least let you know it found a
+#       database and it didn't find what you were looking for, instead of
+#       apparently silently failing
+#
+#     - added unrpm() function because I'm tired of always trying to remember
+#       how to tear open an rpm.
+#
+#     - added rpminfo() function because I found I was doing that all the
+#       time anyway and, again, I hated always trying to find the information
+#       I needed in the manpages.
+#
+#  fns.wrs:
+#     - adding the new APC IP addresses to rst()
+#
+#     - updated wrg() to take branch and release options
+#
+#     - added pkgfind() to quickly search a tree and find out which
+#       pkglist.add files reference a userspace package.
+#
+#     - added sendrr() to bridge the gap between wrgit's rr command and git's
+#       send-email command.
+#
+#  Revision 1.8  2008/05/21 13:30:10  joe
+#  - adding wrg function to use the new wrgit scripts
+#
+#  Revision 1.7  2008/04/21 15:37:58  joe
+#  - removing CDPATH environment variable, which seems to cause problems with (at
+#    least) tar pipelines
+#  - adding wrquilt function to update our environment variables since it doesn't
+#    seem to be possible to set them differently in the environment and .quiltrc
+#    file.
+#
+#  Revision 1.6  2007/10/12 14:46:16  joe
+#  Another minor bug in the relative-ization of the pxe config path
+#
+#  Revision 1.5  2007/10/12 14:31:17  joe
+#  - fixing a problem with the ordering of sourcing the aliases files on
+#    the newest Ubuntu.
+#  - adding a pxecfg function
+#
+#  Revision 1.4  2007/09/24 14:53:00  joe
+#  - bash chooses not to reset OPTIND on each new invocation of getopts.  Answering
+#    'why' is left up to the student.
+#
+#  Revision 1.3  2007/07/24 14:33:42  joe
+#  - removing the echoes
+#
+#  Revision 1.1.1.1  2007/06/14 14:32:38  joe
+#  Initial revision
+#
+#
+# Work-specific functions, generally seem to work equally well in ksh and
+# bash.
+# ========================================================================
+
+# ------------------------------------------------------------------------
+# Change CVS servers
+# csrv {{{
+function csrv
+{
+   unset CVSROOT
+   csrv_local=":pserver:anonymous@yow-lpgcvs.ottawa.wrs.com:/ala-wrlinux"
+   csrv_ala=":pserver:jmacdona@cvs.wrs.com:/master/linux"
+   case $1 in
+      "ala" )
+         CVSROOT=${csrv_ala}
+         ;;
+      "local" )
+         CVSROOT=${csrv_local}
+         ;;
+      *)
+         CVSROOT=$1
+         ;;
+   esac
+   export CVSROOT
+   cvs login
+}
+# }}}
+
+# ------------------------------------------------------------------------
+# reset a board in the ottawa lab
+# rst {{{
+function rst
+{
+   # jjm_apc 1 or 2
+   unset jjm_apc
+   unset jjm_slot
+   jjm_cmd=3
+   jjm_mib="SNMPv2-SMI::enterprises.318.1.1.12.3.3.1.1.4."
+   OPTIND=1
+   while getopts "a:s:" options; do
+      case $options in
+         a )
+            case $OPTARG in
+               1 ) jjm_apc=128.224.148.106 ;;
+               2 ) jjm_apc=128.224.148.107 ;;
+               3 ) jjm_apc=128.224.148.109 ;;
+               6 ) jjm_apc=128.224.148.123 ;;
+               7 ) jjm_apc=128.224.148.141 ;;
+               8 ) jjm_apc=128.224.148.142 ;;
+               9 ) jjm_apc=128.224.148.143 ;;
+               4 ) jjm_apc=128.224.148.111 
+                     jjm_mib="SNMPv2-SMI::enterprises.318.1.1.6.5.1.1.5.1.1."
+                     jjm_cmd=5 ;;
+               5 ) jjm_apc=128.224.148.121
+                     jjm_mib="SNMPv2-SMI::enterprises.318.1.1.6.5.1.1.5.1.1."
+                     jjm_cmd=5 ;;
+               * ) echo "Valid APC-ids are 1-5"; return 1;;
+            esac
+            echo apc: ${jjm_apc} ;;
+         s ) jjm_slot=$OPTARG ; echo slot: $OPTARG;;
+      esac
+   done
+
+   if [ -z "${jjm_apc}" -o -z "${jjm_slot}" ]; then
+      echo "use -a and -s"
+      return 1
+   fi
+
+   snmpset -v1 -c private ${jjm_apc} ${jjm_mib}${jjm_slot} i ${jjm_cmd}
+}
+# }}}
+
+# ------------------------------------------------------------------------
+# examine a build environment and set the correct variables to do external
+# builds.
+#
+# This one is getting pretty long in the tooth.  Might or might not work,
+# I'll need to try it and update it if it's dead.
+# benv {{{
+function benv
+{
+   # make sure our starting environment is sane
+   jjm_build_dir=`pwd`
+   jjm_build_vars="COMMON_SRC_DIR TARGET_PLATFORM LINUX_KERNEL_VERSION HOST_BUILD_DIR HOST_BUILD_LIB_DIR TARGET_LINUX_COMPAT_ARCH KERNEL_CONFIG"
+   unset jjm_build_debug
+
+   OPTIND=1
+   while getopts "b:dh?" options; do
+      case $options in
+         b ) jjm_build_dir=$OPTARG;;
+         d ) jjm_build_debug="yes";;
+         * ) echo "benv [-b <build directory>]"
+             echo "eg. benv -b `pwd`"
+             unset jjm_build_dir
+             unset jjm_build_vars
+             unset jjm_build_debug
+            return 1;;
+      esac
+   done
+
+   if [ ! -z "${jjm_build_debug}" ]; then
+      set -o xtrace
+   fi
+   for i in ${jjm_build_vars}; do
+      jjm_build_var=$(grep $i ${jjm_build_dir}/scripts/autoconf.mk | sed 's/ *= */=/')
+      if [ ! -z "${jjm_build_var}" ]; then
+         export ${jjm_build_var}
+      fi
+   done
+   jjm_build_var=$(grep "TARGET_CC " ${jjm_build_dir}/scripts/autoconf.mk | sed 's/ *= */=/' | sed 's/TARGET_CC/TARGET_CROSS_PREFIX/' | sed 's/gcc$//')
+   if [ ! -z "${jjm_build_var}" ]; then
+      export ${jjm_build_var}
+   fi
+   if [ ! -z "${jjm_build_debug}" ]; then
+      set +o xtrace
+   fi
+
+   # and clean up after ourselves when we're done
+   unset jjm_build_dir
+   unset jjm_build_vars
+   unset jjm_build_debug
+}
+# }}}
+
+# ------------------------------------------------------------------------
+# fetch xylo stuff
+#
+# xget {{{
+function xget
+{
+   # unset (or reset) anything that might be left over from the last run
+   jjm_xylo_host="lpgbuildmaster.wrs.com"
+   jjm_xylo_base_dir="/home/buildadmin/xylo/builds"
+   jjm_xylo_build="latest"
+   jjm_xylo_platform="cgl"
+   jjm_xylo_board="wrs_sbc85x0"
+   jjm_xylo_kern_base="release/wrlinux-2.0/wrlinux/boards"
+   jjm_fetch_tools=0
+   jjm_fetch_kernel=0
+   unset jjm_fetch_filesystem
+
+   OPTIND=1
+   # check our command line options
+   while getopts "h:b:d:r:p:f:tk" options; do
+      case $options in
+         r ) jjm_xylo_board=$OPTARG ;;
+         d ) jjm_xylo_base_dir=$OPTARG ;;
+         b ) jjm_xylo_build=$OPTARG ;;
+         h ) jjm_xylo_host=$OPTARG ;;
+         p ) jjm_xylo_platform=$OPTARG ;;
+         f ) jjm_fetch_filesystem=$OPTARG ;;
+         t ) jjm_fetch_tools=1 ;;
+         k ) jjm_fetch_kernel=1 ;;
+         * ) echo "$0 -h [lpgbuildmaster|lpgbuildmaster2] -d <xylo base dir>"
+             echo "   -b <xylo build (latest)> -r <boardname> -f <filesystem type>"
+             echo "   -p <platform> -f <filesystem> -t -k"
+             echo
+             echo "eg:"
+             echo "  $0 -h lpgbuildmaster.wrs.com -t"
+             echo "     - retrieve the latest host tools built by xylo"
+             echo "  $0 -h lpgbuildmaster.wrs.com -r intel_mpcbl0050_64 -p cgl -k"
+             echo "     - retrieve cgl kernel and modules for intel_mpcbl0050_64"
+             echo "  $0 -h lpgbuildmaster.wrs.com -r intel_mpcbl0050_64 -f glibc_cgl -p standard"
+             echo "     - retrieve glibc_cgl / standard root filesystem for intel_mpcbl0050_64"
+             return 1
+            ;;
+      esac
+   done
+
+   # grab whatever we were asked to grab
+   if [ ${jjm_fetch_tools} == 1 ]; then
+      scp ${jjm_xylo_host}:${jjm_xylo_base_dir}/latest-host-tools.tar.bz2 .
+   fi
+   if [ ${jjm_fetch_kernel} == 1 ]; then
+      # kernels live in a path like this:
+      # /home/buildadmin/xylo/builds/latest/release/wrlinux-2.0/wrlinux/boards/wrs_sbc85x0/cgl/wrs_sbc85x0-default_kernel_image-WR2.0zz_cgl
+      scp ${jjm_xylo_host}:"${jjm_xylo_base_dir}/${jjm_xylo_build}/${jjm_xylo_kern_base}/${jjm_xylo_board}/${jjm_xylo_platform}/${jjm_xylo_board}-default_kernel_image-WR*" .
+      # if you fetch a kernel, you'll also get the modules
+      scp ${jjm_xylo_host}:"${jjm_xylo_base_dir}/${jjm_xylo_build}/${jjm_xylo_kern_base}/${jjm_xylo_board}/${jjm_xylo_platform}/${jjm_xylo_board}-linux-modules-WR*" .
+   fi
+   if [ \! -z "${jjm_fetch_filesystem}" ]; then
+      # The filesystems live in a completely different location
+      # /home/buildadmin/xylo/builds/latest/combos/wrs_sbc85x0-cgl-glibc_cgl/wrs_sbc85x0-glibc_cgl-cgl-dist.tar.bz2
+      scp ${jjm_xylo_host}:${jjm_xylo_base_dir}/${jjm_xylo_build}/combos/${jjm_xylo_board}-${jjm_xylo_platform}-${jjm_fetch_filesystem}/${jjm_xylo_board}-${jjm_fetch_filesystem}-${jjm_xylo_platform}-dist.tar.bz2 .
+   fi
+}
+# }}}
+
+# ------------------------------------------------------------------------
+# collect boot information
+#
+# bootlog {{{
+function bootlog
+{
+   # unset (or reset) anything that might be left over from the last run
+   jjm_log_host=128.224.149.6 # defaults to yow-lpgnfs-01.ottawa.wrs.com
+   jjm_log_base="bootlog"     # where should the log be stored
+   jjm_user=$(whoami)
+   jjm_remote_path="./"
+   unset jjm_board_name       # just fail if we weren't passed a board
+   unset jjm_boot_log
+   unset jjm_sudo
+   unset jjm_remote
+
+   OPTIND=1
+   while getopts "l:b:u:p:sr" options; do
+      case $options in
+         b ) jjm_board_name=$OPTARG ;;
+         l ) jjm_log_host=$OPTARG ;;
+         u ) jjm_user=$OPTARG ;;
+         p ) jjm_remote_path=$OPTARG ;;
+         s ) jjm_sudo="sudo" ;;
+         r ) jjm_remote="true" ;;
+         * ) echo "$0 [-h] -b <board_name> [-l <log_host>] [-u <username>] [-p <path>]"
+             echo
+             echo "  -h                help, this message"
+             echo "  -b <board_name>   the board you have booted"
+             echo "  -l <log_host>     the machine where the log should be saved"
+             echo "  -u <username>     the username to use in the scp command"
+             echo "  -p <path>         where to store log files on the log host"
+             return 1
+             ;;
+      esac
+   done
+
+   if [ -z "${jjm_board_name}" ]; then
+      echo "You must specify at least the name of this board."
+      echo
+      echo "$0 [-h] [-b <board_name>] [-l <log_host>] [-u <username>] [-p <path>]"
+      echo
+      echo "  -h                help, this message"
+      echo "  -b <board_name>   the board you have booted"
+      echo "  -l <log_host>     the machine where the log should be saved"
+      echo "  -u <username>     the username to use in the scp command"
+      echo "  -p <path>         where to store log files on the log host"
+      return 1
+   fi
+
+   jjm_boot_log="${jjm_log_base}/${jjm_board_name}"
+   mkdir -p ${jjm_boot_log}
+   # find the kernel release name and record that for easy reference
+   touch ${jjm_boot_log}/`uname -r`
+   # gather whatever we think might be useful for later
+   ${jjm_sudo} dmesg                      > ${jjm_boot_log}/dmesg.txt
+   ${jjm_sudo} lspci                      > ${jjm_boot_log}/lspci.txt
+   ${jjm_sudo} lspci -vvv                 > ${jjm_boot_log}/lspci_verbose.txt
+   ${jjm_sudo} cat /proc/ioports          > ${jjm_boot_log}/ioports
+   ${jjm_sudo} cat /proc/iomem            > ${jjm_boot_log}/iomem
+   ${jjm_sudo} cat /proc/interrupts       > ${jjm_boot_log}/interrupts
+   ${jjm_sudo} cat /proc/meminfo          > ${jjm_boot_log}/meminfo
+   ${jjm_sudo} cat /proc/cmdline          > ${jjm_boot_log}/cmdline
+   ${jjm_sudo} cat /proc/cpuinfo          > ${jjm_boot_log}/cpuinfo
+   ${jjm_sudo} cat /proc/modules          > ${jjm_boot_log}/modules
+   ${jjm_sudo} cat /proc/version          > ${jjm_boot_log}/version
+   ${jjm_sudo} cat /proc/filesystems      > ${jjm_boot_log}/filesystems
+   ${jjm_sudo} cat /proc/bus/usb/devices  > ${jjm_boot_log}/usb_devices
+   ${jjm_sudo} zcat /proc/config.gz       > ${jjm_boot_log}/config
+   ${jjm_sudo} ps aux                     > ${jjm_boot_log}/ps_aux
+
+   if [ \! -z "${jjm_remote}" ]
+   then
+      # ship the whole mess off to the log machine
+      scp -r ${jjm_boot_log} ${jjm_user}@${jjm_log_host}:${jjm_remote_path}
+   fi
+}
+# }}}
+
+# ------------------------------------------------------------------------
+# target-config.pl wrapper since I never know how to use it anyway
+#
+# pxecfg {{{
+function pxecfg
+{
+   # Only used for interactive mode
+   jjm_target_map="/tftp/pxelinux.cfg/target-map.txt"
+   jjm_target_config="/usr/bin/target-config.pl"
+   unset jjm_board_name
+   unset jjm_pxe_config
+   unset jjm_interactive
+   unset jjm_default
+
+   while getopts "b:c:dih" options; do
+      case $options in
+         b ) jjm_board_name=$OPTARG ;;
+         c ) jjm_pxe_config=$OPTARG ;;
+         i ) jjm_interactive="true" ;;
+         d ) jjm_default="true" ; jjm_pxe_config="def" ;;
+         * ) echo "$0 [-h] [-b <board_name> -c <pxe_config> | -i | -d]"
+             echo
+             echo "  -h                help, this message"
+             echo "  -b <board_name>   the board you intend to boot"
+             echo "  -c <pxe_config>   pxe configuration file you want to use"
+             echo "  -i                run interactive"
+             echo "  -d                restore default configuration"
+             return 1
+             ;;
+      esac
+   done
+
+   if [ -z "${jjm_interactive}" ]; then
+      # command line mode, check our parameters
+      if [ -z "${jjm_board_name}" -o -z "${jjm_pxe_config}" ]; then
+         echo "$0 [-h] [-b <board_name> -c <pxe_config> | -i | -d]"
+         echo
+         echo "  -h                help, this message"
+         echo "  -b <board_name>   the board you intend to boot"
+         echo "  -c <pxe_config>   pxe configuration file you want to use"
+         echo "  -i                run interactive"
+         echo "  -d                restore default configuration"
+         return 1
+      fi
+   else
+      # interactive mode, we ignore everything else on the command line
+      select jjm_board_name in `grep "^[a-zA-Z]" ${jjm_target_map} | grep -v _default | awk '{ print $1 }'`; do
+         echo "configuring ${jjm_board_name}"
+         echo -n "Where is you pxe config file? "
+         read jjm_pxe_config
+         echo "config: ${jjm_pxe_config}"
+         if [ "${jjm_pxe_config}" == "def" ]; then
+            jjm_default="true"
+         fi
+         break;
+      done
+   fi
+   jjm_pxe_config=`echo ${jjm_pxe_config} | sed 's/^\/tftp\(boot\)\?/../'`
+   if [ -z "${jjm_default}" ]; then
+      sudo ${jjm_target_config} --type pxe --config ${jjm_board_name} \
+         --action="replace config ${jjm_pxe_config}" --restart
+   else
+      # just restore the default configuration.
+      sudo ${jjm_target_config} --type pxe --config ${jjm_board_name} \
+         --action="restore" --restart
+   fi
+}
+# }}}
+
+# ------------------------------------------------------------------------
+# Fix our quilt problems
+#
+# wrquilt {{{
+function wrquilt
+{
+   for i in `env | grep QUILT_P`
+   do
+      export $(echo $i|sed 's/=quilt/=wrlinux_quilt/')
+   done
+}
+# }}}
+
+# ------------------------------------------------------------------------
+# Backup my account stuff
+#
+# hsync {{{
+function hsync
+{
+   jjm_sync_tgt="yow-jmacdona-d1.ottawa.wrs.com"
+   jjm_sync_topath="./"
+   jjm_sync_opts="--verbose --archive --backup --hard-links --compress --progress --sparse --update --log-file=/tmp/hsync.log"
+   jjm_sync=.
+   jjm_sync_exclude_from=$(mktemp)
+   unset jjm_sync_file
+   while getopts "t:f:p:o:" options;
+   do
+      case $options in
+         t ) jjm_sync_tgt=$OPTARG ;;
+         f ) jjm_sync_file=$OPTARG ;;
+         p ) jjm_sync_topath=$OPTARG ;;
+         o ) jjm_sync_opts=$OPTARG ;;
+         * ) echo "Stop that before you hurt yourself"
+             return 1
+             ;;
+      esac
+   done
+
+   if [ \! -z "${jjm_sync_file}" ]; then
+      jjm_sync="--files-from=${jjm_sync_file}"
+      echo "sync file: ${jjm_sync_file}"
+   fi
+   cat > ${jjm_sync_exclude_from} <<EOT
+joe/.evolution
+joe/.ssh
+joe/.dbus
+joe/.gconf
+joe/.gvfs
+/.evolution
+/.ssh
+/.dbus
+/.gconf
+/.gvfs
+EOT
+   sudo rsync --exclude-from=${jjm_sync_exclude_from} ${jjm_sync_opts} ${jjm_sync} joe@${jjm_sync_tgt}:${jjm_sync_topath}
+}
+# }}}
+
+# ------------------------------------------------------------------------
+# Alternate aliases from the ones found here:
+#  http://twiki.wrs.com/do/view/PBUeng/LinuxProductDivisionGit
+# {{{
+# wrgit-getrepo {{{
+function wrgit-getrepo
+{
+   jjm_repo=$1; shift
+
+   if [ "$jjm_repo" == "ala" ]; then # {{{
+      echo "git.wrs.com"
+      return 0
+   fi # }}}
+   if [ "$jjm_repo" == "pdx" ]; then # {{{
+      echo "oasis.beaverton.windriver.com"
+      return 0
+   fi # }}}
+   if [ "$jjm_repo" == "pek" ]; then # {{{
+      echo "pek-cc-pb02l.wrs.com"
+      return 0
+   fi # }}}
+   if [ "$jjm_repo" == "ord" ]; then # {{{
+      echo "ordeal.wrs.com"
+      return 0
+   fi # }}}
+   if [ "$jjm_repo" == "msp" ]; then # {{{
+      echo "msp-shared1.wrs.com"
+      return 0
+   fi # }}}
+   if [ "$jjm_repo" == "yow" ]; then # {{{
+      echo "yow-lpdgit.ottawa.wrs.com"
+      return 0
+   fi # }}}
+   echo "inval"
+   return 1
+}
+# }}}
+
+# wrg {{{
+function wrg
+{
+   # I'm in YOW therefore I want the default to be 'yow'
+   jjm_repo="yow"
+   jjm_action="c" # defaults to 'clone'
+   jjm_release="wrlinux-3.0"
+   jjm_branch=""
+   while getopts "a:b:r:p:" options;
+   do
+      case $options in
+         a ) jjm_action=$OPTARG ;;
+         b ) jjm_branch=$OPTARG ;;
+         p ) jjm_repo=$OPTARG ;;
+         r ) jjm_release=$OPTARG ;;
+         * ) echo "$0 [-r <repo-location>]"
+             return 1
+             ;;
+      esac
+   done
+   # this is a little bit ugly, but it does the job for now
+   jjm_repo_name=$(wrgit-getrepo $jjm_repo)
+   case $jjm_action in
+      c ) # clone
+          wrgit clone git://$jjm_repo_name/git/wrlinux-x $jjm_release $jjm_branch
+          ;;
+      i ) # init
+          if [ ! -d bin ]; then
+             git clone git://$jjm_repo_name/git/bin
+          fi
+          (cd bin; ./wrgit pull)
+          export PATH=`pwd`/bin:$PATH
+          ;;
+      * ) # you're lost apparently.
+          echo -n "You must specify at least one of -i (initialize your wrgit"
+          echo -n "checkout) or"
+          echo 
+          echo "-c (clone from the repository)"
+          return 1
+          ;;
+   esac
+}
+# }}}
+# }}}
+
+# ------------------------------------------------------------------------
+# Find out who cares about a package:
+# pkgfind {{{
+#  What I really want this to do is examine pkglist.add and pkglist.remove
+#  files, generate a summary based on fstype and feature and spit it out in a
+#  format that shows you who has it included and who has it referenced but not
+#  put on a rootfs (ie. commented out of the pkglist.add).
+function pkgfind
+{
+   local ret=1
+   for i in $(find . -name pkglist.* -type f -exec grep -oH $1 {} \;)
+   do
+      ret=0
+      echo $i | awk -F: '{ print $1 "\t\t" $2}'
+   done
+   return $ret
+}
+# }}}
+
+if [ -f ${HOME}/.fns.toolchain ]
+then
+   . ${HOME}/.fns.toolchain
+fi
+
+# ------------------------------------------------------------------------
+# wrgit rr is a nice start, but the next step is a serious pain in the
+# arse, so let's close that gap.
+# sendrr {{{
+function sendrr
+{
+   jjm_rrdir=""
+   jjm_rrtpl=""
+   jjm_rrcq="--cc clearquest@windriver.com"
+   jjm_rrto=""
+   jjm_rrsubj=""
+   jjm_recipient=""
+   jjm_newto=""
+
+   while getopts "d:r:n" options;
+   do
+      case $options in
+         d ) jjm_rrdir=$OPTARG ;;
+         r ) jjm_rrtpl=$OPTARG ;;
+         n ) jjm_rrcq="" ;;
+         * ) echo "$0 -d <path to patches> [-r <review request>] [-c]"
+             echo "   -d : path where 000*-name.patch files live"
+             echo "   -r : a review request template file (as spit out by wrgit rr, ideally"
+             echo "   -n : do not include clearquest@windriver.com in the cc: list"
+             return 1
+             ;;
+      esac
+   done
+
+   if [ -d "$jjm_rrdir" ]; then
+      # you passed the one test we're going to give you.
+      if [ -r ${jjm_rrtpl:=$jjm_rrdir/rr} ]; then
+         # we'll asssume this is an 'rr' style file, so grab the subject
+         # out of the top of it.  If it's not an 'rr' style one, who
+         # cares, at least it's a guess at what the subject is likley to
+         # be.
+         jjm_rrsubj=$(head -1 $jjm_rrtpl)
+         if [ -z "$jjm_rrsubj" ]; then
+            echo "I couldn't find a subject in \"$jjm_rrtpl\"."
+            read jjm_rrsubj?'Review requst subject: '
+         fi
+         if [ -x $(which mutt_ldap_query.pl) ]; then
+            while read jjm_recipient?'To: '
+            do
+               [ -z "$jjm_recipient" ] && break
+               echo "Looking up matches (^D to select none): "
+               select jjm_newto in $(mutt_ldap_query.pl -l "*$jjm_recipient*" | awk '{ print $1 }' )
+               do
+                  jjm_rrto="--to $jjm_newto $jjm_rrto"
+                  break
+               done
+            done
+         fi
+         git send-email --subject "$jjm_rrsubj" --compose $jjm_rrto \
+            --thread --chain-reply-to --suppress-cc all \
+            --cc "eng-linuxprod-runtime@windriver.com" $jjm_rrcq \
+            $(find $jjm_rrdir -type f ! -name "\." ! -name rr ! -name $(basename $jjm_rrtpl))
+      else
+         echo "I don't know what \"$jjm_rrtpl\" is but I can't read it."
+         return 1
+      fi
+   fi
+}
+# }}}
+
+# vim: tw=78 ts=3 sw=3 et nowrap ft=sh

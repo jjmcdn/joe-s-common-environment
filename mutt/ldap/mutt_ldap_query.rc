@@ -1,0 +1,28 @@
+# Authentication credentials
+$ldap_bind_dn = "corp\\WINDOWS_USER_NAME";
+$ldap_bind_password = "WINDOWS_PASSWORD";
+# ======================================================================== 
+# Don't change anything below here or don't blame Joe.  You pick.
+#
+# ------------------------------------------------------------------------
+# Taken from the example at:
+#
+# http://www.courville.org/mediawiki/index.php/Mutt_ldap_query#Resource_file_format
+# ------------------------------------------------------------------------
+# warning this database will erase default script builtin
+# hostname of your ldap server
+$ldap_server = 'ldap.wrs.com';
+# ldap base search
+$search_base = 'dc=corp,dc=ad,dc=wrs,dc=com';
+# list of the fields that will be used for the query
+$ldap_search_fields = 'givenname sn cn mail';
+# list of the fields that will be used for composing the answer
+$ldap_expected_answers = 'givenname sn cn mail o';
+# format of the email result based on the expected answers of the ldap query
+$ldap_result_email = '${mail}';
+# format of the reAlname result based on the expected answers of the ldap query
+$ldap_result_realname = '${givenname} ${sn}';
+# format of the comment result based on the expected answers of the ldap query
+$ldap_result_comment = '(${o})';
+
+# vim:tw=78 ts=3 sw=3 et nowrap ft=perl:

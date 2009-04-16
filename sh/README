@@ -1,0 +1,54 @@
+$Id: README,v 1.3 2007/09/24 15:09:58 joe Exp $
+
+I intended the fns.* files to be reasonably independent of the rc and profile
+files, so you shouldn't need to use my precise configuration in order to use the
+functions.  If you do and you find a problem, let me know.
+
+If you don't care about your old configuration files (which is typically me when
+I first log in to a new system) you can install these with this command:
+
+------------------------------------------------------------------------
+for i in *
+do
+   if [[ $i != "README" && $i != "TODO" ]]
+   then
+      if [ -f $i ]
+      then
+         cp -b $i ${HOME}/.$i
+      fi
+   fi
+done
+------------------------------------------------------------------------
+
+I've also found it to be occasionally useful to create a redistributable tarball
+of this stuff.  This works reasonably well for that:
+
+------------------------------------------------------------------------
+mkdir /tmp/$$
+for i in *
+do
+   if [[ $i != "README" && $i != "TODO" ]]
+   then
+      if [ -f $i ]
+      then
+         cp -b $i /tmp/$$/.$i
+      fi
+   fi
+done
+cd /tmp/$$
+tar zcvf ${HOME}/env-sh.tar.gz .*
+cd -
+------------------------------------------------------------------------
+
+
+$Log: README,v $
+Revision 1.3  2007/09/24 15:09:58  joe
+- Documentation update, adding the bits about a redist tarball
+
+Revision 1.2  2007/09/24 14:53:00  joe
+- bash chooses not to reset OPTIND on each new invocation of getopts.  Answering
+  'why' is left up to the student.
+
+Revision 1.1.1.1  2007/06/14 14:32:38  joe
+Initial revision
+

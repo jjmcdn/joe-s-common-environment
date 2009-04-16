@@ -1,0 +1,21 @@
+Failures I need to fix:
+
+------------------------------------------------------------------------
+yow-pgortmak-d1:
+yow-jmacdona-l1 ~ ssh yow-pgortmak-d1.ottawa.wrs.com
+Linux yow-pgortmak-d1 2.6.22-11-generic #1 SMP Fri Sep 7 05:07:05 GMT 2007 i686
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+Last login: Thu Sep  6 10:14:47 2007 from yow-jmacdona-d2.ottawa.windriver.com
+/folk/jmacdona/.profile[38]: .[334]: set: vi-tabcomplete: bad option(s)
+Usage: set [-sabefhkmnptuvxBCGH] [-A name] [-o[option]] [arg ...]
+/folk/jmacdona/.kshrc[334]: set: vi-tabcomplete: bad option(s)
+Usage: set [-sabefhkmnptuvxBCGH] [-A name] [-o[option]] [arg ...]
+
+------------------------------------------------------------------------
+

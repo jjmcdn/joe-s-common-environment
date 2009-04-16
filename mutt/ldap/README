@@ -1,0 +1,46 @@
+===========================[ W A R N I N G ]============================
+ If you are using (or are planning to use) my mutt configuration (most
+   likely found in ../muttrc), you'll be much better off letting the
+install script there install mutt_ldap_query.pl and .mutt_ldap_query.rc
+                           files on it's own.
+========================================================================
+
+
+A perl script that performs LDAP lookups and returns hits in a
+reasonably useful format (at least as far as mutt's address-book hooks
+go).  To use simply dump mutt_ldap_query.pl somewhere in your path, make
+it executable, copy mutt_ldap_query.rc to $HOME/.mutt_ldap_query.rc and
+change the two lines in it that you can probably guess you need to
+change.  (Hint: search for WINDOWS_).
+
+This thing started life as a perl script on the web by the same name,
+was hacked by me to make it a little friendlier to use then hacked by
+Jeff Honig to make it search a wider array of LDAP tables.
+
+Example:
+
+------------------------------------------------------------------------
+# ./mutt_ldap_query.pl macdonald
+LDAP query: found 2
+Joe.MacDonald@windriver.com	Joe MacDonald	()
+Mary.MacDonald@windriver.com	Mary MacDonald	()
+# ./mutt_ldap_query.pl mac
+LDAP query: found 0
+# ./mutt_ldap_query.pl "*mac*"
+LDAP query: found 12
+momaction@windriver.com	momaction 	()
+Mary.MacDonald@windriver.com	Mary MacDonald	()
+Duncan.MacMurdy@windriver.com	Duncan MacMurdy	()
+Ryan.MacSwain@windriver.com	Ryan MacSwain	()
+Jorge.Camacho@windriver.com	Jorge Camacho	()
+nsh-3f-smconf@windriver.com	 	()
+alexis.macpherson@windriver.com	Alexis Macpherson	()
+Neil.Macleod@windriver.com	Neil Macleod	()
+Joe.MacDonald@windriver.com	Joe MacDonald	()
+Donald.MacLennan@windriver.com	Donald MacLennan	()
+Macraigor@windriver.com	 	()
+macosxatwind@windriver.com	 	()
+# 
+------------------------------------------------------------------------
+
+Hopefully that's fairly self-explanatory.

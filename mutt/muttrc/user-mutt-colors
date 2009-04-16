@@ -1,0 +1,36 @@
+# ========================================================================
+# new index colours
+color index    brightgreen black ~N
+
+# Magenta: sent to a windriver address, probably a mailing list
+color index    magenta black "~t .*@windriver.com"
+color index    magenta black "~t .*@mail.wrs.com"
+color index    brightmagenta black "~N ~t .*@windriver.com"
+color index    brightmagenta black "~N ~t .*@mail.wrs.com"
+color index    magenta black "~c .*@windriver.com"
+color index    magenta black "~c .*@mail.wrs.com"
+color index    brightmagenta black "~N ~c .*@windriver.com"
+color index    brightmagenta black "~N ~c .*@mail.wrs.com"
+
+# Cyan: I'm on the CC list
+color index    cyan black "~c joe.macdonald@windriver.com"
+color index    brightcyan black "~N ~c joe.macdonald@windriver.com"
+
+# White: Mail directed to/from me
+color index    white black "~f joe.macdonald@windriver.com"
+color index    brightwhite black "~N ~f joe.macdonald@windriver.com"
+color index    white black "~t joe.macdonald@windriver.com"
+color index    brightwhite black "~N ~t joe.macdonald@windriver.com"
+
+# yellow: And if some yahoo is talking about CGL and didn't email me, I
+# want to know about it.  You probably don't, though, so these are commented
+# out.  These rules search the bodies (~b) so don't pattern any of your own
+# rules off them unless you're really willing to pay the price of having mutt
+# download and search all of the bodies of all of the mail in the current
+# mailbox.  This is probably more cost than you're willing to bear, instead I
+# suggest fiddling around with imapfilter.  It's the approach I've chosen.
+#
+# color index    yellow black "~b \"(cgl|CGL|Carrier|carrier)\" !~T !~F !~p !~P"
+# color index    brightyellow black "~b \"(cgl|CGL|Carrier|carrier)\" ~N !~T !~F !~p !~P"
+
+# vi: ft=muttrc:

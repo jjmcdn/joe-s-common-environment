@@ -1,0 +1,69 @@
+# -- #
+# -- # This file contains commands to change the keybindings in Mutt to be
+# -- # similar to those of PINE 3.95.
+# -- #
+# --
+# -- #
+# -- # $Id: Pine.rc,v 3.0 2002/01/24 12:11:17 roessler Exp $
+# -- #
+# --
+# -- bind index v display-message
+# -- bind index p previous-undeleted
+# -- bind index n next-undeleted
+# -- bind index ' ' next-page
+# -- bind index c mail
+# -- bind index g change-folder
+# -- bind index w search
+# -- bind index y print-message
+# -- bind index x sync-mailbox
+# -- bind index $ sort-mailbox
+# -- bind index a tag-prefix
+# -- bind index \; tag-entry
+# --
+# -- # Not possible to simulate zoom-out...
+# -- macro index z l~T\r
+# --
+# -- bind pager p previous-undeleted
+# -- bind pager n next-undeleted
+# -- bind pager ' ' next-page
+# -- bind pager g change-folder
+# -- bind pager c mail
+# -- bind pager w search
+# -- bind pager y print-message
+# -- bind pager \n noop	# PINE prints "No default action for this menu."
+# -- bind pager <up> previous-line
+# -- bind pager <down> next-line
+# --
+# -- bind compose \cx send-message
+# --
+# -- # PINE has different defaults for this variables
+# -- set folder=~/mail
+# -- set record=+sent-mail
+# -- set nosave_name
+# -- set postponed=~/postponed-msgs
+# -- set hdr_format="%Z %3C %{%b %d} %-19.19L (%5c) %s"
+
+# Some Key Bindings (Act a bit more like Rosa)
+bind index <up>      previous-entry
+bind index <down>    next-entry
+bind index <right>   display-message
+#bind index <left>   quit
+bind index m         change-folder
+bind index c         mail
+bind index t         sync-mailbox
+bind index \ct       tag-entry
+bind index <space>   next-page
+bind index \cr       resend-message
+
+bind pager <left>    exit
+bind pager <up>      previous-line
+bind pager <down>    next-line
+bind pager m         change-folder
+bind pager c         mail
+
+bind browser <up>    previous-entry
+bind browser <down>  next-entry
+bind browser <right> select-entry
+bind browser <left>  exit
+
+# vi: ft=muttrc:

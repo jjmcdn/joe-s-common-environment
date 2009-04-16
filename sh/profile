@@ -1,0 +1,53 @@
+# ========================================================================
+#  $Id: profile,v 1.2 2007/10/12 14:31:17 joe Exp $
+#  $Log: profile,v $
+#  Revision 1.2  2007/10/12 14:31:17  joe
+#  - fixing a problem with the ordering of sourcing the aliases files on
+#    the newest Ubuntu.
+#  - adding a pxecfg function
+#
+#  Revision 1.1.1.1  2007/06/14 14:32:38  joe
+#  Initial revision
+#
+#
+# .profile gets processed by both ksh and bash on startup, so we need to
+# treat things in here a little differently.
+# ========================================================================
+
+# I don't believe it really makes a huge difference whether we do the
+# environment variables or the aliases first, so for now I'm picking what I
+# think is the more basic one.  May need to change this later.
+if [ -f ${HOME}/.env_vars ]
+then
+   # first off, if there's an environment variable file, source it.
+   . ${HOME}/.env_vars
+fi
+
+case $- in
+   *i*) : # interactive
+      # commands for interactive shells go here
+      if [ -n "${BASH_VERSION}" ]; then
+         # bash
+         ENV=${HOME}/.bashrc
+         export ENV
+      else
+         # ksh
+         ENV=${HOME}/.kshrc
+         export ENV
+      fi
+      if [ -f ~/.aliases ]
+      then
+         # If we have a .aliases file, source it here.
+         . ~/.aliases
+      fi
+      if [ -f ${ENV} ]
+      then
+         . ${ENV}
+      fi
+      ;;
+   *)  : # non interactive
+      # commands for non-interactive shells go here
+      ;;
+esac
+
+# vim: tw=78 ts=3 sw=3 et nowrap ft=sh

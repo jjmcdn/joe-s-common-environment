@@ -1,0 +1,22 @@
+Configuration files and support tools for the Mutt email client.
+
+muttrc/
+   - contains template mutt configuration files and an install script that is
+     intended to be non-destructive, if you happen to already have some existing
+     mutt configuration lying around.  It tries to be smart and ask you for
+     whatever it will need in order to run.
+
+ldap/
+   - not specifically tied to mutt, but I found it when I was looking for a
+     script I could plug in to mutt's address book lookup function (bound to
+     CTRL-T if you use my muttrc) that would let me search LDAP for email
+     addresses and mailing list addresses inside WR.
+
+imapfilter/
+   - in no way tied to mutt, a friend suggested I check it out when I complained
+     that I missed the server-side filtering features that Evolution (and
+     apparently Outlook) did for me.  I'm still learning how to use this tool
+     and it's very powerful so be warned, here be dragons.  I've learnt a
+     healthy fear of relying too heavily on poorly-understood technology over
+     the years, so I'm warning you now, my scripts for imapfilter will likely be
+     forever in 'alpha'.

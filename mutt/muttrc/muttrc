@@ -1,0 +1,91 @@
+# external files {{{
+# load the system-wide configuration file
+#source /etc/mutt/Muttrc
+
+# then load the pine-style keybindings
+source ~/.mutt-bindings
+
+# then load my color scheme
+source ~/.mutt-colors
+# }}}
+
+# ignore bits {{{
+# now we have everything else in here
+ignore "from " received content- mime-version status x-status message-id Precedence
+ignore sender references return-path lines X-Mozilla-Status X-UID X-IMAP X-Accept-Language X-Version X-Session_Id X-Version
+ignore X-eGroups-Return X-Sender X-Apparently-To X-MSMail-Priority X-MimeOLE
+ignore X-Yahoo-Profile Mailing-List Delivered-To
+# }}}
+
+# essential macros {{{
+# spamassassin
+macro index X "| spamassassin -r"
+
+macro index \eb '/~b ' 'search in message bodies'
+macro index \cb |urlview\n 'call urlview to extract URLs out of a message'
+macro pager \cb |urlview\n 'call urlview to extract URLs out of a message'
+macro generic <f1> "!less /usr/local/share/doc/mutt/manual.txt\n" "Show Mutt documentation"
+macro index   <f1> "!less /usr/local/share/doc/mutt/manual.txt\n" "Show Mutt documentation"
+macro pager   <f1> "!less /usr/local/share/doc/mutt/manual.txt\n" "Show Mutt documentation"
+
+set implicit_autoview
+auto_view text/html
+
+# Abook
+macro pager A |'abook --add-email'\n
+
+macro index > m?  "Change Folder .. Directly to List"
+macro index <left> m?  "Change Folder .. Directly to List"
+# }}}
+
+# settings {{{
+source ~/.user-mutt-config
+set date_format="!%d/%m/%Y (%a %H:%M)"
+#set editor='vim -c "set tw=72" +2'
+set editor='gvim -f -c "set tw=72" +2'
+set folder_format="%N %-15f (%8s) %d"
+set index_format="%4C %Z %-12d %-15.15L %?M?< %03M>&(%4l)? %?M?< %s >&%s?"
+set mbox="~/.mail/Inbox"
+set pager_stop
+set reverse_alias
+set sort=threads
+set sort_aux=date-received
+set forward_format="[%a: %s]"
+set nomark_old
+set attribution="[%s] On %d %n wrote:\n"
+set nobeep
+set dsn_notify="failure,delay,success"
+set dsn_return="hdrs"
+set include=yes
+set recall=ask-no
+unset sort_re
+unset strict_threads
+set edit_headers
+set ispell="/usr/local/bin/aspell -c"
+set status_on_top=yes
+set status_format="-[%r]-[%f-%?M?%M/?%m%?n?-n:%n?%?o?-o:%o?%?d?-d:%d?%?t?-t:%t?%?F?-f:%F?%?V?-l:(%V)?]-%?p?[p:%p]?-%>-[%s/%S]-[%P]-[%b]"
+set envelope_from=yes
+set use_from=yes
+set mime_forward=ask-yes
+
+hdr_order Date: Subject: From: Reply-To: To: Cc: BCC: Importance: X-Priority: Organization: X-Mailer:
+# }}}
+
+# hooks {{{
+
+# Use folders which match on \\.gz$ as gzipped folders, \\.bz2 as bzipped ones
+open-hook \\.bz2$ "bzip2 -cd %f > %t"
+close-hook \\.bz2$ "bzip2 -c %t > %f"
+append-hook \\.bz2$ "bzip2 -c %t >> %f"
+
+send-hook . my_hdr "X-URL: http://www.windriver.com"
+# }}}
+
+# mailboxes to watch {{{
+# if you're using the patched version of mutt to include the sidebar
+# (apt-get install mutt-patched in Ubuntu) any extra mailboxes you put
+# in here will appear in your sidebar.
+mailboxes ! =INBOX
+# }}}
+#
+# vi: ft=muttrc:

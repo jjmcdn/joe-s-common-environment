@@ -1,0 +1,28 @@
+# Don't be me.  Please.
+set realname="My Name"
+set from="MAIL.NAME@windriver.com"
+
+# These are corp\\jmacdona\\joe.macdonald@imap-na.wrs.com in my setup
+set folder="imaps://corp\\WINDOWS_USERNAME\\MAIL.NAME@imap-na.wrs.com/"
+set spoolfile="imaps://corp\\WINDOWS_USERNAME\\MAIL.NAME@imap-na.wrs.com/INBOX"
+# Where does mutt_ldap_query.pl live?
+set query_command="~/bin/mutt_ldap_query.pl -i '%s'"
+
+# Want to keep a copy of mail you send without explicitly Cc:-ing
+# yourself?  Yeah, I know there's an ever-increasing number of \ in
+# these.  Not my fault.
+fcc-hook . "imaps://corp\\\\WINDOWS_USERNAME\\\\MAIL.NAME@imap-na.wrs.com/Sent Items"
+
+# If you have multiple pgp keys and you want mutt to by default choose
+# one in particular for signing, uncomment this line and put it here.
+# You probably can't sign as me.
+#set pgp_sign_as=0x6E996677
+
+# ------------------------------------------------------------------------
+# Stuff you probably don't need to change lives below here
+set hostname=windriver.com
+set header_cache="~/.mail"
+set folder="~/.mail"
+set postponed="~/.mail/postponed"
+
+# vi: ft=muttrc:

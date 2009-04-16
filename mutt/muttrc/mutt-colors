@@ -1,0 +1,69 @@
+## =================
+## Color definitions
+## =================
+## Format:
+## color object      foreground   background
+## Objects names for mutt 0.90 are:
+## attachment, body, bold, error, header, hdrdefault, indicator,
+## markers, message, normal, quoted, quoted1, ..., quotedN,
+## search, signature, status, subject, tilde, tree, underline.
+## Color names:
+## white black green magenta blue cyan yellow red default colorx
+
+color attachment  green   black  # ..
+#color body        green   black  .*
+color bold        green   black  # ..
+color error       red     black  # global
+
+color header      red     black  "^cc: "
+color header      yellow  black  "^date: "
+color header      brightcyan    black  "^from: "
+color header      red     black  "^newsgroups: "
+color header      cyan black  "^reply-to: "
+color header      brightwhite   black  "^subject: "
+color header      green  black  "^to: "
+color header      magenta black  "^x-mailer: "
+color header      black   red    "^message-id: .*pine"
+color header      black   yellow "^importance: "
+color header      black   yellow "^priority: "
+color header      cyan    black  "^resent-from: "
+
+#  color hdrdefault  blue    black  #
+#  color indicator   white   blue   # index
+color indicator   black   green  # index
+color markers     cyan    black  # index
+color message     red     black  # index
+color normal      green black  # pager body
+
+#  Coloring quoted text - coloring only the first four levels:
+color quoted      cyan    black  # pager body
+color quoted1     yellow  black  # pager body
+color quoted2     cyan    black  # pager body
+color quoted3     yellow  black  # pager body
+
+color signature   red     black  # pager body
+color status      black   cyan   # index status bar default: black white
+color tilde       green   black  # pager body
+color tree        brightgreen   black  # index
+color underline   yellow  black  #
+
+# ------------------------------------------------------------------------
+# various message body hilighting rules.
+#color index brightred black "(\\(fwd\\))"
+#mono index bold "(\\(fwd\\))"
+color index brightgreen black "~h X-Match:.whitelist"
+mono index bold "~h whitelist"
+
+# ========================================================================
+# load the user-specific parts
+source ~/.user-mutt-colors
+
+# ========================================================================
+
+color body brightgreen  black "(http|ftp|news|telnet|finger)://[^ \"\t\r\n]*"
+color body brightcyan  black "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
+mono  body bold              "(http|ftp|news|telnet|finger)://[^ \"\t\r\n]*"
+mono  body bold              "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
+color body black brightyellow " >*[;:8]-*[)>(<|]"       # :-) etc...
+
+# vi: ft=muttrc:

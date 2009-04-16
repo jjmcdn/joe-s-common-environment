@@ -1,0 +1,32 @@
+First, a pair of confessions.  One:  I really just wish I was using gmail
+for everything.  Two:  I don't see myself ever finding a mail client I
+like even half as well as mutt.
+
+If you haven't used mutt with gmail, by the way, you should.
+
+Anyway, the server-side filtering done by gmail is something I've been
+missing so much that I kept trying to get Evolution to work properly at WR
+and never had more than marginal success.  Back in December '08 a friend
+pointed me at imapfilter, which is basically procmail (using lua as a
+scripting language) for IMAP.  That gets me close enough to gmail's
+filtering for all practical purposes.
+
+What you have here is my prototype imapfilter configuration.  You'll need
+to install imapfilter (apt-get install imapfilter) and then you can move
+this config.lua into your ~/.imapfilter directory.  Put in your username
+and password in the obvious spots and you're off to the races.  You invoke
+it with 'imapfilter -v' on the command line, wait for it to filter your
+stuff into mail boxes as appropriate and hopefully it'll be easier to
+figure out what needs to be responded to in what order.
+
+I *think* it creates new mail folders on the IMAP server if they don't
+already exist, but I don't really remember, so use it carefully.  Also,
+you'll want to have a close look at what I've got in there now, really you
+should just use it as a guide for what I've already figured out you can
+do, because you probably don't want to file your mail the same way (or
+based on the same criteria) as me.
+
+Suggestions or improvements are welcome, though.  Of all of the stuff in
+my tree here, this is the one that is the least mature.  It reached 'good
+enough' status and I'm using it now but I really want to get back to it
+and flesh it out.
