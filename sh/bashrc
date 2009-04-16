@@ -1,14 +1,4 @@
 # ========================================================================
-#  $Id: bashrc,v 1.2 2007/09/12 13:30:02 joe Exp $
-#  $Log: bashrc,v $
-#  Revision 1.2  2007/09/12 13:30:02  joe
-#  Fixing a problem with the KSH found on solaris boxes not setting their
-#  options in the say everyone else seems to.
-#
-#  Revision 1.1.1.1  2007/06/14 14:32:38  joe
-#  Initial revision
-#
-#
 # ~/.bashrc: executed by bash(1) for non-login shells by design, actually
 # invoked by my .profile scripts now so that I can keep my configurations
 # contained. See /usr/share/doc/bash/examples/startup-files (in the package

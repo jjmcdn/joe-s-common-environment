@@ -1,12 +1,4 @@
 # ========================================================================
-#  $Id: fns.ksh,v 1.1.1.1 2007/06/14 14:32:38 joe Exp $
-#  $Log: fns.ksh,v $
-#  Revision 1.1.1.1  2007/06/14 14:32:38  joe
-#  Initial revision
-#
-#
-# Functions that are for some reason ksh-specific.
-# ========================================================================
 
 # Read in work-specific functions, if any
 if [ ${HOME}/.fns.wrs ]

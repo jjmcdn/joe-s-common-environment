@@ -1,11 +1,4 @@
 # ========================================================================
-#  $Id: env_vars,v 1.1.1.1 2007/06/14 14:32:38 joe Exp $
-#  $Log: env_vars,v $
-#  Revision 1.1.1.1  2007/06/14 14:32:38  joe
-#  Initial revision
-#
-#
-# ========================================================================
 
 # The idea of working on a machine without vim scares the willies out of me,
 # but we've got to plan for that possibility

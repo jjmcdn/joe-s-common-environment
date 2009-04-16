@@ -1,74 +1,10 @@
 # ========================================================================
-#  $Id: kshrc,v 1.5 2009/01/26 12:32:25 joe Exp $
-#  $Log: kshrc,v $
-#  Revision 1.5  2009/01/26 12:32:25  joe
-#  Many updates.
-#
-#  aliases:
-#     - mailman list archives are a PITA to work with, so this new alias does
-#       some simple preprocessing to turn them into something closer to
-#       proper mbox format.  This allows you to download something like this:
-#
-#       http://mail.python.org/pipermail/mailman-users/2024-April.txt.gz
-#
-#       run:
-#
-#       mmpp 2024-April.txt.gz
-#
-#       and then load the resulting file in mutt (or any other enlightened
-#       mail reader).
-#
-#  fns.sh:
-#     - updating csfind to be a little more verbose on the search, no
-#       functional change but it does at least let you know it found a
-#       database and it didn't find what you were looking for, instead of
-#       apparently silently failing
-#
-#     - added unrpm() function because I'm tired of always trying to remember
-#       how to tear open an rpm.
-#
-#     - added rpminfo() function because I found I was doing that all the
-#       time anyway and, again, I hated always trying to find the information
-#       I needed in the manpages.
-#
-#  fns.wrs:
-#     - adding the new APC IP addresses to rst()
-#
-#     - updated wrg() to take branch and release options
-#
-#     - added pkgfind() to quickly search a tree and find out which
-#       pkglist.add files reference a userspace package.
-#
-#     - added sendrr() to bridge the gap between wrgit's rr command and git's
-#       send-email command.
-#
-#  Revision 1.4  2008/10/21 13:50:43  joe
-#  - Adding screen and linux to the known TERM types since I know I can
-#    trust both of those to support all of the xterm / dtterm features I
-#    like.
-#
-#  Revision 1.3  2008/01/30 18:59:38  joe
-#  - Added PROMPT_FG/PROMPT_FGC and PROMPT_BG/PROMPT_BGC support for setting
-#    foreground and background colour values for the prompt based on the settings
-#    in env_vars
-#  - Cleaning up the ksh detection for vi/vi-tabcomplete based on which flavour of
-#    ksh you're running under.  Still brittle, I think, but it seems to work on
-#    Linux (AT&T and PD), OBSD and Solaris, so that's better than it was.
-#
-#  Revision 1.2  2007/06/14 18:41:51  joe
-#  Adding xterm-color in addition to color_xterm.
-#
-#  Revision 1.1.1.1  2007/06/14 14:32:38  joe
-#  Initial revision
-#
-#
 # Originally developed on OpenBSD's version of ksh:
 #
 #  @(#)PD KSH v5.2.14 99/07/13.2
 #
 # but seems to work reasonably well on AT&T's ksh without any futzing
 # around.
-# ========================================================================
 
 case $- in
    *i*) : # interactive

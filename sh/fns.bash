@@ -1,12 +1,4 @@
 # ========================================================================
-#  $Id: fns.bash,v 1.1.1.1 2007/06/14 14:32:38 joe Exp $
-#  $Log: fns.bash,v $
-#  Revision 1.1.1.1  2007/06/14 14:32:38  joe
-#  Initial revision
-#
-#
-# Functions that are for some reason bash-specific.
-# ========================================================================
 
 # Read in work-specific functions, if any
 if [ ${HOME}/.fns.wrs ]
