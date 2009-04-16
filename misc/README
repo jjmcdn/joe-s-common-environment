@@ -1,0 +1,21 @@
+The 'everything else' bin.  Mostly dotfiles that don't warrant their own
+configuration directory, probably won't be installed wholesale and probably
+aren't useful to most people.  My vimperatorrc configuration is the textbook
+example, I want it everywhere because I use vimperator everywhere, but odds are
+nobody else wants my specific configuration.
+
+Like my other scripts, as long as you don't care about what you already have in
+your dotfiles, a command like this will handle installation:
+
+------------------------------------------------------------------------
+for i in *
+do
+   if [[ $i != "README" && $i != "TODO" ]]
+   then
+      if [ -f $i ]
+      then
+         cp -b $i ${HOME}/.$i
+      fi
+   fi
+done
+------------------------------------------------------------------------

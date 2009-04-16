@@ -1,0 +1,14 @@
+set guioptions+=m
+
+" Google has reasonably nice hot-keys already contained in the javascript that I
+" want to be able to use.  That's accomplished by hitting C-z and entering
+" pass-through mode, but that's kind of a pain in the butt to remember to do
+" that all the time, so we'll set up a couple of autocommands to just flip us to
+" pass-through all the time on gmail and my own google-based webmail.
+" 
+" Note that I *don't* want to disable vimperator for google search results,
+" though.  I like having that, which is why I limit this to gmail, google
+" reader, google calendar and google docs.
+autocmd LocationChange .* :js modes.passAllKeys = /mail\.google\.com|mail\.deserted\.net|www\.google\.com\/calendar|www\.google\.com\/reader\/view/.test(buffer.URL)
+
+" vim: tw=80 ts=3 sw=3 et nowrap ft=vim
