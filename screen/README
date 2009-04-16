@@ -1,0 +1,19 @@
+My screenrc files don't get updated very often, but I see enough people using
+ones that are slightly out of date versions of my own that I figure someone will
+find these useful.  Maybe even draw my attention to stuff I haven't seen before.
+
+Like my other scripts, as long as you don't care about what you already have in
+your dotfiles, a command like this will handle installation:
+
+------------------------------------------------------------------------
+for i in *
+do
+   if [[ $i != "README" && $i != "TODO" ]]
+   then
+      if [ -f $i ]
+      then
+         cp -b $i ${HOME}/.$i
+      fi
+   fi
+done
+------------------------------------------------------------------------

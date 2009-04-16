@@ -1,0 +1,6 @@
+# Read in our default configuration
+source $HOME/.screenrc-base
+
+# Add in any host-specific bits, overrides, whatever here.
+
+# vim: tw=78 ts=3 sw=3 et nowrap ft=screen
