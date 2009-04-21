@@ -1,0 +1,8 @@
+My vim/gvim configuration files, a collection of colours I'm rather fond of for
+different purposes, and what I consider my core plugins.
+
+There's an install.sh script here that you may or may not want to use.  It does
+what I want it to do, but you may want to just copy this stuff into your own
+locations.  And it certainly does *not* do the right thing if you use vim on
+Windows.  I do and as with all things Windows-y, I can't make it behave the way
+I think it should.  In Windows, use Cream.  It's what I've resorted to.

@@ -1,0 +1,66 @@
+" ------------------------------------------------------------------------
+"
+" Global sets {{{
+" I prefer my gvim windows to always come up the same size and shape
+set columns=80
+set lines=60
+
+" I never quite know what to expect from a different machine's font choices,
+" but this seems to be a good middle-of-the-road choice
+set guifont=Liberation\ Mono\ 8
+
+" And my preferred guioptions:
+"  a: autoselect
+"  c: use console dialogs rather than GUI popups
+"  i: use a vim icon if the window manager supports it
+"  g: if we have a menubar (off by default) then grey out inactive items
+"     instead of hiding them.
+"  r: right-hand scrollbar is always present
+"  L: left-hand scrollbar will also be present in a v-split window
+set guioptions=acigrL
+" }}}
+
+" Colouring and font highlighting stuff {{{
+" By default choose something not so ugly:
+colorscheme professional
+
+" vim {{{
+au BufReadPost * if exists("b:current_syntax") && b:current_syntax == "vim"
+au BufReadPost *    colorscheme desert
+au BufReadPost * endif
+" }}}
+
+" C {{{
+au BufReadPost * if exists("b:current_syntax") && b:current_syntax == "c"
+au BufReadPost *    colorscheme borland
+au BufReadPost * endif
+" }}}
+
+" sh {{{
+au BufReadPost * if exists("b:current_syntax") && (b:current_syntax == "sh" || b:current_syntax == "ksh" || b:current_syntax == "bash")
+au BufReadPost *    colorscheme interface
+au BufReadPost * endif
+" }}}
+
+" diff {{{
+au BufReadPost * if exists("b:current_syntax") && b:current_syntax == "diff"
+au BufReadPost *    colorscheme inkpot
+au BufReadPost * endif
+" }}}
+
+" git commits {{{
+au BufReadPost * if exists("b:current_syntax") && b:current_syntax == "gitcommit"
+au BufReadPost *    colorscheme interface
+au BufReadPost *    set tw=74
+au BufReadPost * endif
+" }}}
+
+" }}}
+
+" Mappings {{{
+" disable keyword lookup since in gvim the terminal emulation is a sad joke, so
+" the functionality is useless and annoying.
+map K <NUL>
+" }}}
+
+" vi:tw=80

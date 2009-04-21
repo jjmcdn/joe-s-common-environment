@@ -1,0 +1,8 @@
+" Where I keep all my private data.
+"
+"
+" Abbreviations {{{
+iab Ynote INITIALS: (<C-R>=strftime("%Y.%m.%d")<CR>)
+iab Yattrib <C-R>=strftime("%a %b %d %Y")<CR> NAME <EMAIL>
+" }}}
+" vi:tw=80 sw=3

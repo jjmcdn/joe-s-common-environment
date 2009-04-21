@@ -1,0 +1,1027 @@
+" ASCII Tables {{{
+" ===================================================================
+" ASCII tables - you may need them some day.  Save them to a file!
+" ===================================================================
+"
+" ASCII Table - | octal value - name/char |
+"
+" |000 nul|001 soh|002 stx|003 etx|004 eot|005 enq|006 ack|007 bel|
+" |010 bs |011 ht |012 nl |013 vt |014 np |015 cr |016 so |017 si |
+" |020 dle|021 dc1|022 dc2|023 dc3|024 dc4|025 nak|026 syn|027 etb|
+" |030 can|031 em |032 sub|033 esc|034 fs |035 gs |036 rs |037 us |
+" |040 sp |041  ! |042  " |043  # |044  $ |045  % |046  & |047  ' |
+" |050  ( |051  ) |052  * |053  + |054  , |055  - |056  . |057  / |
+" |060  0 |061  1 |062  2 |063  3 |064  4 |065  5 |066  6 |067  7 |
+" |070  8 |071  9 |072  : |073  ; |074  < |075  = |076  > |077  ? |
+" |100  @ |101  A |102  B |103  C |104  D |105  E |106  F |107  G |
+" |110  H |111  I |112  J |113  K |114  L |115  M |116  N |117  O |
+" |120  P |121  Q |122  R |123  S |124  T |125  U |126  V |127  W |
+" |130  X |131  Y |132  Z |133  [ |134  \ |135  ] |136  ^ |137  _ |
+" |140  ` |141  a |142  b |143  c |144  d |145  e |146  f |147  g |
+" |150  h |151  i |152  j |153  k |154  l |155  m |156  n |157  o |
+" |160  p |161  q |162  r |163  s |164  t |165  u |166  v |167  w |
+" |170  x |171  y |172  z |173  { |174  | |175  } |176  ~ |177 del|
+"
+" ===================================================================
+" ASCII Table - | decimal value - name/char |
+"
+" |000 nul|001 soh|002 stx|003 etx|004 eot|005 enq|006 ack|007 bel|
+" |008 bs |009 ht |010 nl |011 vt |012 np |013 cr |014 so |015 si |
+" |016 dle|017 dc1|018 dc2|019 dc3|020 dc4|021 nak|022 syn|023 etb|
+" |024 can|025 em |026 sub|027 esc|028 fs |029 gs |030 rs |031 us |
+" |032 sp |033  ! |034  " |035  # |036  $ |037  % |038  & |039  ' |
+" |040  ( |041  ) |042  * |043  + |044  , |045  - |046  . |047  / |
+" |048  0 |049  1 |050  2 |051  3 |052  4 |053  5 |054  6 |055  7 |
+" |056  8 |057  9 |058  : |059  ; |060  < |061  = |062  > |063  ? |
+" |064  @ |065  A |066  B |067  C |068  D |069  E |070  F |071  G |
+" |072  H |073  I |074  J |075  K |076  L |077  M |078  N |079  O |
+" |080  P |081  Q |082  R |083  S |084  T |085  U |086  V |087  W |
+" |088  X |089  Y |090  Z |091  [ |092  \ |093  ] |094  ^ |095  _ |
+" |096  ` |097  a |098  b |099  c |100  d |101  e |102  f |103  g |
+" |104  h |105  i |106  j |107  k |108  l |109  m |110  n |111  o |
+" |112  p |113  q |114  r |115  s |116  t |117  u |118  v |119  w |
+" |120  x |121  y |122  z |123  { |124  | |125  } |126  ~ |127 del|
+"
+" ===================================================================
+" ASCII Table - | hex value - name/char |
+"
+" | 00 nul| 01 soh| 02 stx| 03 etx| 04 eot| 05 enq| 06 ack| 07 bel|
+" | 08 bs | 09 ht | 0a nl | 0b vt | 0c np | 0d cr | 0e so | 0f si |
+" | 10 dle| 11 dc1| 12 dc2| 13 dc3| 14 dc4| 15 nak| 16 syn| 17 etb|
+" | 18 can| 19 em | 1a sub| 1b esc| 1c fs | 1d gs | 1e rs | 1f us |
+" | 20 sp | 21  ! | 22  " | 23  # | 24  $ | 25  % | 26  & | 27  ' |
+" | 28  ( | 29  ) | 2a  * | 2b  + | 2c  , | 2d  - | 2e  . | 2f  / |
+" | 30  0 | 31  1 | 32  2 | 33  3 | 34  4 | 35  5 | 36  6 | 37  7 |
+" | 38  8 | 39  9 | 3a  : | 3b  ; | 3c  < | 3d  = | 3e  > | 3f  ? |
+" | 40  @ | 41  A | 42  B | 43  C | 44  D | 45  E | 46  F | 47  G |
+" | 48  H | 49  I | 4a  J | 4b  K | 4c  L | 4d  M | 4e  N | 4f  O |
+" | 50  P | 51  Q | 52  R | 53  S | 54  T | 55  U | 56  V | 57  W |
+" | 58  X | 59  Y | 5a  Z | 5b  [ | 5c  \ | 5d  ] | 5e  ^ | 5f  _ |
+" | 60  ` | 61  a | 62  b | 63  c | 64  d | 65  e | 66  f | 67  g |
+" | 68  h | 69  i | 6a  j | 6b  k | 6c  l | 6d  m | 6e  n | 6f  o |
+" | 70  p | 71  q | 72  r | 73  s | 74  t | 75  u | 76  v | 77  w |
+" | 78  x | 79  y | 7a  z | 7b  { | 7c  | | 7d  } | 7e  ~ | 7f del|
+" ===================================================================
+" }}} ASCII Tables
+
+" private {{{
+" This is where I bring in my private data.  It's easier to store it in CVS, but
+" I don't want everyone getting it, so I'm storing it encrypted.
+source $HOME/.vim-private
+" }}}
+
+" lets {{{
+"
+" .h files might be C, C++ or some other horrible thing, make them C syntax.
+" See filetype.h for details.
+let c_syntax_for_h=1
+
+" Spell checker
+let g:cvimsyn="~/.vim/"
+
+" CVSCommandDiffOpt
+let CVSCommandDiffOpt="wbBcu"
+
+" }}} lets
+
+" global sets {{{
+" I generally like autoindenting
+set autoindent
+
+" Got to pick something, and since most of my xterms are dark text on a light
+" background, this seems to be the safest bet.
+set background=light
+
+" I like to be able to backspace over the autoindents
+set backspace=1
+
+" Function keys that start with an <Esc> are recognized in Insert mode.
+set esckeys
+
+" For normal text editing I always want tabs expanded
+set expandtab
+
+" And I like fold markers
+set foldmethod=marker
+
+" This one's kind of hard to explain, but it boils down to this, you can't
+" completely leave a changed buffer without saving it or undoing your changes
+" first.  See :help 'hidden'.
+set nohidden
+
+" I'm lazy, ignore case by default when searching.
+set ignorecase
+" ... but if I include upper case letters in a search pattern, I guess I
+" probably do have the case correct-ish.
+set smartcase
+
+" Insert two spaces after a full stop when joining two lines.
+set joinspaces
+
+" Always include a status line.  I'm not that hurting for screen real-estate
+" anywhere.
+set laststatus=2
+
+" The characters used to display non-printing 'list' items.
+set listchars=tab:»·,trail:·,precedes:«,extends:»
+
+" Extended regular expression characters
+set magic
+
+" Enable reading of vi: and vim: modelines at the top and bottom of a file. Up
+" to two.
+set modeline
+set modelines=2
+
+" Don't create emacs-style backups before writing a file.
+set nobackup
+
+" I don't care if some feature I enable breaks AT&T vi compatibility.
+set nocompatible
+
+" I don't need vim yelling at me.
+set noerrorbells
+
+" Start searching as soon as I hit /.
+set incsearch
+
+" But don't highlight search results by default.
+set nohlsearch
+
+" I'm quite comfortable with a modal editor, I don't need this modeless
+" foolishness.
+set noinsertmode
+
+" Most of the time I don't want line numbering, either.
+set nonumber
+
+" Undecided if I want this on or off.  When on, moving up and down throughout
+" the buffer, this would cause the cursor to move to the first non-whitespace
+" character on the line.
+set nostartofline
+
+" Reports on the number of lines changed when you do some search / replace /
+" edit command.
+set report=1
+
+" Displays the line and column number of the cursor position.
+set ruler
+
+" I like my tab-stops to be fairly short.
+set shiftwidth=3
+
+" Avoids all the 'hit enter' prompts caused by file messages.
+"  a: see :help 'shortmess'
+"  t: truncate file messages at the start if it is too long to fit on the
+"     command line.
+"  I: don't give the vim Intro message.
+set shortmess=atI
+
+" Highlight matching brackets when the cursor is over one.
+set showmatch
+
+" Show which mode you're in in the status line.
+set showmode
+
+" See :help 'statusline'.  I love this.
+set statusline=%y\ %<%f\ %m%r%=%l,%c%V\ %P
+
+" When splitting a window, the new window appears below the current one.
+set splitbelow
+
+" Files with these suffixes get a lower priority when matching multipe files.
+set suffixes=.aux,.bak,.dvi,.bz2,.gz,.idx,.log,.ps,.swp,.tar,~
+
+" I can't imagine why you'd want your tabstops and shiftwidths to be different
+" sizes.
+set tabstop=3
+
+" Most of the time 80 colums is good.
+set textwidth=80
+
+" Set window title options if available.
+set title
+
+" I don't know quite what all these do, but I'm not changing them right now.
+set viminfo=%,'50,\"100,:100,n~/.viminfo
+
+" Since I've turned off the beeping, I enable the visual bell option.
+set visualbell
+
+" Which keys allow you to move 'left' and 'right' over the end of a line.
+set whichwrap=<,>,h,l
+
+" Which character do you type to start a wildcard expansion in the command line
+set wildchar=<TAB>
+
+" How far from the margin will wrapping begin.  Basically anything other than 1
+" or 2 confuses and angers me.
+set wrapmargin=2
+
+" Write a backup before writing a file, but don't keep it around (since we don't
+" also enable 'backup').
+set writebackup
+
+" options when using diff
+"  filler:      Show filler lines to keep the text synchronized with a window
+"               that has inserted / deleted lines.
+"
+"  context:     Show four lines of context, then fold the remaining lines.
+"
+"  iwhite:      Ignore whitespace changes.
+set diffopt=filler,context:4,iwhite
+
+" The expression that is evaluated to get an ed-style diff
+set diffexpr="diff -e"
+
+" Where should we look when we're doing ^N / ^P completions?
+"  .:    this buffer
+"  w:    buffers from other windows
+"  b:    other loaded buffers
+"  u:    other unloaded buffers
+"  t:    tags
+"  i:    include files
+"  k:    files named in the 'dictionary' option
+"  s:    files named in the 'thesaurus' option
+set complete=.,w,b,u,t,i,k,s
+
+" And a dictionary
+set dict+=/usr/share/dict/words
+
+" }}} global sets
+
+" Conditional sets {{{
+if &term=="xterm"
+   " Running in an xterm, set up a limited number of colours and reasonable
+   " background and foreground options.
+   set t_Co=8
+   set t_AB=[%?%p1%{8}%<%t%p1%{40}%+%e%p1%{92}%+%;%dm
+   set t_AF=[%?%p1%{8}%<%t%p1%{30}%+%e%p1%{82}%+%;%dm
+endif
+" }}} Conditional sets
+
+" Abbreviations {{{
+   " Numbers . . .
+   iab Npi 3.1415926535897932384626433832795028841972
+   iab Ne  2.7182818284590452353602874713526624977573
+
+   " Rulers / Markers
+   iab Yruler ----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+---10
+   iab Yline ------------------------------------------------------------------------
+   iab Ydline ========================================================================
+
+   " Inserting an ellipsis to indicate deleted text
+   iab  Yell  [...]
+   vmap ,ell c[...]<ESC>
+
+   " Common typos
+   iab aslo      also
+   iab teh       the
+   " I'm sick of this typo
+   iab kenrel    kernel
+
+   " Things I'm too lazy to type
+   iab YDDS      dash-dash-space
+
+   " Dates
+   iab Ydate <C-R>=strftime("%Y.%m.%d")<CR>
+   iab Ytime <C-R>=strftime("%H:%M")<CR>
+   iab YDT   <C-R>=strftime("%Y.%m.%d %T")<CR>
+   iab YDATE <C-R>=strftime("%a %b %d %T %Z %Y")<CR>
+
+   " Coding abbreviations
+   iab Yincludes /* includes {{{ */<CR><CR>/* }}} */
+   iab Yheaders /* headers {{{ */<CR><CR>/* }}} */
+   iab Yglobals /* globals {{{ */<CR><CR>/* }}} */
+   iab Ytypedefs /* typedefs {{{ */<CR><CR>/* }}} */
+   iab Ydecls /* declarations {{{ */<CR><CR>/* }}} */
+   iab Ydefn /* defines {{{ */<CR><CR>/* }}} */
+
+   " insert the current filename *with* path:
+   iab YPATHFILE <C-R>=expand("%:p")<cr>
+   " insert the current filename *without* path:
+   iab YFILE <C-R>=expand("%:t:r")<cr>
+   " insert the path of current file:
+   iab YPATH <C-R>=expand("%:h")<cr>
+
+   " I never remember the proper format for this, and this has the advantage of
+   " 'choosing' the current FT for you already.  The down side is it produces an
+   " error if current_syntax isn't set for the current buffer, but I'm okay with
+   " that.
+   iab YMODE vim: tw=78 ts=3 sw=3 et nowrap ft=<C-R>=eval("b:current_syntax")<CR>
+
+" }}}  Abbreviations
+
+" Mappings {{{
+   " To reformat a paragraph to fit a new textwidth, you first have to set that
+   " textwidth.  We do that by putting the cursor where we want it and use this
+   " mapping.
+   map #tw :set textwidth=<C-R>=col(".")<C-M>
+
+   " Open a shell.  In gvim this'll be something somewhat less useful than
+   " 'ansi', but who needs crap like job control anyway?
+   map <C-Z> :shell
+
+   " Switch to the most recently viewed buffer.  Kind of a toggle.
+   noremap <C-^> <C-^>`"
+
+   " Goto file (currently under the cursor)
+   noremap gf gf`"
+
+   " As I always want to see the buffer number I map it to CTRL-G.
+   " Pleae note that here we need to prevent a loop in the mapping by
+   " using the comamnd "noremap"!
+   noremap <C-G> 2<C-G>
+
+   " 980706  Sourcing syntax files from the distribution
+   " A nice and fast way to both source syntax files
+   " and to take a look at "what's there":
+   " map ,V  :so $VIM/syntax/
+   map ,V  :so $VIMRUNTIME/syntax/
+
+" }}} Mappings
+
+" Extra mapping goodies {{{
+
+" ===================================================================
+" VIM - Editing and updating the vimrc:
+" As I often make changes to this file I use these commands
+" to start editing it and also update it:
+  if has("unix")
+    let vimrc='~/.vimrc'
+  endif
+  nn  ,u :source <C-R>=vimrc<CR><CR>
+  nn  ,v :edit   <C-R>=vimrc<CR><CR>
+
+  " ;rcm = remove "control-m"s - for those mails sent from DOS:
+  cmap ;rcm %s/<C-M>//g
+
+   " Write the file as root damnit
+   cmap w!! %!sudo tee > /dev/null %
+
+" }}} Extra mapping goodies
+
+" Sven's stuff {{{
+" ie, stuff I haven't seen fit to change / decypher yet.
+"
+" General Editing
+"
+" Define "del" char to be the same backspace (saves a LOT of trouble!)
+" As the angle notation cannot be use with the LeftHandSide
+" with mappings you must type this in *literally*!
+ imap <Esc>[3~ <C-H>
+ imap        <C-H>
+ cmap        <C-H>
+"
+" ===================================================================
+" Inserting Dates and Times / Updating Date+Time Stamps
+" ===================================================================
+"     ,L  = "Last updated" - replace old time stamp with a new one
+"        preserving whitespace and using internal "strftime" command:
+"       requires the abbreviation  "YDATE"
+  map ,L  1G/Last update:\s*/e+1<CR>CYDATE<ESC>
+  map ,,L 1G/Last change:\s*/e+1<CR>CYDATE<ESC>
+" Example:
+" before:  "Last update:   Thu Apr  6 12:07:00 CET 1967"
+" after:   "Last update:   Tue Dec 16 12:07:00 CET 1997"
+"
+"     ,L  = "Last updated" - replace old time stamp with a new one
+"        using external "date" command (not good for all systems):
+" map ,L 1G/Last update: */e+1<CR>D:r!date<CR>kJ
+"
+" ===================================================================
+" General Editing - link to program "screen"
+" ===================================================================
+"
+"       ,Et = edit temporary file of "screen" program
+  map   ,Et :e /tmp/screen-exchange
+"       as a user of Unix systems you *must* have this program!
+"       see also:  http://www.math.fu-berlin.de/~guckes/screen/
+"
+" Email/News - Editing replies/followups
+"
+" Part 1 - prepare for editing
+"
+" Part 2 - getting rid of empty (quoted) lines and space runs.
+"
+"      ,cel = "clear empty lines"
+"       - delete the *contents* of all lines which contain only whitespace.
+"         note:  this does not delete lines!
+  map ,cel :%s/^\s\+$//
+
+"      ,del = "delete 'empty' lines"
+"       - delete all lines which contain only whitespace
+"         note:  this does *not* delete empty lines!
+  map ,del :g/^\s\+$/d
+
+"      ,cqel = "clear quoted empty lines"
+"       Clears (makes empty) all lines which start with '>'
+"       and any amount of following spaces.
+  nmap ,cqel :%s/^[>]\+$//
+  vmap ,cqel  :s/^[><C-I> ]\+$//
+
+" Gary Kline (kline@tera.tera.com) indents his
+" own text in replies with TAB or spaces.
+" Here's how to get rid of these indentation:
+" vmap ,gary :s/^>[ <C-I>]\+\([^>]\)/> \1/
+"
+"      ,ksr = "kill space runs"
+"             substitutes runs of two or more space to a single space:
+" nmap ,ksr :%s/  */ /g
+" vmap ,ksr  :s/  */ /g
+  nmap ,ksr :%s/  \+/ /g
+  vmap ,ksr  :s/  \+/ /g
+" Why can't the removal of space runs be
+" an option of "text formatting"? *hrmpf*
+"
+"    ,kts = "kill trailing space"
+"           Just turf whitespace at the end of a line.
+  nmap ,kts :%s/  *$//
+  vmap ,kts  :s/  *$//
+"
+"    ,Sel = "squeeze empty lines"
+"    Convert blocks of empty lines (not even whitespace included)
+"    into *one* empty line (within current visual):
+   map ,Sel :g/^$/,/./-j
+
+"    ,Sbl = "squeeze blank lines"
+"    Convert all blocks of blank lines (containing whitespace only)
+"    into *one* empty line (within current visual):
+"  map ,Sbl :g/^\s*$/,/[^ <C-I>]/-j
+"  map ,Sbl :g/^\s*$/,/[^ \t]/-j
+   map ,Sbl :g/^\s*$/,/\S/-j
+
+" ===================================================================
+" Editing of email replies and Usenet followups - using autocommands
+" ===================================================================
+"
+" Remove ALL auto-commands.  This avoids having the
+" autocommands twice when the vimrc file is sourced again.
+autocmd!
+"
+" Let Vim identify itself in the message header
+" when editing emails with Mutt:
+au BufNewFile,BufRead /tmp/mutt* let @"="X-Editor: Vim-".version." http://www.vim.org\n"|exe 'norm 1G}""P'
+"
+" set the textwidth to 72 characters for replies (email&usenet)
+au BufNewFile,BufRead .letter,mutt*,nn.*,snd.* set tw=72
+au BufNewFile,BufRead /tmp/mutt* set list
+"
+" Some more autocommand examples which set the values for
+" "autoindent", "expandtab", "shiftwidth", "tabstop", and "textwidth":
+"
+"au BufEnter *.pl        set ai et sw=3 ts=3
+"au BufEnter *.html      set ai et sw=3 ts=3
+"au BufEnter *.shtml     set ai et sw=3 ts=3
+"au BufEnter *.php       set ai et sw=3 ts=3
+"au BufEnter *.[ch]      set ai et sw=3 ts=3
+"
+" au BufEnter *.java      set ai    sw=4 ts=4
+" au BufEnter */drafts/*  set tw=72
+" Examples used by talg@CS.Berkeley.edu - thanks!
+"
+" Try to use the mapping ",D" when doing a followup.
+" autocmd BufNewFile ~/.followup ,D|
+"
+" Part 3 - Change Quoting Level
+"
+"      ,dp = de-quote current inner paragraph
+"  map ,dp {jma}kmb:'a,'bs/^> //<CR>
+   map ,dp vip:s/^> *//<CR>
+  vmap ,dp    :s/^> *//<CR>
+"
+"      ,qp = quote current paragraph
+"            jump to first inner line, mark with 'a';
+"            jump to last  inner line, mark with 'b';
+"            then do the quoting as a substitution
+"            on the line range "'a,'b":
+"  map ,qp {jma}kmb:'a,'bs/^/> /<CR>
+"      vim-5 now has selection of "inner" and "all"
+"      of current text object - mapping commented!
+"
+"      ,qp = quote current paragraph (old version)
+"            jump to first inner line, Visual,
+"            jump to last  inner line,
+"            then do the quoting as a substitution:
+"  map ,qp {jV}k:s/^/> /<CR>
+"
+"      ,qp = quote current inner paragraph (works since vim-5.0q)
+"            select inner paragraph
+"            then do the quoting as a substitution:
+   map ,qp   vip:s/^/> /<CR>
+"
+"      ,qp = quote current paragraph
+"            just do the quoting as a substitution:
+  vmap ,qp    :s/^/> /<CR>
+"
+"       ## = comment current inner paragraph with '#':
+  nmap  ##   vip:s/^/#<space>/<CR>
+  vmap  ##      :s/^/#<space>/<CR>
+"
+" Changing quote style to *the* true quote prefix string "> ":
+"
+"       Fix Supercite aka PowerQuote (Hi, Andi! :-):
+"       before ,kpq:    >   Sven> text
+"       after  ,kpq:    > > text
+"      ,kpq kill power quote
+  vmap ,kpq :s/^> *[a-zA-Z]*>/> >/<C-M>
+"
+"       Fix various other quote characters:
+"      ,fq "fix quoting"
+  vmap ,fq :s/^> \([-":}\|][ <C-I>]\)/> > /
+"
+" Part 4 - Weed Headers of quoted mail/post
+"
+" These mappings make use of the abbreviation that define a list of
+" Email headers (HEMAIL) and News headers (HNEWS):
+  nmap ,we vip:v/HEMAIL/d
+  vmap ,we    :v/HEMAIL/d
+  nmap ,wp vip:v/HNEWS/d
+  vmap ,wp    :v/HNEWS/d
+"
+" Part 5 - Reformatting Text
+"
+"  NOTE:  The following mapping require formatoptions to include 'r'
+"    and "comments" to include "n:>" (ie "nested" comments with '>').
+"
+" Formatting the current paragraph according to
+" the current 'textwidth' with ^J (control-j):
+  imap <C-J> <C-O>gqap
+   map <C-J> gqap
+"
+" Here is a variation of this command.  It inserts the character
+" CTRL-Z at the current position to enable to rebound to the
+" previous position within the text.  [Hello, Y. K. Puckett!]
+"  map <C-J> i<C-Z><esc>gqip?<C-Z><cr>x
+" imap <C-J>  <C-Z><esc>gqip?<C-Z><cr>xi
+"
+"      ,b = break line in commented text (to be used on a space)
+" nmap ,b dwi<CR>> <ESC>
+  nmap ,b r<CR>
+"      ,j = join line in commented text
+"           (can be used anywhere on the line)
+" nmap ,j Jxx
+  nmap ,j Vjgq
+"
+"      ,B = break line at current position *and* join the next line
+" nmap ,B i<CR>><ESC>Jxx
+  nmap ,B r<CR>Vjgq
+"
+"      ,,, break current line at current column,
+"          inserting ellipsis and "filling space":
+" nmap ,,,  ,,1,,2
+" nmap ,,1  a...X...<ESC>FXr<CR>lmaky$o<CC-R>"<ESC>
+" nmap ,,2  :s/./ /g<C-M>3X0"yy$dd`a"yP
+"
+"
+" ===================================================================
+" Edit your reply!  (Or else!)
+" ===================================================================
+"
+" Part 6  - Inserting Special or Standard Text
+" Part 6a - The header
+
+"    Add adresses for To: and Cc: lines
+"
+"     ,ca = check alias (reads in expansion of alias name)
+" map ,ca :r!elmalias -f "\%v (\%n)"
+"     ,Ca = check alias (reads in expansion of alias name)
+" map ,Ca :r!elmalias -f "\%n <\%v>"
+"
+"   ,cc = "copy notice"
+"   Insert a Cc line so that person will receive a "courtesy copy";
+"   this tells the addressee that text is a copy of a public article.
+"   This assumes that there is exactly one empty line after the first
+"   paragraph and the first line of the second paragraph contains the
+"   return address with a trailing colon (which is later removed).
+  map ,cc 1G}jyykPICc: <ESC>$x
+" map ,cc ma1G}jy/ writes<CR>'aoCc: <ESC>$p
+"
+"     ,mlu = make letter urgent  (by giving the "Priority: urgent")
+  map ,mlu 1G}OPriority: urgent<ESC>
+"
+"               Fixing the Subject line
+"
+"    Pet peeve:  Unmeaningful Subject lines.  Change them!
+"     ,cs = change Subject: line
+  map ,cs 1G/^Subject: <CR>yypIX-Old-<ESC>-W
+"    This command keeps the old Subject line in "X-Old-Subject:" -
+"    so the recipient can still search for it and
+"    you keep a copy for editing.
+"
+"
+"     ,re : Condense multiple "Re:_" to just one "Re:":
+  map ,re 1G/^Sub<CR>:s/\(Re: \)\+/Re: /<CR>
+"
+"     ,Re : Change "Re: Re[n]" to "Re[n+1]" in Subject lines:
+  map ,Re 1G/^Subject: <C-M>:s/Re: Re\[\([0-9]\+\)\]/Re[\1]/<C-M><C-A>
+"
+" Put parentheses around "visual text"
+"      Used when commenting out an old subject.
+"      Example:
+"      Subject: help
+"      Subject: vim - using autoindent (Re: help)
+"
+"      ,) and ,( :
+  vmap ,( v`<i(<ESC>`>a)<ESC>
+  vmap ,) v`<i(<ESC>`>a)<ESC>
+"
+" Part 6  - Inserting Special or Standard Text
+" Part 6a - Start of text - saying "hello".
+"
+"     ,hi = "Hi!"        (indicates first reply)
+  map ,hi 1G}oHi!<CR><ESC>
+"
+"     ,ha = "helloagain"  (indicates reply to reply)
+  map ,ha 1G}oHello, again!<CR><ESC>
+"
+"     ,H = "Hallo, Du!"  (German equivalent of "hi!" for replies)
+" map ,H G/Quoting /e+1<CR>ye1G}oHallo, !<ESC>Po<ESC>
+  map ,H G/^\* /e+1<CR>ye1G}oHallo, !<ESC>Po<ESC>
+"
+"
+" Part 6  - Inserting Special or Standard Text
+" Part 6b - End of text - dealing with "signatures".
+"
+"       remove signatures
+"
+"     ,kqs = kill quoted sig (to remove those damn sigs for replies)
+"          goto end-of-buffer, search-backwards for a quoted sigdashes
+"          line, ie "^> -- $", and delete unto end-of-paragraph:
+"map ,kqs G?^> -- $<CR>d}
+"map ,kqs G?^> *-- $<CR>dG
+"     ,kqs = kill quoted sig unto start of own signature:
+map ,kqs G?^> *-- $<CR>d/^-- $/<C-M>
+"
+" ===================================
+" Adding quotes and signatures easily
+" ===================================
+"
+"  QUOTES:  http://www.math.fu-berlin.de/~guckes/quotes/collection
+"
+"  Decide which quote file to use:
+  if     filereadable("~/.P/quotes/collection")
+    let QUOTES=expand("~/.P/quotes/collection")
+  else
+"   use a copy in the homedir:
+    let QUOTES=expand("~/.quotes")
+  endif
+"
+"      ,aq = "add quote"
+"            Reads in a quote from my favourite quotations:
+" nmap ,aq :r!agrep -d "^-- $" ~/.P/quotes/collection<ESC>b
+  nmap ,aq :exe ":r!agrep -d '^-- $' ".QUOTES<S-Left>
+"
+" SIGNATURES:  http://www.math.fu-berlin.de/~guckes/sig/SIGS
+"
+"  let  SIGS=expand("~/.P/sig/SIGS")
+"  if !filereadable(SIGS)
+"   use a copy in the homedir:
+"    let SIGS=expand("~/.signatures")
+"  endif
+"
+"      ,s = "sign" -
+"           Read in signature file (requires manual completion):
+" nmap ,s :r!agrep -d "^-- $" ~/.P/sig/SIGS<S-Left>
+  nmap ,s :exe ":r!agrep -d '^-- $' ".SIGS<S-Left>
+"
+" SEE ALSO:
+" Sven's page on sigs:   http://www.math.fu-berlin.de/~guckes/sig/
+" Sven's page on agrep:  http://www.math.fu-berlin.de/~guckes/agrep/
+"
+"      ,at = "add text" -
+"            read in text file (requires manual completion):
+  nmap ,at :r ~/.P/txt/
+"
+" MUTT: Auto-kill signatures for replies
+"map ,kqs G?^> *-- $<C-M>dG
+autocmd BufNewFile,BufRead .followup,.letter,mutt*,nn.*,snd.* :normal ,kqs
+"
+" At the end of editing your reply you should check your spelling
+" with the spelling checker "ispell".
+" These mappings are from Lawrence Clapp lclapp@iname.com:
+" spellcheck the document -- skip quoted text
+" nmap <F5> :w ! grep -v '^>' \| spell<CR>
+" vmap <F5> :w ! grep -v '^>' \| spell<CR>
+" At home under Linux it looks something more like this:
+"nmap <F5> :w ! grep -v '^>' \| ispell -???<CR>
+"
+" Toggles:  [todo]
+"
+" toggle autoindent
+" toggle hlsearch
+" cycle textwidth between values 60, 70, 75, 80
+"
+" ===================================================================
+" PGP - encryption and decryption
+" ===================================================================
+"
+" encrypt
+  map ;e :%!/bin/sh -c 'pgp -feast 2>/dev/tty'
+" decrypt
+  map ;d :/^-----BEG/,/^-----END/!/bin/sh -c 'pgp -f 2>/dev/tty'
+" sign
+  map ;s :,$! /bin/sh -c 'pgp -fast +clear 2>/dev/tty'
+  map ;v :,/^-----END/w !pgp -m
+"
+" Elijah http://www.mathlab.sunysb.edu/~elijah/pgppub.html says :
+" The significant feature is that stderr is redirected independently
+" of stdout, and it is redirected to /dev/tty which is a synonym for
+" the current terminal on Unix.  I don't know why the ||sleep 4
+" stuff is there, but it is harmless so I left it. Since csh is such
+" junk, special rules are used if you are using it (tcsh, too).
+" ksh and bash should use the sh form. zsh, et al: consult your
+" manual.  The #<num> format is used to map function keys. If your
+" terminal does not support the requested function key, use a
+" literal #<num>.  Not all of the clones correctly support this.
+"
+" ===================================================================
+" Useful stuff.  At least these are nice examples.  :-)
+" ===================================================================
+"
+"     ,t = transpose two characters: from aXb -> bXa
+" map ,t XplxhhPl
+" This macros shortened by one character by
+" Preben Guldberg c928400@student.dtu.dk
+" map ,t XpxphXp
+" map ,t xphXpxp
+"
+" make space move the cursor to the right - much better than a *beep*
+" nmap \  l
+"
+"     ,E = execute line
+" map ,E 0/\$<CR>w"yy$:<C-R>y<C-A>r!<C-E>
+" This command excutes a shell command from the current line and
+" reads in its output into the buffer.  It assumes that the command
+" starts with the fist word after the first '$' (the shell prompt
+" of /bin/sh).  Try ",E" on that line, ie place the cursor on it
+" and then press ",E":
+" $ ls -la
+" Note: The command line commands have been remapped to tcsh style!!
+"
+"
+"      ,dr = decode/encode rot13 text
+  vmap ,dr :!tr A-Za-z N-ZA-Mn-za-m
+
+"       Use this with an external "rot13" script:
+"       "    ,13 - rot13 the visual text
+"       vmap ,13 :!rot13<CR>
+"
+" Give the URL under the cursor to Netscape
+" map ,net yA:!netscape -remote "openurl <C-R>""
+"
+"
+" ===================================================================
+" Mapping of special keys - arrow keys and function keys.
+" ===================================================================
+" Buffer commands (split,move,delete) -
+" this makes a little more easy to deal with buffers.
+" (works for Linux PCs in room 030)
+" map <F4>  :split<C-M>
+" map <F5>  :bp<C-M>
+" map <F6>  :bn<C-M>
+" map <F12> :bd<C-M>
+"
+" Buffer commands (split,move,delete) -
+" for Mac keyboard (Performa 5200, US keyboard)
+"
+" map <ESC>[19~ :split<C-M>
+" map <ESC>[20~ :bp<C-M>
+" map <ESC>[23~ :bn<C-M>
+" map <ESC>[31~ :bd<C-M>
+"
+" Obvious mappings
+"
+" map <PageUp>   <C-B>
+" map <PageDown> <C-F>
+"
+" ===================================================================
+" AutoCommands
+" ===================================================================
+"
+" Autocommands are the key to "syntax coloring".
+" There's one command in your vimrc that should
+" load/source the file $VIM/syntax/syntax.vim
+" which contains the definition for colors and
+" the autocommands that load other syntax files
+" when necessary, ie when the filename matches
+" a given pattern, eg "*.c" or *".html".
+"
+" just load the main syntax file when Vim was compiled with "+syntax"
+if has("syntax")
+   " The following sources the main syntax file,
+   " ie. "$VIM/syntax/syntax.vim", see ":help :syn-on":
+   hi Search ctermbg=yellow ctermfg=black
+   let perl_include_pod=1
+   syntax on
+   " Redefine the color for "Comment":
+   hi! Comment  term=bold  ctermfg=cyan  guifg=Blue
+   if version >= 600
+      " Do I need both of these?
+      filetype plugin on
+      filetype plugin indent on
+   endif
+endif
+"
+" Definition of an alternative syntax file:
+" if has("syntax")
+"   " Define the filename patterns for mail and news:
+"   " MAILNEWSFILES... (missing, damn)
+"   " Define the aucommand tow work on special files:
+"     let aucommand = "au BufNewFile,BufRead ".MAILNEWSFILES
+"   " execute the source command:
+"     exe aucommand." source ~guckes/.P/vim/syntax/sven.vim"
+"   "
+" endif
+"
+"
+" EXAMPLE: Restricting mappings to some files only:
+" An autocommand does the macthign on the filenames -
+" but abbreviations are not expanded within autocommands.
+" Workaround:  Use "exe" for expansion:
+" let aucommand = "au BufNewFile,BufRead ".MAILNEWSFILES
+" exe aucommand." :map ,hi 1G}oHi!<CR><ESC>"
+" exe aucommand." :map ,ha 1G}oHello, again!<CR><ESC>"
+" exe aucommand." :map ,H G/Quoting /e+1<CR>ye1G}oHallo, !<ESC>Po<ESC>"
+" exe aucommand." :map ,re 1G}oRe!<CR><ESC>"
+"
+" Automatically place the cursor onto the first line of the mail body:
+" autocmd BufNewFile,BufRead MAILNEWSFILES :normal 1G}j
+"
+" Toggle syntax coloring on/off with "__":
+" nn __ mg:if has("syntax_items")<Bar>syn clear<CR>else<Bar>syn on<CR>en<CR>`g
+" Note:  It works - but the screen flashes are quite annoying.  :-/
+"
+"
+" ===================================================================
+" EXAMPLES
+" ===================================================================
+"
+" Visualizing trailing whitespace:
+" :set hls
+" /\s\+$
+"
+" Toggling a numerical variable between two values.
+" Example:  Switch the textwidth (tw) between values "70" and "80":
+" map \1 :let &tw = 150 - &tw<CR>
+"
+" Capitalizing the previously typed word,
+" returning to the previous position:
+" imap CAP <ESC>mzB~`za
+"
+" Uppercasing the previously typed word,
+" returning to the previous position:
+" imap CAP <ESC>mzvBU`za
+" imap CAP <ESC>mzBvaWU`za
+"
+" ===================================================================
+" TEMPORARY STUFF - TESTING THINGS
+" ===================================================================
+"
+"   View a html document (or part of it) with lynx. You need
+"   a system that supports the /def/fd/* file descriptors :-(
+"nmap ,ly :w !lynx -force_html /dev/fd/0<CR>
+"vmap ,ly :w !lynx -force_html /dev/fd/0<CR>
+"
+" Fri Jun 19 19:19:19 CEST 1998
+" Hi, Vikas! vikasa@att.com
+" The <Left> key produces the code "<Esc>OD" and Vikas wants to make
+" Vim jump back one word in normal mode, ie using the command 'b':
+" nmap <Esc>OD b
+" Works for me!  :-)
+"
+" Some simple example of the "expand modifiers":
+"
+"     #b = "browse" - send selected URL to Netscape
+"vmap #b y:!netscape -remote "openurl <C-R>""
+"
+" Toggle highlight search and report the current value:
+" map #1 :set hls!<cr>
+" map #2 :echo "HLSearch: " . strpart("OffOn",3*&hlsearch,3)<cr>
+" map ## #1#2
+"
+" Sorting current line containing a list of numbers
+" map ## :s/ /<C-M>/g<CR>vip!sort -n
+"
+" Replying to the mutt mailing list:
+" Remove header lines Cc: and Bcc: and insert [mutt] at the beginning
+" map ,MM 1G/^Cc:<CR>2dd}o[mutt]<CR>
+"
+" map ,U %s#<URL:\(.*\)>#<a href="\1"></a>#gc
+" map ,F {jma}kmb:'a,'b!sed -e "s/^>//"<C-V><C-V>|\
+"        sed -f ~/.P/elm/scripts/weedout.sed
+" map ,mb ebi<CR><b><ESC>Ea</b><CR><ESC>dw
+"
+" stripping netscape bookmarks and making them list items
+" vmap ,ns :.,$s/^ *<DT><\(A.*"\) ADD.*">\(.*\)$/<li> <\1><C-M><C-I>\2/
+"
+" Jump to the last space before the 80th column.
+" map ,\| 80\|F<space>
+"
+" extracting variable names from mutt's init.c
+" :%s/^.*"\([a-z0-9_]*\)".*$/\1/
+"
+"     \<> = change to <> notation by substituting ^M and ^[
+" cab \<> s/<C-V><ESC>/<ESC>/gc<C-M>:s/<C-V><C-M>/<C-M>/gc<C-M>
+"
+" Changing the From_ line in pseudo mail folders to an appropriate
+"  value - so you can read them with a mailer.
+" %s/^From /From guckes Thu Apr  6 12:07:00 1967/
+"
+
+" }}} Sven's stuff
+
+" Set our colour scheme {{{
+colorscheme print_bw
+au Syntax mail colorscheme transparent
+" }}}
+
+" Post-reading conditioning of the text {{{
+
+" C {{{
+au BufReadPost * if exists("b:current_syntax") && b:current_syntax == "c"
+au BufReadPost *     if has("cindent")
+    au BufReadPost *       set cindent
+    set cino=>s,e0,n0,f0,{0,}0,^0,:.5s,=.5s,g.5s,h.5s,+s,(0,)100,*100
+    " >s    add 1 shiftwidth on normal indent
+    " e0    add 0 to prevailing-indent if '{' not at start-of-line
+    " n0    add 0 to prevailing-indent for statements after if/while/etc if
+    "       statements not inside {} endif
+    " f0    first opening { of a function/block is placed in column 0
+    " {0    opening braces are placed 0 characters from prevailing indent
+    " }0    closing braces aligned with open braces
+    " ^0    opening brace in column 0 doesn't do anything special to the indent
+    " :.5s  case labels are a half shiftwidth indented from the swtich statement
+    " =.5s  statements in a case are a half shiftwidth from the label
+    " g.5s  C++ scope declarations a half shifwidth from the current indent
+    " h.5s  statements after a C++ scope delcaration are a half shifwitdh indent
+    " +s    continuation lines are indented one shiftwidth
+    " (0    line up lines with last unclosed paren
+    " insert #if 0 - #endif around block of code
+
+    " Block out the highlighted region with #if 0 ... #endif
+    vmap ;' <Esc>'<I#if 0<CR><Esc>'>A<CR>#endif<Esc>
+
+    " insert fold markers around a block of code
+    vmap ,. <Esc>'<I/*{{{*/<CR><Esc>'>A<CR>/*}}}*/<Esc>
+
+    " choose settings more common to the Linux kernel code rather than my own
+    " preferred ones.
+    map <S-F10> :set ts=8 sw=8 noexpandtab tw=0 wm=0 nowrap nowrapscan<CR>
+au BufReadPost *     endif
+au BufReadPost * endif
+" }}}
+
+" vim -b : edit binary using xxd-format! {{{
+augroup Binary
+   au!
+   au BufReadPre  *.pp let &bin=1
+   au BufReadPost *.pp if &bin | %!xxd
+   au BufReadPost *.pp set ft=xxd | endif
+   au BufWritePre *.pp if &bin | %!xxd -r
+   au BufWritePre *.pp endif
+   au BufWritePost *.pp if &bin | %!xxd
+   au BufWritePost *.pp set nomod | endif
+augroup END
+" }}}
+
+" git commits {{{
+au BufReadPost * if exists("b:current_syntax") && b:current_syntax == "gitcommit"
+au BufReadPost *    colorscheme impactG-console
+au BufReadPost *    set tw=74
+au BufReadPost * endif
+" }}}
+
+" }}}
+
+" aspell {{{
+" Run aspell on the current buffer.  This does not work well (read: at all) with
+" gvim.  Apparently because the terminal type / curses interface from aspell
+" don't agree on much of anything.
+map <F3>s  :w<CR>:!aspell -c %<CR>:e %<CR>
+" }}}
+
+" Quick syntax toggling {{{
+map <F7> :if exists("syntax_on") <Bar>
+         \   syntax off <Bar>
+         \ else <Bar>
+         \   syntax enable <Bar>
+         \ endif <CR>
+" }}}
+
+" Diff short-cuts {{{
+map <F9> :call DelDiffBlock()<CR>
+map <S-F9> :call DelComplDiff()<CR>
+" }}}
+
+" Some wild searching stuff in plugin/f.vim {{{
+" F5 asks you for a regular expression then it will fold all the lines in the
+" file that don't match that expression.  F6 will open a folded section by a
+" few lines and leave the cursor on fold line.
+"
+" Confusing, yeah, just use it, you'll figure it out.
+map <F5> :call F()<CR>
+map <F6> :normal zozj<CR>
+" }}}
+
+" vi:tw=80
