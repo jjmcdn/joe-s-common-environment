@@ -2,7 +2,7 @@
 
 if [ -e $HOME/.vim ]
 then
-   if [ -d $home/.vim ]
+   if [ -d $HOME/.vim ]
    then
       cat <<EOT
    You already have a $HOME/.vim directory.  I'm going to move it to the
