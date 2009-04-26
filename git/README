@@ -1,0 +1,5 @@
+git configuration files here.  Other than that, the same as everything else.
+
+There's an install.sh script here that you may or may not want to use.  It does
+what I want it to do, but you may want to just copy this stuff into your own
+locations.
