@@ -1,0 +1,22 @@
+[core]
+	excludesfile = HOMEDIR/.gitignore
+	editor = gvim --nofork
+	signingkey = SIGNKEY
+[user]
+	name = NAME
+	email = EMAIL
+[color]
+   ui = auto
+[alias]
+   ci = commit
+   st = status
+   br = branch
+   co = checkout
+   df = diff
+   lg = log -p
+   who = shortlog -s --
+   lc = log ORIG_HEAD.. --stat --no-merges
+   llog = log --date=local
+   intercommit = !sh -c 'git show "$0" > .git/commit1 && git show "$1" > .git/commit2 && interdiff .git/commit[12] | less -FRS'
+   edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; gvim `f`"
+   add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
