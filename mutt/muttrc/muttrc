@@ -44,7 +44,7 @@ set date_format="!%d/%m/%Y (%a %H:%M)"
 #set editor='vim -c "set tw=72" +2'
 set editor='gvim -f -c "set tw=72" +2'
 set folder_format="%N %-15f (%8s) %d"
-set index_format="%4C %Z %-12d %-15.15L %?M?< %03M>&(%4l)? %?M?< %s >&%s?"
+set index_format="%4C %Z %D %-15.15L %?M?< %03M>&(%4l)? %?M?< %s >&%s?"
 set mbox="~/.mail/Inbox"
 set pager_stop
 set reverse_alias
@@ -54,7 +54,7 @@ set forward_format="[%a: %s]"
 set nomark_old
 set attribution="[%s] On %d %n wrote:\n"
 set nobeep
-set dsn_notify="failure,delay,success"
+set dsn_notify="failure,delay"
 set dsn_return="hdrs"
 set include=yes
 set recall=ask-no
@@ -67,6 +67,7 @@ set status_format="-[%r]-[%f-%?M?%M/?%m%?n?-n:%n?%?o?-o:%o?%?d?-d:%d?%?t?-t:%t?%
 set envelope_from=yes
 set use_from=yes
 set mime_forward=ask-yes
+set print_command="muttprint"
 
 hdr_order Date: Subject: From: Reply-To: To: Cc: BCC: Importance: X-Priority: Organization: X-Mailer:
 # }}}
@@ -78,7 +79,8 @@ open-hook \\.bz2$ "bzip2 -cd %f > %t"
 close-hook \\.bz2$ "bzip2 -c %t > %f"
 append-hook \\.bz2$ "bzip2 -c %t >> %f"
 
-send-hook . my_hdr "X-URL: http://www.windriver.com"
+send-hook . my_hdr "X-URL: http://github.com/joeythesaint/joe-s-common-environment/tree/master"
+send-hook . my_hdr "X-Configuration: git://github.com/joeythesaint/joe-s-common-environment.git"
 # }}}
 
 # mailboxes to watch {{{

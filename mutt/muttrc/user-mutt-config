@@ -1,6 +1,7 @@
 # Don't be me.  Please.
 set realname="My Name"
 set from="MAIL.NAME@windriver.com"
+set hostname=windriver.com
 
 # These are corp\\jmacdona\\joe.macdonald@imap-na.wrs.com in my setup
 set folder="imaps://corp\\WINDOWS_USERNAME\\MAIL.NAME@imap-na.wrs.com/"
@@ -20,7 +21,6 @@ fcc-hook . "imaps://corp\\\\WINDOWS_USERNAME\\\\MAIL.NAME@imap-na.wrs.com/Sent I
 
 # ------------------------------------------------------------------------
 # Stuff you probably don't need to change lives below here
-set hostname=windriver.com
 set header_cache="~/.mail"
 set folder="~/.mail"
 set postponed="~/.mail/postponed"
