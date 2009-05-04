@@ -45,7 +45,7 @@ cat <<EOT
    Installing configuration files you probably don't need to touch.
 EOT
 
-for i in mutt-bindings  mutt-colors  muttrc
+for i in mutt-bindings  mutt-colors  muttrc muttprintrc
 do
    cp -v -b $i ~/.$i
    chmod 600 ~/.$i
@@ -64,7 +64,7 @@ cat <<EOT
 
    Hit enter to continue.
 EOT
-read
+read junk
 if [ \! -d $HOME/bin ]
 then
    mkdir $HOME/bin
@@ -92,7 +92,7 @@ cat <<EOT
 
    Hit enter to continue.
 EOT
-read
+read junk
 
 if [ -z "$EDITOR" ]
 then
