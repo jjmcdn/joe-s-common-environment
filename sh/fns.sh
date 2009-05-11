@@ -292,4 +292,30 @@ function getkey
 }
 # }}}
 
+# ------------------------------------------------------------------------
+#
+# curl-based dictionary lookups from the command line.  The suggested
+# interface is by calling def() but there's no reason why you can't call d()
+# or m() directly
+# def {{{
+function d
+{
+   curl --stderr /dev/null dict://dict.org/d:$1 | awk '$1 == "552" { exit 1 } $1 == "151" { getline ; while ( $1 != "250" ) { print ; getline } next } '
+}
+
+function m
+{
+   curl --stderr /dev/null dict://dict.org/m:$1 | awk '$1 == "152" { while ( $1 != "250" ) { print ; getline } next } '
+}
+
+function def
+{
+   d $1
+   if [ $? -gt 0 ]
+   then
+      m $1
+   fi
+}
+# }}}
+
 # vim: tw=78 ts=3 sw=3 et nowrap ft=sh
