@@ -5,6 +5,21 @@
 [user]
 	name = NAME
 	email = EMAIL
+[giggle]
+	compact-mode = false
+	main-window-maximized = true
+	main-window-geometry = 0x0+0+0
+[diff]
+	renamelimit = 0
+[sendemail]
+   suppresscc = all
+[imap]
+   folder = "[Gmail]/Drafts"
+   host = imaps://imap.gmail.com
+   user = GMAIL_USERNAME
+   pass = GMAIL_PASSWORD
+   port = 993
+   sslverify = false
 [color]
    ui = auto
 [alias]
@@ -20,3 +35,4 @@
    intercommit = !sh -c 'git show "$0" > .git/commit1 && git show "$1" > .git/commit2 && interdiff .git/commit[12] | less -FRS'
    edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; gvim `f`"
    add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
+   send-gmail = !sh -c 'git format-patch --cover-letter --signoff --stdout --thread origin/master | git imap-send'
