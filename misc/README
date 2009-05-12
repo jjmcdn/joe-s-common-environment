@@ -4,18 +4,9 @@ aren't useful to most people.  My vimperatorrc configuration is the textbook
 example, I want it everywhere because I use vimperator everywhere, but odds are
 nobody else wants my specific configuration.
 
-Like my other scripts, as long as you don't care about what you already have in
-your dotfiles, a command like this will handle installation:
+                             W A R N I N G
 
-------------------------------------------------------------------------
-for i in *
-do
-   if [[ $i != "README" && $i != "TODO" ]]
-   then
-      if [ -f $i ]
-      then
-         cp -b $i ${HOME}/.$i
-      fi
-   fi
-done
-------------------------------------------------------------------------
+The dput.cf in this directory is ONLY useful for talking to a PPA hosted
+by Canonical / launchpad.net.  If that's all you're interested in, the
+install script here will probably work just fine for you.  If you aren't
+interested in using launchpad.net, you don't want this.
