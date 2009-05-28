@@ -396,8 +396,8 @@ EOT
 # Alternate aliases from the ones found here:
 #  http://twiki.wrs.com/do/view/PBUeng/LinuxProductDivisionGit
 # {{{
-# wrgit-getrepo {{{
-function wrgit-getrepo
+# wrgitgetrepo {{{
+function wrgitgetrepo
 {
    jjm_repo=$1; shift
 
@@ -451,7 +451,7 @@ function wrg
       esac
    done
    # this is a little bit ugly, but it does the job for now
-   jjm_repo_name=$(wrgit-getrepo $jjm_repo)
+   jjm_repo_name=$(wrgitgetrepo $jjm_repo)
    case $jjm_action in
       c ) # clone
           wrgit clone git://$jjm_repo_name/git/wrlinux-x $jjm_release $jjm_branch
