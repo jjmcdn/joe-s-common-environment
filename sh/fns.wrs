@@ -564,4 +564,125 @@ function sendrr
 }
 # }}}
 
+# ------------------------------------------------------------------------
+# Based on stuff I learnt from (and miss from) bash programmable completion.
+#
+# wrcfg {{{
+function wrcfg
+{
+   # preliminary stuff, just make sure no cruft is lying around from before.
+   unset jjm_basedir
+   unset jjm_board
+   unset jjm_configure
+   unset jjm_extra_opts
+   unset jjm_hosttools
+   unset jjm_kernel
+   unset jjm_prebuilt
+   unset jjm_rootfs
+   unset jjm_rpmdir
+   unset jjm_xbuild
+   unset jjm_build_tree
+   unset jjm_board_dir
+
+   # Give you the option to specify stuff on the command line, though that does
+   # kind of defeat the purpose.
+   while getopts "c:x:" options;
+   do
+      case $options in
+         c ) jjm_configure=$OPTARG ;;
+         x ) jjm_xbuild=$OPTARG ;;
+         * ) echo "$0 [-c <path> ] [ -x <path> ]"
+             echo "   -c <path>  : Where to find your configure script"
+             echo "   -x <path>  : Where to find the prebuilt RPMS"
+             return 1
+             ;;
+      esac
+   done
+
+   # Path to the base of the prebuilt RPM mirrors.  This should point at the
+   # directory level where you have your <date>-<time>-wrlinux directories.
+   if [ -z ${jjm_xbuild} ]
+   then
+      jjm_xbuild="/net/yow-lpggp1.ottawa.wrs.com/yow-lpggp12/xylo/networking"
+   fi
+
+   if [ -z ${jjm_configure} ]
+   then
+      # If you don't tell me where your configure script is, I'll just try to
+      # find one in a reasonable location.  Mine are always in ../wrlinux/.
+      if [ -x ../wrlinux/configure ]
+      then
+         echo Found ../wrlinux/configure, assuming that\'s the right one
+         jjm_configure=../wrlinux/configure
+      else
+         read jjm_configure?'Did not find ../wrlinux/configure, where is your configure script? '
+      fi
+      jjm_build_tree=$(dirname ${jjm_configure})/..
+   fi
+
+   # Find all the valid board options
+   echo
+   echo -n "What board do you want to build? "
+   echo "   ... constructing board list ..."
+   select jjm_board in $(${jjm_configure} --help | grep "^  --enable-board" | sed -n -e 's/^.*\[//g' -e 's/\]//g' -e 's/|/ /gp')
+   do
+      echo "Configuring for $jjm_board"
+      jjm_board_dir=$(find ${jjm_build_tree} -type d -name ${jjm_board})
+      break
+   done
+
+   # Based on that, pick the valid kernel and rootfs types
+   echo
+   echo -n "Choose a kernel type: "
+   echo "   ... finding valid kernel types ..."
+   select jjm_kernel in $(grep SUPPORTED_KERNEL ${jjm_board_dir}/config.sh | sed -n -e 's/^.*="//g' -e 's/"//gp' )
+   do
+      echo "Configuring kernel: ${jjm_kernel}"
+      break
+   done
+
+   echo
+   echo -n "Choose a filesystem type: "
+   echo "   ... finding valid filesystems ..."
+   select jjm_rootfs in $(grep SUPPORTED_ROOTFS ${jjm_board_dir}/config.sh | sed -n -e 's/^.*="//g' -e 's/"//gp' )
+   do
+      echo "Configuring filesystem: ${jjm_rootfs}"
+      break
+   done
+
+   # Locate all of the possible pre-built RPMS
+   if [ -d ${jjm_xbuild} ]
+   then
+      echo "Select the Xylo build from which you would like you draw prebuilt RPMs:"
+      select jjm_prebuilt in $(\ls ${jjm_xbuild})
+      do
+         jjm_basedir=${jjm_xbuild}/${jjm_prebuilt}/release/wrlinux-3.0/layers/
+         jjm_rpmdir=${jjm_basedir}/wrll-wrlinux/
+         jjm_hosttools=${jjm_basedir}/wrll-host-tools/host-tools/
+         if [ ! -d ${jjm_rpmdir} -o ! -d ${jjm_hosttools} ]
+         then
+            # It looks like this was an aborted build or something, there's
+            # definitely no prebuilt RPMs here for us to use.
+            echo "Either the pre-built RPMs or the host tools do not appear to exist."
+            echo "Select another build."
+         else
+            # We're good, move on.
+            break
+         fi
+      done
+
+      read jjm_extra_opts?'Any extra options you enter here will be passed verbatim: '
+
+      ${jjm_configure} --enable-board=${jjm_board} --enable-kernel=${jjm_kernel} \
+         --enable-rootfs=${jjm_rootfs} --with-rpm-dir=${jjm_rpmdir} \
+         --with-host-tools-dir=${jjm_hosttools} ${jjm_extra_opts}
+   else
+      # No prebuilts immediately obvious, just configure with what we know.
+      read jjm_extra_opts?'Any extra options you enter here will be passed verbatim: '
+      ${jjm_configure} --enable-board=${jjm_board} --enable-kernel=${jjm_kernel} \
+         --enable-rootfs=${jjm_rootfs} ${jjm_extra_opts}
+   fi
+}
+# }}}
+
 # vim: tw=78 ts=3 sw=3 et nowrap ft=sh
