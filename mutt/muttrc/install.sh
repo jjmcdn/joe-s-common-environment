@@ -102,10 +102,10 @@ then
 else
    $EDITOR user-mutt-colors
    $EDITOR user-mutt-config
-   $EDITOR mutt_ldap_query.rc
+   $EDITOR ../ldap/mutt_ldap_query.rc
 fi
 
-for i in user-mutt-colors user-mutt-config mutt_ldap_query.rc
+for i in user-mutt-colors user-mutt-config ../ldap/mutt_ldap_query.rc
 do
    cp -v -b $i ~/.$i
    chmod 600 ~/.$i
