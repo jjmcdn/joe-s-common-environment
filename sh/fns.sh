@@ -56,6 +56,23 @@ function here
 # }}}
 
 # ------------------------------------------------------------------------
+# A simple throbber to supposedly show background activity
+# throbber {{{
+function throbber
+{
+   jjm_strval='.oO0Oo'
+   jjm_delay=0.25
+   while :
+   do
+      jjm_spinchr=${jjm_strval#?}
+      printf " %c\r" "$jjm_strval"
+      jjm_strval=$jjm_spinchr${jjm_strval%"$jjm_spinchr"}
+      sleep ${jjm_delay} ## requires sleep that accepts decimals
+   done
+}
+# }}}
+
+# ------------------------------------------------------------------------
 # Recursive grep that only looks at source files, it's a little more
 # descriptive than grep --color, but it's also a little more likely to
 # break if you're tree is complicated.
@@ -314,6 +331,45 @@ function def
    if [ $? -gt 0 ]
    then
       m $1
+   fi
+}
+# }}}
+
+# ------------------------------------------------------------------------
+# Delete apparently duplicate files
+# purgedup {{{
+function purgedup
+{
+   # THIS IS A SLEDGEHAMMER.  Not to be used for finishing nails.
+   unset jjm_dir
+   unset jjm_tmp
+   unset jjm_scratch
+   unset jjm_findpid
+   unset jjm_throbpid
+   OPTIND=1
+   while getopts "d:" options; do
+      case $options in
+         d ) jjm_dir=$OPTARG ;;
+         * ) echo "What did you expect to find here?";;
+      esac
+   done
+
+   if [ -z "$jjm_dir" ] ; then
+      echo "$0 -d <directory_to_search>"
+   else
+      # Multi step process, start by finding all of the files in the directory
+      # structure.
+      jjm_tmp=`mktemp -d`
+      ( find ${jjm_dir} -type f -exec md5sum {} \; | sort -r > ${jjm_tmp}/checksums.txt ) & 2>/dev/null
+      jjm_findpid=$!
+      throbber& 2>/dev/null
+      jjm_throbpid=$!
+      wait $jjm_findpid && kill $!
+      # Ignore anything that's only got one copy of itself in the tree
+      for jjm_scratch in $(cat ${jjm_tmp}/checksums.txt | awk '{ print $1 }' | uniq -d)
+      do
+         grep $jjm_scratch ${jjm_tmp}/checksums.txt  | sed '1d' | cut -d' ' -f2- | xargs -I '{}' rm "{}"
+      done
    fi
 }
 # }}}
