@@ -8,7 +8,6 @@ alias ls="ls --color=always -GF"
 alias cstags="find . -name \"*quilt_p*\" -type d -prune -o -name \"*.[cCsShH]\" -print > cscope.files"
 alias diff='diff --exclude-from=${HOME}/.dontdiff -rNp -U 5'
 
-alias mmpp='sed -i "/^From/{s/ at /@/}"'
 #     - mailman list archives are a PITA to work with, so this new alias does
 #       some simple preprocessing to turn them into something closer to
 #       proper mbox format.  This allows you to download something like this:
@@ -21,5 +20,11 @@ alias mmpp='sed -i "/^From/{s/ at /@/}"'
 #
 #       and then load the resulting file in mutt (or any other enlightened
 #       mail reader).
+alias mmpp='sed -i "/^From/{s/ at /@/}"'
 
+# An unfortunate alias I've created to get the endless GTK warnings to stop
+# bugging me every time I start gvim on the command line.
+alias gvim='gvim $* 2>/dev/null'
+alias gview='gview $* 2>/dev/null'
+alias gvimdiff='gvimdiff $* 2>/dev/null'
 # vim: tw=78 ts=3 sw=3 et nowrap ft=sh
