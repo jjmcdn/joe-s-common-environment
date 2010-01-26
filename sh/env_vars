@@ -96,4 +96,7 @@ export HISTIGNORE="&:ls:ls *:mutt:[bf]g:exit"
 # bg, fg and exit  built-ins will not be appended to the history list.
 # (BASH-only)
 
+export DEBFULLNAME='My_Name'
+export DEBEMAIL='my@email.addr'
+
 # vim: tw=78 ts=3 sw=3 et nowrap ft=sh
