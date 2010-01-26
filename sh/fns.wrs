@@ -422,7 +422,7 @@ function wrgitgetrepo
       return 0
    fi # }}}
    if [ "$jjm_repo" == "yow" ]; then # {{{
-      echo "yow-lpdgit.ottawa.wrs.com"
+      echo "yow-git.ottawa.wrs.com"
       return 0
    fi # }}}
    echo "inval"
@@ -554,7 +554,7 @@ function sendrr
          fi
          git send-email --subject "$jjm_rrsubj" --compose $jjm_rrto \
             --thread --chain-reply-to --suppress-cc all \
-            --cc "eng-linuxprod-runtime@windriver.com" $jjm_rrcq \
+            --cc "lpd-eng-rr@windriver.com" $jjm_rrcq \
             $(find $jjm_rrdir -type f ! -name "\." ! -name rr ! -name $(basename $jjm_rrtpl))
       else
          echo "I don't know what \"$jjm_rrtpl\" is but I can't read it."
