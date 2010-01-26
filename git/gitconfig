@@ -36,3 +36,5 @@
    edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; gvim `f`"
    add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
    send-gmail = !sh -c 'git format-patch --cover-letter --signoff --stdout --thread origin/master | git imap-send'
+   scratch = !sh -c 'git checkout -b "$0"_scratch_$(date +%Y_%m_%d) origin/master'
+   lcrev = log --reverse --no-merges --stat @{1}..
