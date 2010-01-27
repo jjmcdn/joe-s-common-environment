@@ -1,0 +1,4 @@
+# VirutalBox is probably the best way to run virtual machines.  Like VMWare
+# without all the licencing bull.
+deb http://download.virtualbox.org/virtualbox/debian UBUNTU_DISTRO_NAME non-free #Virtualbox
+# vim: tw=0 wm=0 et nowrap ft=debsources

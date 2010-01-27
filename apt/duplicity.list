@@ -1,0 +1,3 @@
+# Encrypted, signed, fast, incremental offsite backups.  Needs more adjectives.
+deb http://ppa.launchpad.net/duplicity-team/ppa/ubuntu UBUNTU_DISTRO_NAME main #Duplicity
+# vim: tw=0 wm=0 et nowrap ft=debsources

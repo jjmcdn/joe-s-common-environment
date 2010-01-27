@@ -1,0 +1,3 @@
+# Unfortunately, there are some projects I care about that use bzr.  Bizarre.
+deb http://ppa.launchpad.net/bzr/ppa/ubuntu UBUNTU_DISTRO_NAME main #Bzr PPA
+# vim: tw=0 wm=0 et nowrap ft=debsources

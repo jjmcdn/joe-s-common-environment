@@ -1,0 +1,4 @@
+# Logitec Squeeze Server
+deb http://debian.slimdevices.com unstable main #Slimdevices Squeeze Server
+
+# vim: tw=0 wm=0 et nowrap ft=debsources

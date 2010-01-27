@@ -1,0 +1,18 @@
+These are all my files that I put in sources.list.d that I want to carry around
+with me.  Installation should be a breeze.  Something like this will do what you
+want, I think:
+
+------------------------------------------------------------------------
+for i in *
+do
+   if [[ $i != "README" && $i != "TODO" ]]
+   then
+      if [ -f $i ]
+      then
+         read -p "Ubuntu distro name: " distroname
+         sudo cp -b $i /etc/apt/sources.list.d/$i
+         sudo sed -i "s/UBUNTU_DISTRO_NAME/$distroname/g" /etc/apt/sources.list.d/$i
+      fi
+   fi
+done
+------------------------------------------------------------------------

@@ -1,0 +1,4 @@
+# My own PPA.  All kinds of good stuff in there.  Except porn.
+deb http://ppa.launchpad.net/joeythesaint/ppa/ubuntu UBUNTU_DISTRO_NAME main # Joe's own PPA
+deb-src http://ppa.launchpad.net/joeythesaint/ppa/ubuntu UBUNTU_DISTRO_NAME main # Joe's own PPA - Source
+# vim: tw=0 wm=0 et nowrap ft=debsources

@@ -1,0 +1,5 @@
+# Daily builds of Chromium. Alternatively the developer builds are slightly more stable:
+# deb http://ppa.launchpad.net/chromium-daily/dev/ubuntu <release> main
+deb http://ppa.launchpad.net/chromium-daily/ppa/ubuntu UBUNTU_DISTRO_NAME main #Chromium Daily Build PPA
+
+# vim: tw=0 wm=0 et nowrap ft=debsources
