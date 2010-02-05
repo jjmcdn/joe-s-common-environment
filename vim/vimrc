@@ -264,6 +264,11 @@ endif
    " Numbers . . .
    iab Npi 3.1415926535897932384626433832795028841972
    iab Ne  2.7182818284590452353602874713526624977573
+   iab Ydigit 1234567890
+
+   " Alphabets . . .
+   iab Yalpha abcdefghijklmnopqrstuvwxyz
+   iab YALPHA ABCDEFGHIJKLMNOPQRSTUVWXYZ
 
    " Rulers / Markers
    iab Yruler ----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+---10
@@ -296,6 +301,10 @@ endif
    iab Ytypedefs /* typedefs {{{ */<CR><CR>/* }}} */
    iab Ydecls /* declarations {{{ */<CR><CR>/* }}} */
    iab Ydefn /* defines {{{ */<CR><CR>/* }}} */
+
+   " Notes and attributions
+   iab Ynote jjmac: (<C-R>=strftime("%Y.%m.%d")<CR>)
+   iab Yattrib <C-R>=strftime("%y%b%d")<CR> Joe MacDonald
 
    " insert the current filename *with* path:
    iab YPATHFILE <C-R>=expand("%:p")<cr>
@@ -459,6 +468,14 @@ endif
 " autocommands twice when the vimrc file is sourced again.
 autocmd!
 "
+" Remove any odd characters in a reply.
+" “, ” = "
+" ’ = '
+au BufNewFile,BufReadPost /tmp/mutt* normal :1,$s/”/"/g
+au BufNewFile,BufReadPost /tmp/mutt* normal :1,$s/“/"/g
+au BufNewFile,BufReadPost /tmp/mutt* normal :1,$s/’/'/g
+au BufNewFile,BufReadPost /tmp/mutt* normal :1,$s/…/.../g
+au BufNewFile,BufReadPost /tmp/mutt* normal :1,$s/—/--/g
 " Let Vim identify itself in the message header
 " when editing emails with Mutt:
 au BufNewFile,BufRead /tmp/mutt* let @"="X-Editor: Vim-".version." http://www.vim.org\n"|exe 'norm 1G}""P'
@@ -890,7 +907,6 @@ endif
 " nmap <Esc>OD b
 " Works for me!  :-)
 "
-" Some simple example of the "expand modifiers":
 "
 "     #b = "browse" - send selected URL to Netscape
 "vmap #b y:!netscape -remote "openurl <C-R>""
