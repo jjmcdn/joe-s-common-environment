@@ -25,16 +25,16 @@
 [alias]
    ci = commit
    st = status
-   br = branch
+   br = "!f() { git branch $1 | grep -C2 '^[^ ] .*$' ; }; f"
    co = checkout
    df = diff
    lg = log -p
    who = shortlog -s --
    lc = log ORIG_HEAD.. --stat --no-merges
    llog = log --date=local
-   intercommit = !sh -c 'git show "$0" > .git/commit1 && git show "$1" > .git/commit2 && interdiff .git/commit[12] | less -FRS'
+   intercommit = "!f() { tmdir=$(mktemp -d) ; git show $1 > $tmpdir/commit1; git show $2 > $tmpdir/commit2; interdiff $tmpdir/commit[12] | less -FRS ; rm -fr $tmpdir; }; f"
    edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; gvim `f`"
    add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
-   send-gmail = !sh -c 'git format-patch --cover-letter --signoff --stdout --thread origin/master | git imap-send'
-   scratch = !sh -c 'git checkout -b "$0"_scratch_$(date +%Y_%m_%d) origin/master'
+   send-gmail = "!f() { git format-patch --cover-letter --signoff --stdout --thread origin/master | git imap-send ; }; f"
+   scratch = "!f() { git checkout -b $2_scratch_$(date +%Y_%m_%d) $1 ; }; f"
    lcrev = log --reverse --no-merges --stat @{1}..
