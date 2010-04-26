@@ -374,4 +374,31 @@ function purgedup
 }
 # }}}
 
+# ------------------------------------------------------------------------
+# Fix rejects.
+# fixrej {{{
+function fixrej
+{
+   unset jjm_dir
+   jjm_editor=$EDITOR
+   OPTIND=1
+   while getopts "d:" options; do
+      case $options in
+         d ) jjm_dir=$OPTARG ;;
+         * ) echo "What did you expect to find here?";;
+      esac
+   done
+   if [ -z "${jjm_editor}" ] ; then
+      jjm_editor=vim
+   fi
+   if [ -z "$jjm_dir" ] ; then
+      jjm_dir="."
+   fi
+   for i in $(find ${jjm_dir} -name "*.rej")
+   do
+      ${jjm_editor} $i ${i%.rej}
+   done
+}
+# }}}
+
 # vim: tw=78 ts=3 sw=3 et nowrap ft=sh
