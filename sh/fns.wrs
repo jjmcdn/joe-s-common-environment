@@ -484,13 +484,13 @@ function wrg
 #  put on a rootfs (ie. commented out of the pkglist.add).
 function pkgfind
 {
-   local ret=1
+   jjm_ret=1
    for i in $(find . -name pkglist.* -type f -exec grep -oH $1 {} \;)
    do
-      ret=0
+      jjm_ret=0
       echo $i | awk -F: '{ print $1 "\t\t" $2}'
    done
-   return $ret
+   return $jjm_ret
 }
 # }}}
 
