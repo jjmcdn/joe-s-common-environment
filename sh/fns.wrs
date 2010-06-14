@@ -495,6 +495,22 @@ function pkgfind
 # }}}
 
 # ------------------------------------------------------------------------
+# Locate packages that probably depend on the named package
+#
+# pkgdep {{{
+function pkgdep
+{
+   unset jjm_hit
+   unset jjm_hit
+   jjm_pkg=$1
+   for jjm_hit in $(find . -type f -name Makefile | xargs grep -l "\<${jjm_pkg}\>")
+   do
+      basename $(dirname ${jjm_hit})
+   done
+}
+# }}}
+
+# ------------------------------------------------------------------------
 # Remove the specified package from all pkglist.add files with the
 # specified comment.
 #
