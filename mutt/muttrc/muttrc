@@ -72,6 +72,11 @@ set print_command="muttprint"
 hdr_order Date: Subject: From: Reply-To: To: Cc: BCC: Importance: X-Priority: Organization: X-Mailer:
 # }}}
 
+# sendmail {{{
+set sendmail="/usr/sbin/sendmail -oem -oi"
+set sendmail_wait=5
+# }}}
+
 # hooks {{{
 
 # Use folders which match on \\.gz$ as gzipped folders, \\.bz2 as bzipped ones
