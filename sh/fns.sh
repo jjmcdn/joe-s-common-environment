@@ -401,4 +401,20 @@ function fixrej
 }
 # }}}
 
+# ------------------------------------------------------------------------
+# Remove path elements
+#
+# pathpop {{{
+function pathpop
+{
+   # *VERY* annoying.  This won't "pop" the item at the end of your path.
+   # Not clear why.
+   unset jjm_turf
+   export jjm_turf=$1
+   jjm_newpath=$(echo $PATH | awk -v RS=: -v ORS=: 'BEGIN { a["'$jjm_turf'"] }; !($0 in a) { a[$0]; print }' | sed 's#\([\s:]\)*$##')
+   export PATH=$jjm_newpath
+   unset jjm_turf
+}
+# }}}
+
 # vim: tw=78 ts=3 sw=3 et nowrap ft=sh
