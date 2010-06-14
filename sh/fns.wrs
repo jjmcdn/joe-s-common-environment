@@ -436,7 +436,7 @@ function wrg
    # I'm in YOW therefore I want the default to be 'yow'
    jjm_repo="yow"
    jjm_action="c" # defaults to 'clone'
-   jjm_release="wrlinux-3.0"
+   jjm_release="wrlinux-x"
    jjm_branch=""
    while getopts "a:b:r:p:" options;
    do
@@ -457,11 +457,11 @@ function wrg
           wrgit clone git://$jjm_repo_name/git/wrlinux-x $jjm_release $jjm_branch
           ;;
       i ) # init
-          if [ ! -d bin ]; then
-             git clone git://$jjm_repo_name/git/bin
+          if [ ! -d wrgit ]; then
+             git clone git://$jjm_repo_name/git/bin wrgit
           fi
-          (cd bin; ./wrgit pull)
-          export PATH=`pwd`/bin:$PATH
+          (cd wrgit; ./wrgit pull)
+          export PATH=`pwd`/wrgit:$PATH
           ;;
       * ) # you're lost apparently.
           echo -n "You must specify at least one of -i (initialize your wrgit"
