@@ -123,7 +123,7 @@ set joinspaces
 set laststatus=2
 
 " The characters used to display non-printing 'list' items.
-set listchars=tab:»·,trail:·,precedes:«,extends:»
+set listchars=tab:»·,trail:·,precedes:«,extends:»,eol:¶
 
 " Extended regular expression characters
 set magic
@@ -471,22 +471,6 @@ endif
 " Remove ALL auto-commands.  This avoids having the
 " autocommands twice when the vimrc file is sourced again.
 autocmd!
-"
-" Remove any odd characters in a reply.
-" “, ” = "
-" ’ = '
-au BufNewFile,BufReadPost /tmp/mutt* normal :1,$s/”/"/g
-au BufNewFile,BufReadPost /tmp/mutt* normal :1,$s/“/"/g
-au BufNewFile,BufReadPost /tmp/mutt* normal :1,$s/’/'/g
-au BufNewFile,BufReadPost /tmp/mutt* normal :1,$s/…/.../g
-au BufNewFile,BufReadPost /tmp/mutt* normal :1,$s/—/--/g
-" Let Vim identify itself in the message header
-" when editing emails with Mutt:
-au BufNewFile,BufRead /tmp/mutt* let @"="X-Editor: Vim-".version." http://www.vim.org\n"|exe 'norm 1G}""P'
-"
-" set the textwidth to 72 characters for replies (email&usenet)
-au BufNewFile,BufRead .letter,mutt*,nn.*,snd.* set tw=72
-au BufNewFile,BufRead /tmp/mutt* set list
 "
 " Some more autocommand examples which set the values for
 " "autoindent", "expandtab", "shiftwidth", "tabstop", and "textwidth":
@@ -911,6 +895,7 @@ endif
 " nmap <Esc>OD b
 " Works for me!  :-)
 "
+" Some simple example of the "expand modifiers":
 "
 "     #b = "browse" - send selected URL to Netscape
 "vmap #b y:!netscape -remote "openurl <C-R>""
@@ -992,6 +977,14 @@ au BufReadPost *     endif
 au BufReadPost * endif
 " }}}
 
+" HTML {{{
+au BufReadPost * if exists("b:current_syntax") && b:current_syntax == "xhtml"
+au BufReadPost *    colorscheme interface
+au BufReadPost *    set tw=0 wm=0 spell
+   vmap ;' <Esc>'<I<pre><tt><CR><Esc>'>A<CR></tt></pre><Esc>
+au BufReadPost * endif
+" }}}
+
 " vim -b : edit binary using xxd-format! {{{
 augroup Binary
    au!
@@ -1005,10 +998,31 @@ augroup Binary
 augroup END
 " }}}
 
+" I want to treat mail differently {{{
+augroup Mail
+   " Remove any odd characters in a reply.
+   " “, ” = "
+   " ’ = '
+   au BufNewFile,BufReadPost /tmp/mutt* normal :1,$s/”/"/g
+   au BufNewFile,BufReadPost /tmp/mutt* normal :1,$s/“/"/g
+   au BufNewFile,BufReadPost /tmp/mutt* normal :1,$s/’/'/g
+   au BufNewFile,BufReadPost /tmp/mutt* normal :1,$s/…/.../g
+   au BufNewFile,BufReadPost /tmp/mutt* normal :1,$s/—/--/g
+   " Let Vim identify itself in the message header
+   " when editing emails with Mutt:
+   au BufNewFile,BufRead /tmp/mutt* let @"="X-Editor: Vim-".version." http://www.vim.org\n"|exe 'norm 1G}""P'
+   "
+   " set the textwidth to 72 characters for replies (email&usenet)
+   au BufNewFile,BufRead .letter,mutt*,nn.*,snd.* set tw=72
+   au BufNewFile,BufRead /tmp/mutt* set listchars=tab:»·,trail:·,precedes:«,extends:»
+   au BufNewFile,BufRead /tmp/mutt* set list spell
+augroup END
+" }}}
+
 " git commits {{{
 au BufReadPost * if exists("b:current_syntax") && b:current_syntax == "gitcommit"
 au BufReadPost *    colorscheme impactG-console
-au BufReadPost *    set tw=74
+au BufReadPost *    set tw=74 spell
 au BufReadPost * endif
 " }}}
 
