@@ -1,16 +1,16 @@
 [core]
-	excludesfile = HOMEDIR/.gitignore
-	editor = gvim --nofork
-	signingkey = SIGNKEY
+   excludesfile = HOMEDIR/.gitignore
+   editor = gvim --nofork
+   signingkey = SIGNKEY
 [user]
-	name = NAME
-	email = EMAIL
+   name = NAME
+   email = EMAIL
 [giggle]
-	compact-mode = false
-	main-window-maximized = true
-	main-window-geometry = 0x0+0+0
+   compact-mode = false
+   main-window-maximized = true
+   main-window-geometry = 0x0+0+0
 [diff]
-	renamelimit = 0
+   renamelimit = 0
 [sendemail]
    suppresscc = all
 [imap]
@@ -25,10 +25,11 @@
 [alias]
    ci = commit
    st = status
-   br = "!f() { git branch $1 | grep -C2 '^[^ ] .*$' ; }; f"
+   br = "!f() { git branch $* | grep -C2 '^[^ ] .*$' ; }; f"
    co = checkout
    df = diff
    lg = log -p
+   wh = whatchanged
    who = shortlog -s --
    lc = log ORIG_HEAD.. --stat --no-merges
    llog = log --date=local
