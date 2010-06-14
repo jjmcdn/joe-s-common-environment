@@ -35,3 +35,32 @@ read -p "GMail password:   " gmailpass
 
 sed -i "s/GMAIL_USERNAME/$gmailuser/g" $HOME/.gitconfig
 sed -i "s/GMAIL_PASSWORD/$gmailpass/g" $HOME/.gitconfig
+
+cat <<EOT
+   My WR environment includes a few extra goodies.  Should I add these to the
+   end of your .gitconfig now? [y/N]
+EOT
+read wrgit
+if [ "$wrgit" = "Y" -o "$wrgit" = "y" ] 
+then
+   echo "# Wind River specific bits" >> $HOME/.gitconfig
+cat >$HOME/.gitconfig <<EOT
+# ------------------------------------------------------------------------
+# Wind River specific config options
+
+[wrgit]
+   # Rather than display all of the branches, only show the branch you are
+   # on and a few branches around it in the list.  This may not be all that
+   # useful, but typically all of your branches are clustered together in
+   # the list and it works pretty well for me.
+   branch-summary = 1
+
+[alias]
+   # This is a complicated animal.  I use it so I can clone from a local
+   # mirror and easily push to the master server without having to remember
+   # where it actually lives.  The URLs are kind of a mess.
+   wrpush = "!f() { set -o xtrace ; git push --dry-run $(git config --get remote.origin.url | sed 's=git://.*wrs.com\\(/git\\)\\?/=ssh://git.wrs.com/git/=') $*; }; f $*"
+# ------------------------------------------------------------------------
+EOT
+
+fi
