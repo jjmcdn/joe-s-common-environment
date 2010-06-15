@@ -59,7 +59,7 @@ cat >$HOME/.gitconfig <<EOT
    # This is a complicated animal.  I use it so I can clone from a local
    # mirror and easily push to the master server without having to remember
    # where it actually lives.  The URLs are kind of a mess.
-   wrpush = "!f() { set -o xtrace ; git push --dry-run $(git config --get remote.origin.url | sed 's=git://.*wrs.com\\(/git\\)\\?/=ssh://git.wrs.com/git/=') $*; }; f $*"
+   wrpush = "!f() { git push $(git config --get remote.origin.url | sed 's=git://.*wrs.com\\(/git\\)\\?/=ssh://git.wrs.com/git/=') $*; }; f $*"
 # ------------------------------------------------------------------------
 EOT
 
