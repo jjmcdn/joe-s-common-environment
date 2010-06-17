@@ -337,12 +337,46 @@ case $- in
       unset _i
       # }}}
 
-      # PD KSH knows all about vi-tabcomplete, others don't. {{{
-      if [ -z "$KSH_VERSION" ]; then
-         set -o vi
-      else
-         set -o vi-tabcomplete
-      fi
+      # And this is where things get hairy.  I *like* vi-tabcomplete but not
+      # all ksh implementations  have it.  No big deal except the way to
+      # identify one ksh from another is kind of the opposite of 'standard',
+      # so we have to try a few things.  The order of these tests are in no
+      # way scientific, they're purely based on the order of frequency of the
+      # ksh-variants I use.
+      #
+      # There are probably much better ways to do this.
+      case "$KSH_VERSION" in
+         *PD* )
+            # PD KSH
+            # Found on: OpenBSD and most of my Ubuntu boxes.
+            set -o vi-tabcomplete
+            ;;
+         *93t* )
+            # AT&T KSH93
+            # Found on a Fedora Core box I use.
+            set -o vi
+            ;;
+         * )
+            # Probably AT&T KSH88
+            # Found on a few SunOS 5.9 boxes I occasionally connect to.
+            # How do we determine this with some level of accuracy?  Let's
+            # check the $SECONDS variable:
+            case "$SECONDS" in
+               *\.* )
+                  # Okay, this this is screwed up.  ksh93 has a decimal point
+                  # in $SECONDS but every ksh93 I've seen also knows about
+                  # KSH_VERSION.  For now I'll keep this check separate, but
+                  # really I'm going to do the same thing for this wonky ksh93
+                  # as I would for ksh88.
+                  set -o vi
+                  ;;
+               * )
+                  # ksh88.  Assume stupidity.
+                  set -o vi
+                  ;;
+            esac
+            ;;
+      esac
 
       # That bell is really annoying
       stty imaxbel
