@@ -51,3 +51,23 @@ else
    cat $TMPDIR/dput.cf >> $HOME/.dput.cf
    rm -fr $TMPDIR
 fi
+
+cat <<EOT
+   Now I'm going to install useful scripts somewhere for you.  If you don't
+   tell me otherwise, I'll put them in $HOME/bin, so if you have a problem with
+   that, now's the time to speak up.
+EOT
+read -p "Script installation directory [$HOME/bin]: " tgtdir
+if [ -z "$tgtdir" ]
+then
+   tgtdir=$HOME/bin
+fi
+if [ ! -d $tgtdir ]
+then
+   mkdir -p $tgtdir
+fi
+
+for i in deb-from-i386-to-amd64.sh
+do
+   install --backup=t -m 755 $i $tgtdir
+done
