@@ -27,14 +27,19 @@ cat <<EOT
    Unfortunately it doesn't quite behave like "git send-email", this one does
    the "git format-patch" for you and uploads the threaded patch set into your
    Drafts folder so you can tweak it before sending it.
+
+   Do you want to set that up now? [y/N]
 EOT
-read junk
+read imapsend
 
-read -p "GMail username:   " gmailuser
-read -p "GMail password:   " gmailpass
+if [ "$imapsend" = "Y" -o "$imapsend" = "y" ] 
+then
+   read -p "GMail username:   " gmailuser
+   read -p "GMail password:   " gmailpass
 
-sed -i "s/GMAIL_USERNAME/$gmailuser/g" $HOME/.gitconfig
-sed -i "s/GMAIL_PASSWORD/$gmailpass/g" $HOME/.gitconfig
+   sed -i "s/GMAIL_USERNAME/$gmailuser/g" $HOME/.gitconfig
+   sed -i "s/GMAIL_PASSWORD/$gmailpass/g" $HOME/.gitconfig
+fi
 
 cat <<EOT
    My WR environment includes a few extra goodies.  Should I add these to the
@@ -44,7 +49,7 @@ read wrgit
 if [ "$wrgit" = "Y" -o "$wrgit" = "y" ] 
 then
    echo "# Wind River specific bits" >> $HOME/.gitconfig
-cat >$HOME/.gitconfig <<EOT
+cat >>$HOME/.gitconfig <<EOT
 # ------------------------------------------------------------------------
 # Wind River specific config options
 
