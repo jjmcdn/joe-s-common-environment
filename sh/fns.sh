@@ -417,4 +417,27 @@ function pathpop
 }
 # }}}
 
+# ------------------------------------------------------------------------
+# I have a file that contains one filename per line.  Remove them.
+# Yes, I know, but this is the easiest, surest way to not have to deal with
+# all of the shell interpreting foolishness.
+# rmcruft {{{
+function rmcruft
+{
+   unset jjm_cruft_file
+   OPTIND=1
+   while getopts "f:" options; do
+      case $options in
+         f ) jjm_cruft_file=$OPTARG ;;
+         * ) echo "I can't be bothered helping you."; return ;;
+      esac
+   done
+   if [ -z "${jjm_cruft_file}" ] ; then
+      echo "You have to pass -f <filename>"
+      return
+   fi
+   cat ${jjm_cruft_file} | perl -e '{ foreach my $file ( <> ) { chomp $file ; unlink $file or warn "Could not unlink $file: $!" ; } }'
+}
+# }}}
+
 # vim: tw=78 ts=3 sw=3 et nowrap ft=sh
