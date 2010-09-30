@@ -7,12 +7,18 @@
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
-# Then see if we've got a ksh around somewhere
-if [ $(echo $OSTYPE | grep -i solaris) ]
+# If ENV isn't already set, assume this is our login shell.  If it is, we've
+# already been through this once (probably) and so someone is likely calling a
+# specific shell.  Let's not interrupt that.
+if [ "x$ENV" = "x" ]
 then
-   [ \! -z "$(which ksh)" ] && exec ksh -i
-else
-   [ \! -z "$(which ksh)" ] && exec ksh -l
+   # Then see if we've got a ksh around somewhere
+   if [ $(echo $OSTYPE | grep -i solaris) ]
+   then
+      [ \! -z "$(which ksh)" ] && exec ksh -i
+   else
+      [ \! -z "$(which ksh)" ] && exec ksh -l
+   fi
 fi
 
 
