@@ -85,6 +85,11 @@ export LSCOLORS
 #export PROMPT_FGC=0
 #export PROMPT_BGC=7
 
+# I actually like seeing more than one path element but not the full path, so
+# let's choose some value that's likely to be wrong less often than most.
+PROMPT_DIRTRIM=3
+export PROMPT_DIRTRIM
+
 # Set this to to avoid having consecutive duplicate commands and other not so
 # useful information appended to the history list. This will cut down on
 # hitting the up arrow endlessly to get to the command before the one you just
