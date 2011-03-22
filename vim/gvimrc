@@ -55,6 +55,13 @@ au BufReadPost *    set tw=74
 au BufReadPost * endif
 " }}}
 
+" git config {{{
+au BufReadPost * if exists("b:current_syntax") && b:current_syntax == "gitconfig"
+au BufReadPost *    colorscheme potts
+au BufReadPost *    set tw=0 wm=0 ts=3 sw=3
+au BufReadPost * endif
+" }}}
+
 " }}}
 
 " Mappings {{{

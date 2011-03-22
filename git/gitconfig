@@ -41,3 +41,5 @@
    lcrev = log --reverse --no-merges --stat @{1}..
    # Show only local branches
    lb = "!f() { exclude_list=$(mktemp) ; git branch -r | awk -F/ '{ print $2 }'>>$exclude_list ; git branch | grep -v -w -f $exclude_list ; rm $exclude_list ; }; f"
+
+# vim:set ft=gitconfig:

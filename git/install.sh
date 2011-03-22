@@ -48,6 +48,14 @@ EOT
 read wrgit
 if [ "$wrgit" = "Y" -o "$wrgit" = "y" ] 
 then
+   # save any modelines for later
+   vim_modes=$(grep 'vim\?:'  $HOME/.gitconfig)
+   # throw out the junk at the end of your current .gitconfig file
+   ex $HOME/.gitconfig <<EOT
+:g/${vim_modes}/d
+:wq
+EOT
+   # append all that Wind River goodness
    echo "# Wind River specific bits" >> $HOME/.gitconfig
 cat >>$HOME/.gitconfig <<EOT
 # ------------------------------------------------------------------------
@@ -69,4 +77,6 @@ cat >>$HOME/.gitconfig <<EOT
 # ------------------------------------------------------------------------
 EOT
 
+   # then re-apply your vim modelines
+   echo ${vim_modes} >> $HOME/.gitconfig
 fi
