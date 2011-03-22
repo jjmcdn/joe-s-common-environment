@@ -55,6 +55,7 @@ then
 :g/${vim_modes}/d
 :wq
 EOT
+   read -p "WR UNIX username: " wrusername
    # append all that Wind River goodness
    echo "# Wind River specific bits" >> $HOME/.gitconfig
 cat >>$HOME/.gitconfig <<EOT
@@ -66,14 +67,32 @@ cat >>$HOME/.gitconfig <<EOT
    # on and a few branches around it in the list.  This may not be all that
    # useful, but typically all of your branches are clustered together in
    # the list and it works pretty well for me.
-   branch-summary = 1
+   branch-summary = 4
+   username = $wrusername
 
 [alias]
    # This is a complicated animal.  I use it so I can clone from a local
    # mirror and easily push to the master server without having to remember
    # where it actually lives.  The URLs are kind of a mess.
-   wrpush = "!f() { git push $(git config --get remote.origin.url | sed \"s=git://.*wrs.com\\(/git\\)\\?/=ssh://git.wrs.com/git/=\") $*; }; f $*"
-   wruserpush = "!f() { git push $(git config --get remote.origin.url | sed \"s=git://.*wrs.com\\(/git\\)\\?/=ssh://git.wrs.com/git/users/$USER/=\") $*; }; f $*"
+   wrpush = "!f() { git push $(git config --get remote.origin.url | sed \"s=git://.*wrs.com\\(/git\\)\\?/=ssh://$wrusername@git.wrs.com/git/=\") $*; }; f $*"
+
+   # Push to my user directories rather than the actual project directory
+   # (unless that is the user directory, then this is no different than wrpush,
+   # so why bother?).
+   wruserpush = "!f() { git push $(git config --get remote.origin.url | sed \"s=git://.*wrs.com\\(/git\\)\\?/=ssh://$wrusername@git.wrs.com/git/users/$USER/=\") $*; }; f $*"
+
+   # Find all local branches (lb) in the project hierarchy.  Started trying to
+   # do th is without depending on wrgit but then I realized that I'm not
+   # likely to need to recurse through 30 different sub-projects for anything
+   # other than wrlinux and the only thing wrgit does really well is recurse, so
+   # why not use it?
+   wrlb = "!f() { for i in . $(wrgit branch | grep layers | awk '{ print $4 }') ; do cd $i >/dev/null ; echo -n \"$PWD: \" ; git lbcsv ; echo ; cd - >/dev/null ; done ; }; f | grep '  '"
+
+   # Clean local branches.  That is, everywhere that there's a local branch,
+   # attempt to clean them out, but don't force delete anything so I know what
+   # has and hasn't been merged.
+   wrclb = "!f() { for i in . $(git wrlb | awk -F: '{ print $1 }') ; do cd $i >/dev/null ; for j in $(git lb); do git branch -d $j; done; cd - >/dev/null ; done ; }; f"
+
 # ------------------------------------------------------------------------
 EOT
 
