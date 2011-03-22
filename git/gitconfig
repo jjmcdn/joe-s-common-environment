@@ -26,6 +26,7 @@
    ui = auto
 [alias]
    br = "!f() { git branch $* | grep -C2 '^[^ ] .*$' ; }; f"
+   ls = ls-files --exclude-standard
    who = shortlog -s --
    lc = log ORIG_HEAD.. --stat --no-merges
    llog = log --date=local
@@ -33,7 +34,12 @@
    edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; gvim `f`"
    add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
    send-gmail = "!f() { git format-patch --cover-letter --signoff --stdout --thread origin/master | git imap-send ; }; f"
+   # Create a throw-away branch.  The format is:
+   # git scratch <tracking> <prefix>
    scratch = "!f() { git checkout -b $2_scratch_$(date +%Y_%m_%d) $1 ; }; f"
+   # This is supposed to show us where two trees diverge, but it's never quite
+   # worked right.  Should come back to it and figure out what's busted.
+   diverges = !bash -c 'git rev-parse $(diff <(git log --pretty=oneline ${1}) <(git log --pretty=oneline ${2}) | tail -1 | cut -c 3-42)^'
    # Show only local branches
    lb = "!f() { exclude_list=$(mktemp) ; git branch -r | awk -F/ '{ print $2 }'>>$exclude_list ; git branch | grep -v -w -f $exclude_list ; rm $exclude_list ; }; f"
 
