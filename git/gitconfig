@@ -11,6 +11,8 @@
    main-window-geometry = 0x0+0+0
 [diff]
    renamelimit = 0
+[help]
+   autocorrect = 1
 [sendemail]
    suppresscc = all
 [imap]
@@ -23,13 +25,7 @@
 [color]
    ui = auto
 [alias]
-   ci = commit
-   st = status
    br = "!f() { git branch $* | grep -C2 '^[^ ] .*$' ; }; f"
-   co = checkout
-   df = diff
-   lg = log -p
-   wh = whatchanged
    who = shortlog -s --
    lc = log ORIG_HEAD.. --stat --no-merges
    llog = log --date=local
@@ -38,7 +34,6 @@
    add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
    send-gmail = "!f() { git format-patch --cover-letter --signoff --stdout --thread origin/master | git imap-send ; }; f"
    scratch = "!f() { git checkout -b $2_scratch_$(date +%Y_%m_%d) $1 ; }; f"
-   lcrev = log --reverse --no-merges --stat @{1}..
    # Show only local branches
    lb = "!f() { exclude_list=$(mktemp) ; git branch -r | awk -F/ '{ print $2 }'>>$exclude_list ; git branch | grep -v -w -f $exclude_list ; rm $exclude_list ; }; f"
 
