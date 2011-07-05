@@ -93,6 +93,16 @@ cat >>$HOME/.gitconfig <<EOT
    # has and hasn't been merged.
    wrclb = "!f() { for i in . $(git wrlb | awk -F: '{ print $1 }') ; do cd $i >/dev/null ; for j in $(git lb); do git branch -d $j; done; cd - >/dev/null ; done ; }; f"
 
+   # Purge local branches.  Clean local branches with extreme prejudice.
+   wrplb = "!f() { for i in . $(git wrlb | awk -F: '{ print $1 }') ; do cd $i >/dev/null ; for j in $(git lb); do git branch -D $j; done; cd - >/dev/null ; done ; }; f"
+
+   # Merge local branches.  Assuming you are currently on the branch you want
+   # to merge to (which is one of the few things wrgit does well) then just
+   # merge all local branches (as defined by 'lb') into this branch.  This is a
+   # tool that should only be used under the most controlled circumstances.
+   wrmlb = "!f() { for i in . $(git wrlb | awk -F: '{ print $1 }') ; do cd $i >/dev/null ; for j in $(git lb); do git merge $j || (echo merge failed ; $SHELL) ; done; cd - >/dev/null ; done ; }; f"
+
+
 # ------------------------------------------------------------------------
 EOT
 
