@@ -24,7 +24,7 @@ shell                -ksh
 activity             "activity in %n (%t) [%w:%s]~"
 bell                 "%C -> %n%f %t activity!"
 vbell_msg            " SPIDERS!  IN MY HAIR!!! SPIDERS!!! "
-term                 xterm
+term                 screen
 zombie               kr
 
 # }}}
