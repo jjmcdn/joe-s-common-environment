@@ -55,7 +55,7 @@ case $- in
       alias __3="${27}b${27}f${27} ${27}${29} ${27}p${25}${29}"  __H=$1
 
       # setup prompt: underline/reverse (user/root), normal/bold (success/failure)
-      if [[ $TERM = @(dtterm|ansi|*vt*|xterm|color_xterm|xterm-color|sun|AT386|screen|linux) ]]; then
+      if [[ $TERM = @(dtterm|ansi|*vt*|xterm|color_xterm|xterm-color|xterm-256color|sun|AT386|screen|screen-256color|linux) ]]; then
          if [[ $(id) = uid=0[!0-9]* ]]; then
             #set -A _ps1 "${27}[?1l${27}[\${TERM[!\$?]+1;}7m${13}" "${27}[m"
             set -A _ps1 "$(tput rev setab 1)" "$(tput sgr0)"
@@ -131,7 +131,7 @@ case $- in
       # 
       integer  _push_max=${CDSTACK-32} _push_top=${CDSTACK-32}
 
-      #unalias cd
+      unalias cd
       alias cd=_cd
 
       # Display directory stack -- $HOME display as ~
