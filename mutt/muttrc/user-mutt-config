@@ -25,4 +25,7 @@ set header_cache="~/.mail"
 set folder="~/.mail"
 set postponed="~/.mail/postponed"
 
+# Forward messages including attachments
+set mime_forward=yes
+set mime_forward_rest=yes
 # vi: ft=muttrc:
