@@ -102,6 +102,10 @@ cat >>$HOME/.gitconfig <<EOT
    # tool that should only be used under the most controlled circumstances.
    wrmlb = "!f() { for i in . $(git wrlb | awk -F: '{ print $1 }') ; do cd $i >/dev/null ; for j in $(git lb); do git merge $j || (echo merge failed ; $SHELL) ; done; cd - >/dev/null ; done ; }; f"
 
+   # Create a scratch branch and merge together all of the current local
+   # branches into it.  Useful for doing integration testing when you have a
+   # pile of local branches.  Which I do.  A lot.
+   staging = "!f() { for i in $(git wrlb | cut -d: -f1) ; do cd $i ; git scratch $1 ; for j in $(git lb | grep -v '^\\*') ; do git merge $j ; done ; done }; f"
 
 # ------------------------------------------------------------------------
 EOT
