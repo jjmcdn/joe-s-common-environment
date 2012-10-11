@@ -119,4 +119,7 @@ fi
 TERM=xterm-256color
 export TERM
 
+GPGKEY=6E996677
+export GPGKEY
+
 # vim: tw=78 ts=3 sw=3 et nowrap ft=sh

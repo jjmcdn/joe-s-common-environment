@@ -25,6 +25,14 @@ set header_cache="~/.mail"
 set folder="~/.mail"
 set postponed="~/.mail/postponed"
 
+set pgp_use_gpg_agent=yes
+
+# automatically sign all outcoming messages
+set crypt_autosign
+
+# automatically verify the sign of a message when opened
+set crypt_verify_sig=yes
+
 # Forward messages including attachments
 set mime_forward=yes
 set mime_forward_rest=yes
