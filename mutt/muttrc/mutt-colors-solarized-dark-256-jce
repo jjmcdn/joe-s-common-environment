@@ -1,0 +1,171 @@
+# vim: filetype=muttrc
+
+#
+#
+# make sure that you are using mutt linked against slang, not ncurses, or
+# suffer the consequences of weird color issues. use "mutt -v" to check this.
+
+# custom body highlights -----------------------------------------------
+# highlight my name and other personally relevant strings
+#color body          color136        color234        "(ethan|schoonover)"
+# custom index highlights ----------------------------------------------
+# messages which mention my name in the body
+#color index         color136        color234        "~b \"phil(_g|\!| gregory| gold)|pgregory\" !~N !~T !~F !~p !~P"
+#color index         J_cream         color230        "~b \"phil(_g|\!| gregory| gold)|pgregory\" ~N !~T !~F !~p !~P"
+#color index         color136        color37         "~b \"phil(_g|\!| gregory| gold)|pgregory\" ~T !~F !~p !~P"
+#color index         color136        J_magent        "~b \"phil(_g|\!| gregory| gold)|pgregory\" ~F !~p !~P"
+## messages which are in reference to my mails
+#color index         J_magent        color234        "~x \"(mithrandir|aragorn)\\.aperiodic\\.net|thorin\\.hillmgt\\.com\" !~N !~T !~F !~p !~P"
+#color index         J_magent        color230        "~x \"(mithrandir|aragorn)\\.aperiodic\\.net|thorin\\.hillmgt\\.com\" ~N !~T !~F !~p !~P"
+#color index         J_magent        color37         "~x \"(mithrandir|aragorn)\\.aperiodic\\.net|thorin\\.hillmgt\\.com\" ~T !~F !~p !~P"
+#color index         J_magent        color160        "~x \"(mithrandir|aragorn)\\.aperiodic\\.net|thorin\\.hillmgt\\.com\" ~F !~p !~P"
+
+# for background in 16 color terminal, valid background colors include:
+# base03, bg, black, any of the non brights
+
+# basic colors ---------------------------------------------------------
+color normal        color241        color234        
+color error         color160        color234        
+color tilde         color235        color234        
+color message       color37         color234        
+color markers       color160        color254        
+color attachment    color254        color234        
+color search        color61         color234        
+#color status        J_black         J_status        
+color status        color241        color235        
+color indicator     color234        color136        
+color tree          color136        color234                                    # arrow in threads
+
+# basic monocolor screen
+mono  bold          bold
+mono  underline     underline
+mono  indicator     reverse
+mono  error         bold
+
+# index ----------------------------------------------------------------
+
+color index         color160        color234        "~A"                        # all messages
+color index         color166        color234        "~E"                        # expired messages
+color index         color30         color234        "~N"                        # new messages
+color index         color30         color234        "~O"                        # old messages
+color index         color61         color234        "~Q"                        # messages that have been replied to
+color index         color240        color234        "~R"                        # read messages
+color index         color30         color234        "~U"                        # unread messages
+color index         color30         color234        "~U~$"                      # unread, unreferenced messages
+color index         color241        color234        "~v"                        # messages part of a collapsed thread
+# Some custom colours based on message subjects / contents / etc.
+color index         color24         color234        "~t .*@windriver.com | ~t .*@mail.wrs.com | ~t .*@sympa-int.wrs.com | ~t .*@wrs.com"              # general wind river email
+color index         color24         color234        "~c .*@windriver.com | ~c .*@mail.wrs.com | ~c .*@sympa-int.wrs.com | ~c .*@wrs.com"              # general wind river email
+color index         color33         color234        "~N (~t .*@windriver.com | ~t .*@mail.wrs.com | ~t .*@sympa-int.wrs.com | ~t .*@wrs.com)"              # general wind river email
+color index         color33         color234        "~N (~c .*@windriver.com | ~c .*@mail.wrs.com | ~c .*@sympa-int.wrs.com | ~c .*@wrs.com)"              # general wind river email
+color index         color45         color234        "~P"                        # messages from me
+color index         color81         color234        "(%C me)!~F"                     # messages to me
+color index         color81         color234        "~N(%C me)!~F"                   # new messages to me
+color index         color81         color234        "~U(%C me)!~F"                   # unread messages to me
+color index         color69         color234        "~R(%C me)!~F"                   # messages to me
+color index         color160        color234        "~F"                        # flagged messages
+color index         color160        color234        "~F(%C me)"                      # flagged messages to me
+color index         color160        color234        "~N~F"                      # new flagged messages
+color index         color160        color234        "~N~F(%C me)"                    # new flagged messages to me
+color index         color160        color234        "~U~F(%C me)"                    # new flagged messages to me
+color index         color88         color235        "~D"                        # deleted messages
+color index         color245        color234        "~v~(!~N)"                  # collapsed thread with no unread
+color index         color136        color234        "~v~(~N)"                   # collapsed thread with some unread
+color index         color64         color234        "~N~v~(~N)"                 # collapsed thread with unread parent
+# statusbg used to indicated flagged when foreground color shows other status
+# for collapsed thread
+color index         color160        color235        "~v~(~F)!~N"                # collapsed thread with flagged, no unread
+color index         color136        color235        "~v~(~F~N)"                 # collapsed thread with some unread & flagged
+color index         color64         color235        "~N~v~(~F~N)"               # collapsed thread with unread parent & flagged
+color index         color64         color235        "~N~v~(~F)"                 # collapsed thread with unread parent, no unread inside, but some flagged
+color index         color37         color235        "~v~(%C me)"                # collapsed thread with unread parent, no unread inside, some to me directly
+color index         color88         color235        "~v~(~D)"                   # thread with deleted (doesn't differentiate between all or partial)
+#color index         color136        color234        "~(~N)"                    # messages in threads with some unread
+#color index         color64         color234        "~S"                       # superseded messages
+#color index         color160        color234        "~T"                       # tagged messages
+#color index         color166        color160        "~="                       # duplicated messages
+color index         color244        color234        "~s 'Openembedded-devel Digest'"
+color index         color235        color234        "~t lpd-eng-commits@windriver.com"
+color index         color238        color234        "~N ~t lpd-eng-commits@windriver.com"
+color index         color222        color234        "~t lpd-eng-buildreports@windriver.com"
+color index         color220        color234        "~N ~t lpd-eng-buildreports@windriver.com"
+color index         color42         color234        "~t SecurityTeam@windriver.com"
+color index         color40         color234        "~N ~t SecurityTeam@windriver.com"
+color index         color202        color234        "~t LPD-ARCH-COUNCIL@windriver.com"
+color index         color202        color234        "~t LPD-ENG-LEADS@windriver.com"
+color index         color202        color234        "~t .*FGLEADS.*@windriver.com"
+color index         color207        color234        "~N ~t LPD-ARCH-COUNCIL@windriver.com"
+color index         color207        color234        "~N ~t LPD-ENG-LEADS@windriver.com"
+color index         color207        color234        "~N ~t .*FGLEADS.*@windriver.com"
+
+
+# message headers ------------------------------------------------------
+
+#color header        color240        color234        "^"
+color hdrdefault    color240        color234        
+color header        color39         color234        "^from: "
+color header        color51         color234        "^date: "
+color header        color231        color234        "^subject: "
+color header        color39         color234        "^to: "
+color header        color27         color234        "^cc: "
+color header        color33         color234        "^reply-to: "
+color header        color192        color234        "^importance: "
+color header        color192        color234        "^priority: "
+
+# body -----------------------------------------------------------------
+
+color quoted        color33         color234        
+color quoted1       color37         color234        
+color quoted2       color136        color234        
+color quoted3       color160        color234        
+color quoted4       color166        color234        
+
+color signature     color240        color234        
+color bold          color235        color234        
+color underline     color235        color234        
+color normal        color244        color234        
+#
+color body          color245        color234        "[;:][-o][)/(|]"    # emoticons
+color body          color245        color234        "[;:][)(|]"         # emoticons
+color body          color245        color234        "[*]?((N)?ACK|CU|LOL|SCNR|BRB|BTW|CWYL|\
+                                                     |FWIW|vbg|GD&R|HTH|HTHBE|IMHO|IMNSHO|\
+                                                     |IRL|RTFM|ROTFL|ROFL|YMMV)[*]?"
+color body          color245        color234        "[ ][*][^*]*[*][ ]?" # more emoticon?
+color body          color245        color234        "[ ]?[*][^*]*[*][ ]" # more emoticon?
+
+## pgp
+
+color body          color160        color234        "(BAD signature)"
+color body          color37         color234        "(Good signature)"
+color body          color234        color234        "^gpg: Good signature .*"
+color body          color241        color234        "^gpg: "
+color body          color241        color160        "^gpg: BAD signature from.*"
+mono  body          bold                            "^gpg: Good signature"
+mono  body          bold                            "^gpg: BAD signature from.*"
+
+# yes, an insance URL regex
+color body          color160        color234        "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"
+# and a heavy handed email regex
+#color body          J_magent        color234        "((@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]),)*@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]):)?[0-9a-z_.+%$-]+@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\])"
+
+# Various smilies and the like
+#color body          color230        color234        "<[Gg]>"                            # <g>
+#color body          color230        color234        "<[Bb][Gg]>"                        # <bg>
+#color body          color136        color234        " [;:]-*[})>{(<|]"                  # :-) etc...
+# *bold*
+#color body          color33         color234        "(^|[[:space:][:punct:]])\\*[^*]+\\*([[:space:][:punct:]]|$)"
+#mono  body          bold                            "(^|[[:space:][:punct:]])\\*[^*]+\\*([[:space:][:punct:]]|$)"
+# _underline_
+#color body          color33         color234        "(^|[[:space:][:punct:]])_[^_]+_([[:space:][:punct:]]|$)"
+#mono  body          underline                       "(^|[[:space:][:punct:]])_[^_]+_([[:space:][:punct:]]|$)"
+# /italic/  (Sometimes gets directory names)
+#color body         color33         color234        "(^|[[:space:][:punct:]])/[^/]+/([[:space:][:punct:]]|$)"
+#mono body          underline                       "(^|[[:space:][:punct:]])/[^/]+/([[:space:][:punct:]]|$)"
+
+# Border lines.
+#color body          color33         color234        "( *[-+=#*~_]){6,}"
+
+#folder-hook .                  "color status        J_black         J_status        "
+#folder-hook gmail/inbox        "color status        J_black         color136        "
+#folder-hook gmail/important    "color status        J_black         color136        "
+

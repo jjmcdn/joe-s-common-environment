@@ -45,10 +45,28 @@ cat <<EOT
    Installing configuration files you probably don't need to touch.
 EOT
 
-for i in mutt-bindings  mutt-colors  muttrc muttprintrc
+for i in mutt-bindings muttrc muttprintrc
 do
    cp -v -b $i ~/.$i
    chmod 600 ~/.$i
+done
+
+cat <<EOT
+   I have a selection of 256-color mutt configurations available for you to
+   choose from.
+EOT
+select colorscheme in mutt-colors-* none ; do
+   if [ ${colorscheme} == "none" ]
+   then
+      cp -v -b mutt-colors ~/.mutt-colors
+      break
+   else
+      if [ -e ${colorscheme} ]
+      then
+         cp -v -b ${colorscheme} ~/.${colorscheme}
+         break
+      fi
+   fi
 done
 
 cat <<EOT

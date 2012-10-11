@@ -1,0 +1,133 @@
+## =================
+## Color definitions
+## =================
+## Format:
+## color object      foreground   background
+## Objects names for mutt 0.90 are:
+## attachment, body, bold, error, header, hdrdefault, indicator,
+## markers, message, normal, quoted, quoted1, ..., quotedN,
+## search, signature, status, subject, tilde, tree, underline.
+## Color names:
+## white black green magenta blue cyan yellow red default colorx
+
+color attachment  green   black  # ..
+#color body        green   black  .*
+color bold        green   black  # ..
+color error       red     black  # global
+
+color header      red     black  "^cc: "
+color header      yellow  black  "^date: "
+color header      brightcyan    black  "^from: "
+color header      red     black  "^newsgroups: "
+color header      cyan black  "^reply-to: "
+color header      brightwhite   black  "^subject: "
+color header      green  black  "^to: "
+color header      magenta black  "^x-mailer: "
+color header      black   red    "^message-id: .*pine"
+color header      black   yellow "^importance: "
+color header      black   yellow "^priority: "
+color header      cyan    black  "^resent-from: "
+
+#  color hdrdefault  blue    black  #
+#  color indicator   white   blue   # index
+color indicator   black   green  # index
+color markers     cyan    black  # index
+color message     red     black  # index
+color normal      green black  # pager body
+
+#  Coloring quoted text - coloring only the first four levels:
+color quoted      cyan    black  # pager body
+color quoted1     yellow  black  # pager body
+color quoted2     cyan    black  # pager body
+color quoted3     yellow  black  # pager body
+
+color signature   red     black  # pager body
+color status      black   cyan   # index status bar default: black white
+color tilde       green   black  # pager body
+color tree        brightgreen   black  # index
+color underline   yellow  black  #
+
+# ------------------------------------------------------------------------
+# various message body hilighting rules.
+#color index brightred black "(\\(fwd\\))"
+#color index brightred black "(Heather)"
+#mono index bold "(\\(fwd\\))"
+#mono index bold "(Heather)"
+color index brightgreen black "~h X-Match:.whitelist"
+mono index bold "~h whitelist"
+
+# ========================================================================
+# new index colours
+color index    brightgreen black ~N
+
+# Magenta: sent to a windriver address, probably a mailing list
+color index    magenta black "~t .*@windriver.com"
+color index    magenta black "~t .*@mail.wrs.com"
+color index    magenta black "~t .*@sympa-int.wrs.com"
+color index    brightmagenta black "~N ~t .*@windriver.com"
+color index    brightmagenta black "~N ~t .*@mail.wrs.com"
+color index    brightmagenta black "~N ~t .*@sympa-int.wrs.com"
+color index    magenta black "~c .*@windriver.com"
+color index    magenta black "~c .*@mail.wrs.com"
+color index    magenta black "~c .*@sympa-int.wrs.com"
+color index    brightmagenta black "~N ~c .*@windriver.com"
+color index    brightmagenta black "~N ~c .*@sympa-int.wrs.com"
+
+# Cyan: I'm on the CC list
+color index    cyan black "~c joe.macdonald@windriver.com"
+color index    brightcyan black "~N ~c joe.macdonald@windriver.com"
+
+# White: Mail directed to/from me
+color index    white black "~f joe.macdonald@windriver.com"
+color index    brightwhite black "~N ~f joe.macdonald@windriver.com"
+color index    white black "~t joe.macdonald@windriver.com"
+color index    brightwhite black "~N ~t joe.macdonald@windriver.com"
+color index    white black "~f jmacdona"
+color index    brightwhite black "~N ~f jmacdona"
+color index    white black "~t jmacdona"
+color index    brightwhite black "~N ~t jmacdona"
+
+# yellow: And if some yahoo is talking about CGL and didn't email me, I
+# want to know about it.
+#color index    yellow black "~b \"(cgl|CGL|Carrier|carrier)\" !~T !~F !~p !~P"
+#color index    brightyellow black "~b \"(cgl|CGL|Carrier|carrier)\" ~N !~T !~F !~p !~P"
+
+# ========================================================================
+
+color body brightgreen  black "(http|ftp|news|telnet|finger)://[^ \"\t\r\n]*"
+color body brightcyan  black "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
+mono  body bold              "(http|ftp|news|telnet|finger)://[^ \"\t\r\n]*"
+mono  body bold              "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
+color body black brightyellow " >*[;:8]-*[)>(<|]"       # :-) etc...
+
+# Wally's stylin buildresults for today
+color body  cyan        black    "  Build:[^,]*"
+color body  yellow      black    " Builder:[^,]*"
+color body  red         black    "  Failed pkg:[^,]*"
+
+# In general I want the build results mail to jump out a bit
+color index    yellow         black    "~s 'Daily Build Status'"
+color index    brightyellow   black    "~N ~s 'Daily Build Status'"
+color index    yellow         black    "~t lpd-eng-buildreports@windriver.com"
+color index    brightyellow   black    "~N ~t lpd-eng-buildreports@windriver.com"
+
+# And David's right, I should be watching for LAC stuff I guess.
+color index    yellow         black    "~t LPD-ARCH-COUNCIL@windriver.com"
+color index    brightyellow   black    "~N ~t LPD-ARCH-COUNCIL@windriver.com"
+color index    yellow         black    "~t LPD-ENG-LEADS@windriver.com"
+color index    brightyellow   black    "~N ~t LPD-ENG-LEADS@windriver.com"
+
+# Security Team stuff I care about
+color index    yellow         black    "~t SecurityTeam@windriver.com"
+color index    brightyellow   black    "~N ~t SecurityTeam@windriver.com"
+
+# But I don't really care about 10000 commit logs
+color index    brightblack    black    "~t lpd-eng-commits@windriver.com"
+color index    black          white    "~N ~t lpd-eng-commits@windriver.com"
+
+
+# CQ Spam
+# Unfortunately unusable since it downloads the headers and searches locally
+# rather than doing searches on the remote.
+# color index    red            black    "~h 'X-Mailer: ClearQuest Mailer'"
+# color index    brightred      black    "~N ~h 'X-Mailer: ClearQuest Mailer'"
