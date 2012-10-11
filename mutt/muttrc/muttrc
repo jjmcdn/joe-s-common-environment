@@ -48,7 +48,7 @@ set mbox="~/.mail/Inbox"
 set pager_stop
 set reverse_alias
 set sort=threads
-set sort_aux=date-received
+set sort_aux=reverse-last-date-received
 set folder="~/.mail"
 set header_cache="~/.mail"
 set forward_format="[%a: %s]"
