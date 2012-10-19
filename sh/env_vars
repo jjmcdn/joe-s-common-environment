@@ -119,8 +119,11 @@ export SSH_ASKPASS
 
 # jjmac: (2012.08.20)
 # https://bugs.launchpad.net/bugs/778801
-TERM=xterm-256color
-export TERM
+if [ -z "${TERM}" -o ${TERM} != "screen-256color" ]
+then
+   TERM=xterm-256color
+   export TERM
+fi
 
 GPGKEY=6E996677
 export GPGKEY
