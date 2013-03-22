@@ -51,5 +51,8 @@
    # Simple way to paste a pull request onto a command line and then get the
    # rev-list comparison between what you fetched and where you are now.
    fe = "!f() { git fetch $1 $2:$3; echo ; git df $3 HEAD ; } ;f"
+   # based on Jason's ofetch command in wrgit, I use this to manage my mix of
+   # github and openembedded remotes.
+   ofetch = "!f() { local repo=$(git config --get remote.$1.url) ; local head=$(cat .git/HEAD | sed -e 's#ref: refs/heads/##') ; local refspec=$(git config --get branch.$head.merge | sed -e 's#refs/heads/##') ; git fetch $2 $repo $refspec:refs/remotes/$1/$refspec ; } ; f"
 
 # vim:set ft=gitconfig:
