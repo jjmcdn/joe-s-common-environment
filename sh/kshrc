@@ -55,7 +55,7 @@ case $- in
       alias __3="${27}b${27}f${27} ${27}${29} ${27}p${25}${29}"  __H=$1
 
       # setup prompt: underline/reverse (user/root), normal/bold (success/failure)
-      if [[ $TERM = @(dtterm|ansi|*vt*|xterm|color_xterm|xterm-color|xterm-256color|sun|AT386|screen|screen-256color|linux) ]]; then
+      if [[ $TERM = @(dtterm|ansi|*vt*|xterm|color_xterm|xterm-color|xterm-256color|sun|AT386|screen|screen-256color|screen-256color-bce|linux) ]]; then
          if [[ $(id) = uid=0[!0-9]* ]]; then
             #set -A _ps1 "${27}[?1l${27}[\${TERM[!\$?]+1;}7m${13}" "${27}[m"
             set -A _ps1 "$(tput rev setab 1)" "$(tput sgr0)"
