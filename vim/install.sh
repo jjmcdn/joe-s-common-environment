@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ -e $HOME/.vim ]
 then
@@ -62,6 +62,19 @@ EOT
    mv $HOME/.vim-private $HOME/.backup-vim-private
 fi
 cp vim-private $HOME/.vim-private
+
+if [ -d bitbake/syntax ]
+then
+   pushd bitbake
+   for i in */*
+   do
+      if [ -f $i ]
+      then
+         install -D $i $HOME/$i
+      fi
+   done
+   popd
+fi
 
 read -p "Full name: " fullname
 read -p "Initials:  " initials

@@ -1,3 +1,6 @@
 [submodule "sh/ls_colors"]
 	path = sh/ls_colors
 	url = git://github.com/trapd00r/LS_COLORS.git
+[submodule "vim/bitbake"]
+	path = vim/bitbake
+	url = git://github.com/kergoth/vim-bitbake.git
