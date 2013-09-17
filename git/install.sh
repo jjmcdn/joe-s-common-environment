@@ -107,6 +107,10 @@ cat >>$HOME/.gitconfig <<EOT
    # pile of local branches.  Which I do.  A lot.
    staging = "!f() { for i in $(git wrlb | cut -d: -f1) ; do cd $i ; git scratch $1 ; for j in $(git lb | grep -v '^\\*') ; do git merge $j ; done ; done }; f"
 
+   # Show us which branch we're on in each repo without all of the additional
+   # noise showing up in the report.
+   wrbr = "!f() { wrgit branch  | grep '^[^ ]' | sed 's/top level/./' | sed 'N;s/\\n\\*//' | awk '{ print $(NF-1) \":\" $NF }' ; }; f"
+
 # ------------------------------------------------------------------------
 EOT
 
