@@ -1,0 +1,5 @@
+All of my configs for Crunchbang.  At the time of this writing it is Waldorf
+(CB11) with OpenBox, Conky, Tint2, nitrogen (for managing wallpapers) etc.  Look
+around, you'll find lots of stuff in here.  Probably the best thing to do with
+this is manually merge these with whatever you're using because you almost
+certainly don't want to use my configs as-is.

@@ -1,0 +1,137 @@
+## Openbox autostart.sh
+## ====================
+## When you login to your CrunchBang Openbox session, this autostart script 
+## will be executed to set-up your environment and launch any applications
+## you want to run at startup.
+##
+## Note*: some programs, such as 'nm-applet' are run via XDG autostart.
+## Run '/usr/lib/openbox/openbox-xdg-autostart --list' to list any
+## XDG autostarted programs.
+##
+## More information about this can be found at:
+## http://openbox.org/wiki/Help:Autostart
+##
+## If you do something cool with your autostart script and you think others
+## could benefit from your hack, please consider sharing it at:
+## http://crunchbanglinux.org/forums/
+##
+## Have fun! :)
+
+## GNOME PolicyKit and Keyring
+eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
+
+## Set root window colour
+hsetroot -solid "#2E3436" &
+
+## Group start:
+## 1. nitrogen - restores wallpaper
+## 2. compositor - start
+## 3. sleep - give compositor time to start
+## 4. conky
+## 5. tint2 panel
+## (\
+## nitrogen --restore && \
+## cb-compositor --start && \
+## sleep 2 && \
+## conky -q && \
+## tint2 \
+## ) &
+nitrogen --restore
+cb-compositor --start
+sleep 2
+conky -q
+tint2 &
+
+## Volume control for systray
+(sleep 2s && pnmixer) &
+
+## Volume keys daemon
+xfce4-volumed &
+
+## Enable power management
+xfce4-power-manager &
+
+## Start Thunar Daemon
+thunar --daemon &
+
+## Detect and configure touchpad. See 'man synclient' for more info.
+if egrep -iq 'touchpad' /proc/bus/input/devices; then
+    synclient VertEdgeScroll=1 &
+    synclient TapButton1=1 &
+    ## This should be good enough:
+    synclient PalmDetect=1 &
+    ## but just to be sure...
+    syndaemon -d
+fi
+
+## Start xscreensaver
+xscreensaver -no-splash &
+
+## Start Clipboard manager
+(sleep 3s && clipit) &
+
+## I need a calendar
+orage &
+
+## Set keyboard settings - 250 ms delay and 25 cps (characters per second) repeat rate.
+## Adjust the values according to your preferances.
+xset r rate 250 100 &
+
+## jjm: I don't know why my custom fonts aren't being added to the 
+## fontpath, but to hell with it, add the paths here.
+xset +fp /usr/share/fonts/artwiz-latin1/:/usr/share/fonts/tamsyn-font-1.9/:/home/joe/.fonts/
+xset fp rehash
+
+## Turn on/off system beep
+xset b off &
+
+## Ubuntu One.  Worked damned hard to get this
+#/home/joe/bin/ubuntuone-syncdaemon-wrapper
+
+## cb-fortune - have Waldorf say a little adage
+#(sleep 120s && cb-fortune) &
+
+## jjmac: (2013.01.04)
+## start up openbox (and whatever else I want) on the second display if present
+xrandr -d :0.1 -q &> /dev/null
+if [ $? -eq 0 ]
+then
+    DISPLAY=:0.1 openbox &
+    DISPLAY=:0.1 nitrogen --restore
+    # jjm:  Okay, so we should be calling cb-compositor here, but it
+    # doesn't respect display values and just destroys compton wherever
+    # it happens to be running and starts it "here".  That sucks.  So
+    # for now I'll call compton directly.  Fix this with a patch to
+    # crunchbang.
+    # DISPLAY=:0.1 cb-compositor --start
+    compton --vsync opengl -d :0.1 &
+    sleep 2
+    DISPLAY=:0.1 tint2 -c $HOME/.config/tint2/tint2-screen2-rc &
+    DISPLAY=:0.1 ssh-add
+fi
+
+# The startup mess.
+APP_START=$(zenity --list --title="Optional applications" \
+--text "Select additional applications to launch" \
+--width=150 --height=300 \
+--checklist \
+--column="Launch" --column "Application" \
+TRUE "Skype" \
+TRUE "Xchat" \
+TRUE "Pidgin" \
+TRUE "Liferea" \
+FALSE "Clementine" \
+FALSE "Google Music Manager" \
+)
+
+for app in $(echo ${APP_START} | sed 's= =_=g' | sed 's=|= =g')
+do
+   case $app in
+      "Skype" ) /usr/bin/skype & ;;
+      "Xchat" ) /usr/bin/xchat & ;;
+      "Pidgin" ) /usr/bin/pidgin & ;;
+      "Liferea" ) /usr/bin/liferea & ;;
+      "Google_Music_Manager" ) /usr/bin/google-musicmanager & ;;
+      "Clementine" ) /usr/bin/clementine & ;;
+   esac
+done
