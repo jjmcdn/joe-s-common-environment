@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 if [ \! $(which w3m) ]
 then
    cat <<EOT
