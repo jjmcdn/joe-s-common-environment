@@ -440,4 +440,8 @@ function rmcruft
 }
 # }}}
 
+function say
+{
+   gtts-cli -l en-au "$*" | mpg321 -
+}
 # vim: tw=78 ts=3 sw=3 et nowrap ft=sh

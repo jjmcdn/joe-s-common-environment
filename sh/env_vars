@@ -39,9 +39,9 @@ export CVSREAD
 # I'm actually using quilt a fair bit these days
 QUILT_DIFF_OPTS='-pNd -U 5'
 export QUILT_DIFF_OPTS
-QUILT_PATCHES=quilt_patches
+QUILT_PATCHES=patches
 export QUILT_PATCHES
-QUILT_PC=quilt_pc
+QUILT_PC=.pc
 export QUILT_PC
 
 # Where should we look for scripts and binaries?
@@ -127,5 +127,12 @@ fi
 
 GPGKEY=6E996677
 export GPGKEY
+# ------------------------------------------------------------------------
+# This is intended to work around a problem with OE's devshell starting screen
+# with a bogus TERM value:
+if $(echo "${TERMCAP}" | grep -q screen-256color) ; then
+   export TERM=screen-256color
+fi
+
 
 # vim: tw=78 ts=3 sw=3 et nowrap ft=sh

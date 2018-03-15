@@ -11,7 +11,7 @@ case $- in
       # Only process .kshrc if this is an interactive session
 
       # Environment variables
-      export SHELL=/bin/ksh
+      #export SHELL=/bin/ksh
       export TTY=$(tty|cut -f3-4 -d/)
       export HISTFILE=$HOME/.sh_hist$(echo ${TTY} | tr -d '/')
       export PWD=$(pwd)
@@ -74,268 +74,283 @@ case $- in
       _ps1[2]=${_ps1[2]%%.*}  # strip off domain
       # }}}
       
-      # Directory manipulation functions from the book 'The Korn Shell' by
-      # AT&T/Korn.
-      # {{{
-      #
-      # Transcribed by Paul Vallee
-      # The Pythian Group, Inc.
-      # www.pythian.com / vallee@pythian.com
-      #
-      # Fixes to typos, odd ksh93/pdksh incompatibilities and more bash-like
-      # directory stack manipulation behaviour by Joe MacDonald
-      #
-      # Either save this as a separate file and then . it, or paste this into
-      # your .profile.  Then, use mcd. Try it, you'll like it.
-      # 
-      # jjmac: (2007.06.13)
-      # - there were a pile of little changes I had to make in order to make
-      # this work with pdksh, presumably we're finding implementation
-      # differences and there's a good chance that if anything is going to
-      # braek in ksh93, it'll be here.
-      #
-      # - also added in the mcd_sort, mcd_clean and mcd_pop functions.
-      # mcd_pop still doesn't work properly but it's reasonably close now.
-      # The problems I've observed are:
-      #
-      #  1) If you stack looks like this:
-      #     yow-jmacdona-l1 ~ mcd
-      #     1) ~            
-      #     2) /tmp/blah/foo
-      #     3) /tmp/blah    
-      #     4) /tmp         
-      #  and you pop /tmp, you get this:
-      #     yow-jmacdona-l1 ~ mcd_pop /tmp
-      #     yow-jmacdona-l1 ~ mcd
-      #     1) ~
-      #  which is not really the correct behaviour, but is at least
-      #  reasonable.
-      #
-      #  2) If your stack looks like this:
-      #     yow-jmacdona-l1 /tmp/blah mcd
-      #     1) /tmp/blah    
-      #     2) /tmp/blah/foo
-      #     3) /tmp/blah/foo
-      #     4) /tmp/blah    
-      #     5) /tmp         
-      #     6) ~            
-      #  and you mcd_sort it, the top of the stack won't be squeezed out:
-      #     yow-jmacdona-l1 /tmp/blah mcd_sort
-      #     yow-jmacdona-l1 /tmp/blah mcd
-      #     1) /tmp/blah    
-      #     2) /tmp/blah/foo
-      #     3) /tmp/blah    
-      #     4) /tmp         
-      #     5) ~            
-      #  which is kind of annoying.
-      # 
-      integer  _push_max=${CDSTACK-32} _push_top=${CDSTACK-32}
+      if [ -f ${HOME}/.mkshrc ] ; then
+         . ${HOME}/.mkshrc
+         nocount=$(print \\001)
+         PS1='${nocount}$(print \\r)${nocount}$(xname "${HOSTNAME}: ${PWD}")$(tput smul)${nocount}$(local WD=${PWD/$HOME/~}; if (( ${#WD} > 23 )); then print ${WD:0:10}...${WD: -10: -1}; else print $WD; fi) ${nocount}$(tput bold)$(tput setaf 2)$(tput setab 0)${nocount}$(git branch 2>/dev/null | grep \* | cut -d\  -f2-; )${nocount}$(tput sgr0)$(tput smul)${nocount}$(if (( USER_ID )); then print \$; else print \# ; fi)${nocount}$(tput sgr0)${nocount} '
+         # We need to reprocess .aliases, it seems.
 
-      unalias cd
-      alias cd=_cd
-
-      # Display directory stack -- $HOME display as ~
-      function dirs
-      {
-         dir="${PWD#$HOME/}" 
-         case $dir in
-            $HOME) dir=\~ ;;
-            /*) ;;
-            *) dir=\~/$dir ;;
-         esac
-
-         PS3=
-         select i in "$dir" "${_push_stack[@]}"
-         do :
-            done < /dev/null
-      }
-
-      # set our prompt to something not too ugly
-      function _set_prompt
-      {
-          PS1=$PWD
-
-          # replace $HOME by ~
-          [[ $PS1 = $HOME* && $HOME != / ]] && PS1=\~${PS1#$HOME}
-
-          # use at most half of command line length for prompt cwd path
-          typeset COLUMNS=${COLUMNS:-$(tput cols >/dev/null 2>&1 && tput cols)}
-          while ((${#_ps1[2]} + 1 + ${#PS1} + 1 > ${COLUMNS:-80} / 2)) && [[ ${PS1#*/} != $PS1 ]]
-          do
-             PS1=${PS1#*/}
-          done
-
-          PS1="${_ps1[0]}${_ps1[2]} $PS1${_ps1[1]} "
-      }
-
-      # Change directory and put directory on front of stack
-      function _cd
-      {
-         typeset dir=
-         integer n=0 type=4 
-         case $1 in
-            -|-1|2) # cd -
-               n=_push_top type=1
-               ;;
-            -[1-9]|-[1-9][0-9]) # cd -n
-               n=_push_top+${1#-}-1 type=2
-               ;;
-            1) # keep present directory
-               print -r - "$PWD"
-               _set_prompt
-               return
-               ;;
-            [2-9]|[1-9][0-9]) # cd n
-               n=_push_top+${1}-2 type=2
-               ;;
-            *)
-               if ((_push_top <= 0))
-               then
-                  type=3 n=_push_max
-               fi
-               ;;
-         esac
-
-         if ((type<3))
-         then
-            if ((n >= _push_max))
-            then
-               print cd: Directory stack not that deep
-               return 1
-            else
-               dir=${_push_stack[n]}
-            fi
+         if [ -f ${HOME}/.aliases ] ; then
+            . ${HOME}/.aliases
          fi
+      else
+         # Directory manipulation functions from the book 'The Korn Shell' by
+         # AT&T/Korn.
+         # {{{
+         #
+         # Transcribed by Paul Vallee
+         # The Pythian Group, Inc.
+         # www.pythian.com / vallee@pythian.com
+         #
+         # Fixes to typos, odd ksh93/pdksh incompatibilities and more bash-like
+         # directory stack manipulation behaviour by Joe MacDonald
+         #
+         # Either save this as a separate file and then . it, or paste this into
+         # your .profile.  Then, use mcd. Try it, you'll like it.
+         # 
+         # jjmac: (2007.06.13)
+         # - there were a pile of little changes I had to make in order to make
+         # this work with pdksh, presumably we're finding implementation
+         # differences and there's a good chance that if anything is going to
+         # braek in ksh93, it'll be here.
+         #
+         # - also added in the mcd_sort, mcd_clean and mcd_pop functions.
+         # mcd_pop still doesn't work properly but it's reasonably close now.
+         # The problems I've observed are:
+         #
+         #  1) If you stack looks like this:
+         #     yow-jmacdona-l1 ~ mcd
+         #     1) ~            
+         #     2) /tmp/blah/foo
+         #     3) /tmp/blah    
+         #     4) /tmp         
+         #  and you pop /tmp, you get this:
+         #     yow-jmacdona-l1 ~ mcd_pop /tmp
+         #     yow-jmacdona-l1 ~ mcd
+         #     1) ~
+         #  which is not really the correct behaviour, but is at least
+         #  reasonable.
+         #
+         #  2) If your stack looks like this:
+         #     yow-jmacdona-l1 /tmp/blah mcd
+         #     1) /tmp/blah    
+         #     2) /tmp/blah/foo
+         #     3) /tmp/blah/foo
+         #     4) /tmp/blah    
+         #     5) /tmp         
+         #     6) ~            
+         #  and you mcd_sort it, the top of the stack won't be squeezed out:
+         #     yow-jmacdona-l1 /tmp/blah mcd_sort
+         #     yow-jmacdona-l1 /tmp/blah mcd
+         #     1) /tmp/blah    
+         #     2) /tmp/blah/foo
+         #     3) /tmp/blah    
+         #     4) /tmp         
+         #     5) ~            
+         #  which is kind of annoying.
+         # 
+         integer  _push_max=${CDSTACK-32} _push_top=${CDSTACK-32}
 
-         case $dir in
-            ~*) dir=$HOME${dir#\~} ;;
-         esac
+         unalias cd
+         alias cd=_cd
 
-         # jjmac: (2005.10.17) do I need a _set_prompt here?
-         \cd "${dir:-$@}" > /dev/null || return 1
-         dir=${OLDPWD#$HOME/}
-         case $dir in
-            $HOME)      dir=\~ ;;
-            /*)         ;;
-            *)          dir=\~/$dir ;;
-         esac
+         # Display directory stack -- $HOME display as ~
+         function dirs
+         {
+            dir="${PWD#$HOME/}" 
+            case $dir in
+               $HOME) dir=\~ ;;
+               /*) ;;
+               *) dir=\~/$dir ;;
+            esac
 
-         case $type in
-            1) # swap first two elements
-               _push_stack[_push_top]=$dir ;;
-            2|3) # put $dir on top and shift down by one until top
-               integer i=_push_top
+            PS3=
+            select i in "$dir" "${_push_stack[@]}"
+            do :
+            done < /dev/null
+         }
 
-               for dir in "$dir" "${_push_stack[@]}"
-               do
-                  ((i > n)) && break
-                  _push_stack[i]=$dir
-                  i=i+1
-               done
-               ;;
-            4) # push name
-               _push_stack[_push_top=_push_top-1]=$dir
-               ;;
-         esac
+         # set our prompt to something not too ugly
+         function _set_prompt
+         {
+            PS1=$PWD
 
-         print -r - "$PWD"
-         _set_prompt
-      }  
+            # replace $HOME by ~
+            [[ $PS1 = $HOME* && $HOME != / ]] && PS1=\~${PS1#$HOME}
 
-      # Menu-driven change directory command
-      function mcd
-      {
-         typeset dir="${PWD#$HOME/}"
-         case $dir in 
-            $HOME) dir=\~ ;;
-            /*)	;;
-            *)	dir=\~/$dir;;
-         esac
-         PS3='Select by number or enter a path: '
-         select dir in "$dir" "${_push_stack[@]}"
-         do if _cd $REPLY
+            # use at most half of command line length for prompt cwd path
+            typeset COLUMNS=${COLUMNS:-$(tput cols >/dev/null 2>&1 && tput cols)}
+            while ((${#_ps1[2]} + 1 + ${#PS1} + 1 > ${COLUMNS:-80} / 2)) && [[ ${PS1#*/} != $PS1 ]]
+            do
+               PS1=${PS1#*/}
+            done
+
+            PS1="${_ps1[0]}${_ps1[2]} $PS1${_ps1[1]} "
+         }
+
+         # Change directory and put directory on front of stack
+         function _cd
+         {
+            typeset dir=
+            integer n=0 type=4 
+            case $1 in
+               -|-1|2) # cd -
+                  n=_push_top type=1
+                  ;;
+               -[1-9]|-[1-9][0-9]) # cd -n
+                  n=_push_top+${1#-}-1 type=2
+                  ;;
+               1) # keep present directory
+                  print -r - "$PWD"
+                  _set_prompt
+                  return
+                  ;;
+               [2-9]|[1-9][0-9]) # cd n
+                  n=_push_top+${1}-2 type=2
+                  ;;
+               *)
+                  if ((_push_top <= 0))
+                  then
+                     type=3 n=_push_max
+                  fi
+                  ;;
+            esac
+
+            if ((type<3))
             then
-               return
-            fi 
-         done
-      }
-      _set_prompt
-
-      # Regrettably, my mcd stack gets pretty polluted, so I'll want to clean
-      # it up periodically.  This one does a dictionary-order sort, squeezing
-      # out duplicate entries.  The only failing I've seen in it so far is that
-      # the top of the stack is except from this duplicate-pruning operation,
-      # but when I tried to fix that I couldn't force it to also keep CWD at
-      # the top of the stack.  I considered the current behaviour less
-      # confusing than the alternative, though both are annoying.
-      function mcd_sort
-      {
-         _push_top=$_push_max
-         for i in `set | grep _push_stack | awk -F= '{ print $2 }' | sort -du` 
-         do
-            _push_top=$_push_top-1
-            _push_stack[$_push_top]=$i
-         done
-         # Now we remove any remaining chunks
-         let _mcd_purge=$_push_top-1
-         for i in `seq 0 $_mcd_purge`
-         do
-            unset _push_stack[$i]
-         done
-         unset _mcd_purge
-      }
-
-      # Doesn't quite do what I want, it breaks down when your directory stack
-      # looks like this:
-      #
-      # _push_stack[26]=/usr/local/share/gxmms
-      # _push_stack[27]=/usr/local/share/gnome-2.0/ui
-      # _push_stack[28]=/usr/local/share/gnome-2.0
-      # _push_stack[29]=/usr/local/share/fonts
-      # _push_stack[30]=/usr/local/share
-      # _push_stack[31]=/tmp
-      #
-      # and you try to remove /usr/local/share.  It'll actually clean out
-      # everything with /usr/local/share in the path.  Shouldn't be hard to
-      # fix, but it hasn't exceeded my pain tolerance yet.
-      function mcd_pop
-      {
-         _push_top=$_push_max
-         for i in `set | grep _push_stack | fgrep -v $1 | awk -F= '{ print $2 }' | sort -du` 
-         do
-            _push_top=$_push_top-1
-            _push_stack[$_push_top]=$i
-         done
-         # Now we remove any remaining chunks
-         let _mcd_purge=$_push_top-1
-         for i in `seq 0 $_mcd_purge`
-         do
-            unset _push_stack[$i]
-         done
-         unset _mcd_purge
-      }
-
-      # This'll be slow.  Sometimes unbearably so when NFS directories are in
-      # your stack, but them's the breaks.
-      function mcd_clean
-      {
-         for i in `set | grep _push_stack | awk -F= '{ print $2 }' | sort -du` 
-         do
-            # need to do our test on ~-expanded, but our pop on the ~'d name
-            expanded=$(echo $i | sed -e "s;~;$HOME;")
-            if [ ! -d $expanded ]
-            then
-               mcd_pop $i
+               if ((n >= _push_max))
+               then
+                  print cd: Directory stack not that deep
+                  return 1
+               else
+                  dir=${_push_stack[n]}
+               fi
             fi
-         done
-      }
 
-      set +o nolog
+            case $dir in
+               ~*) dir=$HOME${dir#\~} ;;
+            esac
 
-      # clean up
-      shift 8#40-1
-      unset _i
-      # }}}
+            # jjmac: (2005.10.17) do I need a _set_prompt here?
+            \cd "${dir:-$@}" > /dev/null || return 1
+            dir=${OLDPWD#$HOME/}
+            case $dir in
+               $HOME)      dir=\~ ;;
+               /*)         ;;
+               *)          dir=\~/$dir ;;
+            esac
+
+            case $type in
+               1) # swap first two elements
+                  _push_stack[_push_top]=$dir ;;
+               2|3) # put $dir on top and shift down by one until top
+                  integer i=_push_top
+
+                  for dir in "$dir" "${_push_stack[@]}"
+                  do
+                     ((i > n)) && break
+                     _push_stack[i]=$dir
+                     i=i+1
+                  done
+                  ;;
+               4) # push name
+                  _push_stack[_push_top=_push_top-1]=$dir
+                  ;;
+            esac
+
+            print -r - "$PWD"
+            _set_prompt
+         }  
+
+         # Menu-driven change directory command
+         function mcd
+         {
+            typeset dir="${PWD#$HOME/}"
+            case $dir in 
+               $HOME) dir=\~
+                  ;;
+               /*)
+                  ;;
+               *)	dir=\~/$dir
+                  ;;
+            esac
+            PS3='Select by number or enter a path: '
+            select dir in "$dir" "${_push_stack[@]}"
+            do
+               if _cd $REPLY
+               then
+                  return
+               fi 
+            done
+         }
+         _set_prompt
+
+         # Regrettably, my mcd stack gets pretty polluted, so I'll want to clean
+         # it up periodically.  This one does a dictionary-order sort, squeezing
+         # out duplicate entries.  The only failing I've seen in it so far is that
+         # the top of the stack is except from this duplicate-pruning operation,
+         # but when I tried to fix that I couldn't force it to also keep CWD at
+         # the top of the stack.  I considered the current behaviour less
+         # confusing than the alternative, though both are annoying.
+         function mcd_sort
+         {
+            _push_top=$_push_max
+            for i in `set | grep _push_stack | awk -F= '{ print $2 }' | sort -du` 
+            do
+               _push_top=$_push_top-1
+               _push_stack[$_push_top]=$i
+            done
+            # Now we remove any remaining chunks
+            let _mcd_purge=$_push_top-1
+            for i in `seq 0 $_mcd_purge`
+            do
+               unset _push_stack[$i]
+            done
+            unset _mcd_purge
+         }
+
+         # Doesn't quite do what I want, it breaks down when your directory stack
+         # looks like this:
+         #
+         # _push_stack[26]=/usr/local/share/gxmms
+         # _push_stack[27]=/usr/local/share/gnome-2.0/ui
+         # _push_stack[28]=/usr/local/share/gnome-2.0
+         # _push_stack[29]=/usr/local/share/fonts
+         # _push_stack[30]=/usr/local/share
+         # _push_stack[31]=/tmp
+         #
+         # and you try to remove /usr/local/share.  It'll actually clean out
+         # everything with /usr/local/share in the path.  Shouldn't be hard to
+         # fix, but it hasn't exceeded my pain tolerance yet.
+         function mcd_pop
+         {
+            _push_top=$_push_max
+            for i in `set | grep _push_stack | fgrep -v $1 | awk -F= '{ print $2 }' | sort -du` 
+            do
+               _push_top=$_push_top-1
+               _push_stack[$_push_top]=$i
+            done
+            # Now we remove any remaining chunks
+            let _mcd_purge=$_push_top-1
+            for i in `seq 0 $_mcd_purge`
+            do
+               unset _push_stack[$i]
+            done
+            unset _mcd_purge
+         }
+
+         # This'll be slow.  Sometimes unbearably so when NFS directories are in
+         # your stack, but them's the breaks.
+         function mcd_clean
+         {
+            for i in `set | grep _push_stack | awk -F= '{ print $2 }' | sort -du` 
+            do
+               # need to do our test on ~-expanded, but our pop on the ~'d name
+               expanded=$(echo $i | sed -e "s;~;$HOME;")
+               if [ ! -d $expanded ]
+               then
+                  mcd_pop $i
+               fi
+            done
+         }
+
+         set +o nolog
+
+         # clean up
+         shift 8#40-1
+         unset _i
+         # }}}
+   fi
 
       # And this is where things get hairy.  I *like* vi-tabcomplete but not
       # all ksh implementations  have it.  No big deal except the way to

@@ -7,20 +7,6 @@
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
-# If ENV isn't already set, assume this is our login shell.  If it is, we've
-# already been through this once (probably) and so someone is likely calling a
-# specific shell.  Let's not interrupt that.
-if [ "x$ENV" = "x" ]
-then
-   # Then see if we've got a ksh around somewhere
-   if [ $(echo $OSTYPE | grep -i solaris) ]
-   then
-      [ \! -z "$(which ksh)" ] && exec ksh -i
-   else
-      [ \! -z "$(which ksh)" ] && exec ksh -l
-   fi
-fi
-
 
 # don't put duplicate lines in the history. See bash(1) for more options
 HISTCONTROL=ignoredups
@@ -57,25 +43,29 @@ if [ "${BASH_VERSINFO[0]}.${BASH_VERSINFO[1]}.${BASH_VERSINFO[2]}" = "3.2.25" ]
 then
    PS1='\h \w: '
 else
-   # set a fancy prompt (non-color, unless we know we "want" color)
-   case "$TERM" in
-      xterm* | screen)
-         PS1='\[\033[01;32m\]\h\[\033[00m\] \[\033[01;34m\]\w\[\033[00m\]:'
-         ;;
-      *)
-         PS1='\[\033[04m\]\h \w\[\033[00m\]: '
-         ;;
-   esac
+   if [ -f $HOME/.bash_prompt ] ; then
+      . $HOME/.bash_prompt
+   else
+      # set a fancy prompt (non-color, unless we know we "want" color)
+      case "$TERM" in
+         xterm* | screen*)
+            PS1='\[\033[01;32m\]\h\[\033[00m\] \[\033[01;34m\]\w\[\033[00m\]:'
+            ;;
+         *)
+            PS1='\[\033[04m\]\h \w\[\033[00m\]: '
+            ;;
+      esac
 
-   # If this is an xterm set the title to user@host:dir
-   case "$TERM" in
-      xterm*|rxvt*)
-         PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
-         export PROMPT_COMMAND
-         ;;
-      *)
-         ;;
-   esac
+      # If this is an xterm set the title to user@host:dir
+      case "$TERM" in
+         xterm*|rxvt*)
+            PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
+            export PROMPT_COMMAND
+            ;;
+         *)
+            ;;
+      esac
+   fi
 fi
 
 # enable color support of ls and also add handy aliases
